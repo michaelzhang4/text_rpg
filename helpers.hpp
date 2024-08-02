@@ -53,7 +53,7 @@ class Player {
 public:
     stats playerStats;
     int exp,expLevel,level,gold;
-    Player(std::string s);
+    Player(std::string s,int hp,int arm, int dmg, int lvl, int g);
     ~Player();
     void display_stats();
     void print_name();

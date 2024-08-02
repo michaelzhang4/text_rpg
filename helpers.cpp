@@ -51,6 +51,7 @@ void Item::inspect_item(Player *p) {
             cout << req.hp <<"❤️ ";
         }
         cout << "level "<< req.lvl << endl;
+        cout << "\n🪙  : " << p->gold << endl;
         if (this->owned==false) {
             cout << "\n1. Buy\nB. Back\n";
             string choice;
@@ -69,22 +70,37 @@ void Item::inspect_item(Player *p) {
             }
         } else if (this->owned==true) {
             if (p->equipped==this) {
-                cout << "\n1. Unequip\nB. Back\n";
+                cout << "\n1. Unequip\n2. Sell\nB. Back\n";
                 string choice;
                 cin >> choice;
                 lower(choice);
                 if(choice=="1" | choice=="unequip") {
                     p->unequip();
+                } else if (choice=="2" | choice=="sell") {
+                    cout << "\nAre you sure you want to sell "<< this->name << "? (y/n)\n";
+                    cin >> choice;lower(choice);
+                    if (choice=="y" | choice=="yes") {
+                        p->gold+=this->sell_price;
+                        this->owned=false;
+                        p->unequip();
+                    }
                 } else if (choice=="b" | choice=="back") {
                     break;
                 }
             } else if (p->equipped!=this) {
-                cout << "\n1. Equip\nB. Back\n";
+                cout << "\n1. Equip\n2. Sell\nB. Back\n";
                 string choice;
                 cin >> choice;
                 lower(choice);
                 if(choice=="1" | choice=="equip") {
                     p->equip(this);
+                } else if (choice=="2" | choice=="sell") {
+                    cout << "\nAre you sure you want to sell "<< this->name << "? (y/n)\n";
+                    cin >> choice;lower(choice);
+                    if (choice=="y" | choice=="yes") {
+                        p->gold+=this->sell_price;
+                        this->owned=false;
+                    }
                 } else if (choice=="b" | choice=="back") {
                     break;
                 }
@@ -93,16 +109,16 @@ void Item::inspect_item(Player *p) {
     }
 }
 
-Player::Player(string s) {
+Player::Player(string s,int hp,int arm, int dmg, int lvl, int g) {
     name=s;
-    playerStats.maxHealth=10;
-    playerStats.health=10;
-    playerStats.armor=1;
-    playerStats.damage=1;
+    playerStats.maxHealth=hp;
+    playerStats.health=hp;
+    playerStats.armor=arm;
+    playerStats.damage=dmg;
     exp=0;
     expLevel=10;
-    level=1;
-    gold=0;
+    level=lvl;
+    gold=g;
     none = new Item(0,0,0,0,0
     ,req_stats{0,0,0,0},"None",true);
     equip(none);
@@ -430,7 +446,8 @@ void print_item(Item* item) {
 void shop(Player *p) {
     while(1) {
         system("cls");
-        cout << "Shop 🛒\n\n";
+        cout << "Shop 🛒\n";
+        cout << "🪙  : " << p->gold << "\n\n";
         int i;
         for(i=0;i<all_items.size();++i) {
             cout << i+1 << ". ";

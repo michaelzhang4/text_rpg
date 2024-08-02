@@ -9,7 +9,7 @@ void HUD(Player* p) {
 }
 
 int main() {
-    Player* player = new Player(start());
+    Player* player = new Player(start(),10,1,1,1,10000);
     while(1) {
         HUD(player);
     }

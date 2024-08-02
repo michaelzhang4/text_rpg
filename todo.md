@@ -15,7 +15,7 @@
 
 3. Items []
     - item rarity []
-    - sell items []
+    - sell items [DONE]
     - gold show in shop []
     - names []
     - weapon next to name []
