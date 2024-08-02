@@ -7,9 +7,15 @@
 #include <windows.h>
 #include <time.h>
 #include <array>
+#include <unordered_map>
 
 #define MOBS 3
+#define AREAS 4
 #define SLEEP 1800
+
+class Item;
+class Player;
+class Enemy;
 
 struct stats {
     int health,maxHealth,armor,damage;
@@ -23,14 +29,16 @@ struct req_stats {
     int hp,arm,dmg,lvl;
 };
 
-class Item;
-class Player;
-class Enemy;
+struct enemy_template {
+    stat_roll statroll;
+    int level,exp,gold;
+    std::string name;
+};
 
 class Enemy {
 public:
     stats enemyStats;
-    Enemy();
+    Enemy(enemy_template e);
     void display_stats();
     int take_damage(int dmg);
     std::string name;
@@ -38,8 +46,7 @@ public:
     int gold;
 private:
     int level;
-    std::string types[MOBS];
-    stat_roll statroll[MOBS];
+    stat_roll statroll;
 };
 
 class Player {
@@ -78,8 +85,10 @@ private:
 
 class Area {
 public:
+    Area(std::string n, std::vector<enemy_template> enemies, std::vector<Item*> items,
+std::vector<Item*> shop_items);
     std::string name;
-    std::vector<Enemy*> enemy_list;
+    std::vector<enemy_template> enemy_list;
     std::vector<Item*> item_list;
     std::vector<Item*> shop_list;
 private:
@@ -109,10 +118,11 @@ void items(Player *p);
 
 void shop(Player *p);
 
-std::vector<Item*> create_items();
+std::unordered_map<std::string,Item*> create_items();
 
-std::array<Area*,4> create_areas();
+std::array<Area*,AREAS> create_areas();
 
-extern Area *area[1];
-extern std::vector<Item*> all_items;
+extern std::array<Area*,AREAS> areas;
+extern std::unordered_map<std::string,Item*> all_items;
+extern std::vector<std::string> item_hashes;
 extern int rest;

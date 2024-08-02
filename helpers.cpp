@@ -2,10 +2,11 @@
 
 using namespace std;
 
-Area *area[1];
-Area *current_area;
 int rest=0;
-vector<Item*> all_items = create_items();
+vector<string> item_hashes = {"dagger","short sword","sword"};
+unordered_map<string,Item*> all_items = create_items();
+array<Area*,AREAS> areas = create_areas();
+Area *current_area = areas[0];
 
 
 void death_screen() {
@@ -208,30 +209,16 @@ void Player::gain(int e, int g) {
 
 }
 
-Enemy::Enemy()
-    : types{"Goblin","Troll","Orc"},
-        statroll{stat_roll{10,8,1,0,4,2},
-        stat_roll{40,50,3,2,7,2},
-        stat_roll{25,10,2,1,6,2}}{
-    int choice = rand()%3;
-    name = types[choice];
-    level = 1;
-    stat_roll r = statroll[choice];
+Enemy::Enemy(enemy_template e) {
+    name = e.name;
+    level = e.level;
+    exp = e.exp;
+    gold = e.gold;
+    stat_roll r = e.statroll;
     enemyStats.maxHealth = r.bh+rand()%(r.h+1);
     enemyStats.health= enemyStats.maxHealth;
     enemyStats.armor = r.ba+rand()%(r.a+1);
     enemyStats.damage = r.bd + rand()%(r.d+1);
-
-    if (choice==0) {
-        exp = 5;
-        gold = 10;
-    } else if (choice==1) {
-        exp = 10;
-        gold = 20;
-    } else if (choice==2) {
-        exp = 7;
-        gold = 14;
-    }
 }
 
 int Enemy::take_damage(int dmg) {
@@ -259,6 +246,14 @@ void Enemy::display_stats() {
     << "\nLevel: " << level;
 }
 
+Area::Area(string n, vector<enemy_template> enemies, vector<Item*> items,
+vector<Item*> shop_items) {
+    name = n;
+    enemy_list = enemies;
+    item_list = item_list;
+    shop_list = shop_items;
+}
+
 void combatHUD(Enemy *enemy, Player *player) {
     player->display_stats();
     cout << "\nVS\n\n";
@@ -266,9 +261,9 @@ void combatHUD(Enemy *enemy, Player *player) {
 }
 
 void combat(Player *p) {
-    // Write combat function
-    Enemy *enemy = new Enemy();
+    Enemy *enemy = new Enemy(current_area->enemy_list[0]);
     while(1) {
+        start_combat:
         system("cls");
         combatHUD(enemy,p);
         string choice;
@@ -290,6 +285,10 @@ void combat(Player *p) {
             cout << "\nYou ran away after taking a hit";
             Sleep(SLEEP);
             break;
+        } else {
+            cout << "Enter a valid action";
+            Sleep(SLEEP);
+            goto start_combat;
         }
         system("cls");
         combatHUD(enemy,p);
@@ -352,6 +351,9 @@ void __rest(Player *p) {
         } else {
             int heal=p->totalHealth()/20
             + rand()%p->totalHealth()/20;
+            if (heal<=0) {
+                heal=1;
+            }
             cout << "\nYou rested, healing " << heal << " health";
             p->playerStats.health+=heal;
             if (p->playerStats.health>p->totalHealth()) {
@@ -372,9 +374,9 @@ void items(Player *p) {
         cout << p->equipped->name << " - Equipped\n";
         int i;
         for(i=0;i<all_items.size();++i) {
-            if(all_items[i]->owned) {
-                if(all_items[i]!=p->equipped) {
-                    cout << i+1 << ". " << all_items[i]->name << endl;
+            if(all_items[item_hashes[i]]->owned) {
+                if(all_items[item_hashes[i]]!=p->equipped) {
+                    cout << i+1 << ". " << all_items[item_hashes[i]]->name << endl;
                 }
             }
         }
@@ -386,7 +388,7 @@ void items(Player *p) {
             } else if (choice=="e" || choice == "unequip") {
                 p->unequip();
             } else if(1<= stoi(choice) && stoi(choice)<=i) {
-                Item* item = all_items[stoi(choice)-1];
+                Item* item = all_items[item_hashes[stoi(choice)-1]];
                 if (item->owned && item!=p->equipped) {
                     item->inspect_item(p);
                 }
@@ -432,37 +434,59 @@ void shop(Player *p) {
         int i;
         for(i=0;i<all_items.size();++i) {
             cout << i+1 << ". ";
-            print_item(all_items[i]);
+            print_item(all_items[item_hashes[i]]);
         }
         cout <<"B. Exit shop\n";
         string choice;cin >> choice;lower(choice);
         if (choice == "b" || choice == "exit" || choice=="back") {
             break;
         } else if(1<=stoi(choice) && stoi(choice)<=i) {
-            all_items[stoi(choice)-1]->inspect_item(p);
+            all_items[item_hashes[stoi(choice)-1]]->inspect_item(p);
         }
     }
 }
 
-vector<Item*> create_items() {
-    vector<Item*> all_items;
+unordered_map<string,Item*> create_items() {
+    unordered_map<string,Item*> all_items;
 
-    Item* dagger = new Item(0,0,3,50,35
+    all_items["dagger"] = new Item(0,0,3,50,35
     ,req_stats{0,0,1,1},"Dagger",false);
-    all_items.push_back(dagger);
 
-    Item* shortSword = new Item(0,0,5,100,70
+    all_items["short sword"] = new Item(0,0,5,100,70
     ,req_stats{0,0,2,1},"Short Sword",false);
-    all_items.push_back(shortSword);
 
-    Item* sword = new Item(0,0,7,200,140
+    all_items["sword"] = new Item(0,0,7,200,140
     ,req_stats{0,0,3,3},"Sword",false);
-    all_items.push_back(sword);
 
     return all_items;
 }
 
-array<Area*,4> create_areas() {
-    array<Area*,4> arr;
+array<Area*,AREAS> create_areas() {
+    
+    array<Area*,AREAS> arr;
+    string areas[AREAS] = {"Green Glade",
+    "Rocky Mountain", "Murky Swamp",
+    "Searing Desert"};
+    vector<enemy_template> enemies[AREAS] = {
+        {
+            {stat_roll{10,8,1,0,4,2},1,5,10,"Goblin"},
+            {stat_roll{25,10,2,1,6,2},1,7,14,"Orc"},
+            {stat_roll{40,50,3,2,7,2},1,10,20,"Troll"}
+        },
+        {},
+        {},
+        {}
+    };
+    vector<Item*> items[AREAS] {
+        {
+            all_items["dagger"]
+        },
+        {},
+        {},
+        {}
+    };
+    for(int i=0;i<AREAS;++i) {
+        arr[i] = new Area(areas[i],enemies[i],items[i],items[i]);
+    }
     return arr;
 }
