@@ -8,10 +8,12 @@
 #include <time.h>
 #include <array>
 #include <unordered_map>
+#include <fstream>
 
 #define MOBS 3
 #define AREAS 4
 #define SLEEP 1800
+#define CRIT_CHANCE 10
 
 class Item;
 class Player;
@@ -66,8 +68,8 @@ public:
     Item* none;
     void equip(Item* e);
     void unequip();
-private:
     std::string name;
+private:
 };
 
 class Item {
@@ -96,9 +98,11 @@ private:
 
 void death_screen();
 
+void HUD(Player *p);
+
 void combat(Player *p);
 
-std::string start();
+int start();
 
 void lower(std::string &s);
 
@@ -117,6 +121,12 @@ void print_item(Item* item);
 void items(Player *p);
 
 void shop(Player *p);
+
+void load_game();
+
+void save_game(Player *p);
+
+Player *create_player(int option);
 
 std::unordered_map<std::string,Item*> create_items();
 

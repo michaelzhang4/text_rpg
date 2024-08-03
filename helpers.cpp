@@ -15,6 +15,13 @@ void death_screen() {
     exit(0);
 }
 
+void HUD(Player* p) {
+    system("cls");
+    cout << "Area - " << current_area->name << endl;
+    p->display_stats();
+    choices(p);
+}
+
 Item::Item(int hp, int arm, int dmg, int p, int sell_p, req_stats required, string n, bool oo) {
     itemStats.health=hp;
     itemStats.maxHealth=hp;
@@ -40,7 +47,7 @@ void Item::inspect_item(Player *p) {
         if(itemStats.health!=0) {
             cout << "❤️  :" << itemStats.health << endl;
         }
-        cout << "\nRequirements:\n";
+        cout << "Requirements:\n";
         if(req.dmg>0) {
             cout << req.dmg <<"🗡️ ";
         }
@@ -51,7 +58,7 @@ void Item::inspect_item(Player *p) {
             cout << req.hp <<"❤️ ";
         }
         cout << "level "<< req.lvl << endl;
-        cout << "\n🪙  : " << p->gold << endl;
+        cout << "\n🪙  : " << p->gold << "g" << endl;
         if (this->owned==false) {
             cout << "\n1. Buy\nB. Back\n";
             string choice;
@@ -70,7 +77,7 @@ void Item::inspect_item(Player *p) {
             }
         } else if (this->owned==true) {
             if (p->equipped==this) {
-                cout << "\n1. Unequip\n2. Sell\nB. Back\n";
+                cout << "\n1. Unequip 2. Sell - " << this->sell_price << "\nB. Back\n";
                 string choice;
                 cin >> choice;
                 lower(choice);
@@ -88,7 +95,7 @@ void Item::inspect_item(Player *p) {
                     break;
                 }
             } else if (p->equipped!=this) {
-                cout << "\n1. Equip\n2. Sell\nB. Back\n";
+                cout << "\n1. Equip 2. Sell - " << this->sell_price << "\nB. Back\n";
                 string choice;
                 cin >> choice;
                 lower(choice);
@@ -147,20 +154,21 @@ void Player::unequip() {
 }
 
 void Player::display_stats() {
-    cout << name <<"\n❤️  : " << 
+    print_name();
+    cout <<"\n❤️  : " << 
     playerStats.health << 
     "/" << totalHealth()
     << " (" << equipped->itemStats.health << ") "
-     " 🛡️  :" << totalArmor()
+     "🛡️  :" << totalArmor()
     << " (" << equipped->itemStats.armor << ") "
-     " 🗡️  :" << damage()
+     "🗡️  :" << damage()
     << " (" << equipped->itemStats.damage << ") "
     << "\nLevel: "<<level<< " - " << exp << "/"
-    << expLevel << " 🪙  : " << gold << endl;
+    << expLevel << " 🪙  : " << gold << "g" << endl;
 }
 
 void Player::print_name() {
-    cout << name << "\n";
+    cout << name << " - " << equipped->name;
 }
 
 void Player::take_damage(Enemy *e) {
@@ -283,11 +291,16 @@ void combat(Player *p) {
         system("cls");
         combatHUD(enemy,p);
         string choice;
-        cout << "\n\n1. Attack\n2. Run\n";
+        cout << "\n\n1. Attack 2. Run\n";
         cin >> choice;
         lower(choice);
         if(choice=="1" || choice=="attack") {
-            int died = enemy->take_damage(p->damage());
+            int effective_damage = p->damage();
+            if (rand()%100 <= CRIT_CHANCE) {
+                cout << "You landed a critical strike!\n";
+                effective_damage*=2;
+            };
+            int died = enemy->take_damage(effective_damage);
             if(died==1) {
                 p->gain(enemy->exp, enemy->gold);
                 break;
@@ -313,13 +326,18 @@ void combat(Player *p) {
     }
 }
 
-string start() {
-    string name;
-    system("cls");
-    cout << "Welcome to my text-based RPG game\n\n";
-    cout << "Enter your characters name: ";
-    cin >> name;
-    return name;
+int start() {
+    while(1) {
+        system("cls");
+        cout << "Welcome to my text-based RPG\n\n";
+        cout << "1. New Game\n2. Load Save\n";
+        string choice; cin >> choice;lower(choice);
+        if(choice == "1" | choice == "new" | choice == "new game") {
+            return 1;
+        } else if (choice=="2" | choice == "load" | choice == "load save") {
+            return 2;
+        }
+    }
 }
 
 void lower(string &s) {
@@ -417,7 +435,8 @@ void items(Player *p) {
 }
 
 void choices(Player *p) {
-    cout << "\n1. Explore\n2. Shop\n3. Rest\n4. Items\n";
+    cout << "\n1. Explore 2. Shop 3. Rest\n4. Items   5. Save";
+    cout << " 6. Exit\n";
     string choice;cin >> choice;lower(choice);
     if(choice=="1" || choice=="explore") {
         explore(p);
@@ -428,6 +447,10 @@ void choices(Player *p) {
         __rest(p);
     } else if(choice=="4" || choice=="items") {
         items(p);
+    } else if(choice=="5" || choice=="save") {
+        save_game(p);
+    } else if(choice=="6" || choice=="exit") {
+        exit(0);
     }
 }
 
@@ -447,20 +470,88 @@ void shop(Player *p) {
     while(1) {
         system("cls");
         cout << "Shop 🛒\n";
-        cout << "🪙  : " << p->gold << "\n\n";
+        cout << "🪙  : " << p->gold << "g\n\n";
         int i;
-        for(i=0;i<all_items.size();++i) {
+        for(i=0;i<current_area->shop_list.size();++i) {
             cout << i+1 << ". ";
-            print_item(all_items[item_hashes[i]]);
+            print_item(current_area->shop_list[i]);
         }
         cout <<"B. Exit shop\n";
         string choice;cin >> choice;lower(choice);
         if (choice == "b" || choice == "exit" || choice=="back") {
             break;
         } else if(1<=stoi(choice) && stoi(choice)<=i) {
-            all_items[item_hashes[stoi(choice)-1]]->inspect_item(p);
+            current_area->shop_list[stoi(choice)-1]->inspect_item(p);
         }
     }
+}
+
+void load_game(Player *p) {
+    ifstream inFile("save.txt");
+    inFile >> p->name;
+    inFile >> p->playerStats.health;
+    inFile >> p->playerStats.maxHealth;
+    inFile >> p->playerStats.armor;
+    inFile >> p->playerStats.damage;
+    inFile >> p->exp;
+    inFile >> p->expLevel;
+    inFile >> p->level;
+    inFile >> p->gold;
+    inFile >> rest;
+
+    string item;
+    while(inFile >> item) {
+        all_items[item]->owned=true;
+    }
+    inFile.close();
+
+}
+
+void save_game(Player *p) {
+    cout << "This will overwrite any previous saves\nAre you sure you want to save? (y/n)\n";
+    string choice;cin >> choice;lower(choice);
+    if (choice=="y" | choice=="yes") {
+        ofstream outFile("save.txt");
+
+        outFile << p->name << " ";
+        outFile << p->playerStats.health << " ";
+        outFile << p->playerStats.maxHealth << " ";
+        outFile << p->playerStats.armor << " ";
+        outFile << p->playerStats.damage << " ";
+        outFile << p->exp << " ";
+        outFile << p->expLevel << " ";
+        outFile << p->level << " ";
+        outFile << p->gold << " ";
+        outFile << rest << " ";
+
+        for(string item:item_hashes) {
+            if (all_items[item]->owned) {
+                outFile << item << " ";
+            }
+        }
+
+        outFile.close();
+        cout << "Game saved successfully";
+        Sleep(SLEEP);
+    }
+}
+
+Player *create_player(int option) {
+    Player *p = new Player("placeholder",10,0,1,1,0);
+    if(option==1) {
+        string name;
+        while(1) {
+            system("cls");
+            cout << "Your journey awaits...\n\n";
+            cout << "Enter the name of your character:\n";
+            cin >> name;
+            break;
+        }
+        p->name = name;
+    } else if (option==2) {
+        load_game(p);
+    }
+    return p;
 }
 
 unordered_map<string,Item*> create_items() {
@@ -475,6 +566,9 @@ unordered_map<string,Item*> create_items() {
     all_items["sword"] = new Item(0,0,7,200,140
     ,req_stats{0,0,3,3},"Sword",false);
 
+    all_items["grass blade"] = new Item(1,0,7,400,100
+    ,req_stats{0,0,3,3},"Sword",false);
+
     return all_items;
 }
 
@@ -486,9 +580,9 @@ array<Area*,AREAS> create_areas() {
     "Searing Desert"};
     vector<enemy_template> enemies[AREAS] = {
         {
-            {stat_roll{10,8,1,0,4,2},1,5,10,"Goblin"},
-            {stat_roll{25,10,2,1,6,2},1,7,14,"Orc"},
-            {stat_roll{40,50,3,2,7,2},1,10,20,"Troll"}
+            {stat_roll{4,3,0,0,1,0},1,3,10,"Goblin"},
+            {stat_roll{10,5,1,0,2,0},1,5,14,"Orc"},
+            {stat_roll{20,10,2,0,3,0},1,10,20,"Troll"}
         },
         {},
         {},
@@ -496,14 +590,26 @@ array<Area*,AREAS> create_areas() {
     };
     vector<Item*> items[AREAS] {
         {
-            all_items["dagger"]
+            all_items["dagger"],
+            all_items["short sword"],
+            all_items["sword"]
+        },
+        {},
+        {},
+        {}
+    };
+    vector<Item*> shop_items[AREAS] {
+        {
+            all_items["dagger"],
+            all_items["short sword"],
+            all_items["sword"]
         },
         {},
         {},
         {}
     };
     for(int i=0;i<AREAS;++i) {
-        arr[i] = new Area(areas[i],enemies[i],items[i],items[i]);
+        arr[i] = new Area(areas[i],enemies[i],items[i],shop_items[i]);
     }
     return arr;
 }

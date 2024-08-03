@@ -1,15 +1,7 @@
 #include "helpers.hpp"
 
-using namespace std;
-
-void HUD(Player* p) {
-    system("cls");
-    p->display_stats();
-    choices(p);
-}
-
 int main() {
-    Player* player = new Player(start(),10,1,1,1,10000);
+    Player* player = create_player(start());
     while(1) {
         HUD(player);
     }
