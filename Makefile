@@ -6,10 +6,10 @@ all: compile
 	$(TARGET)
 
 compile: helpers.o main.o
-	g++ -g -o $(TARGET) $(OBJECTS) 
+	g++ -o $(TARGET) $(OBJECTS) 
 
 helpers.o: helpers.cpp helpers.hpp
-	g++ -g -c helpers.cpp
+	g++ -c helpers.cpp
 
 main.o: main.cpp helpers.hpp
-	g++ -g -c main.cpp
+	g++ -c main.cpp

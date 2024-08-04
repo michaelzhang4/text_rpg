@@ -3,7 +3,8 @@
 using namespace std;
 
 int rest=0;
-vector<string> item_hashes = {"dagger","short sword","sword"};
+vector<string> item_hashes = {"dagger","short sword","sword","grass blade"};
+vector<Item*> owned_items;
 unordered_map<string,Item*> all_items = create_items();
 array<Area*,AREAS> areas = create_areas();
 Area *current_area = areas[0];
@@ -60,12 +61,13 @@ void Item::inspect_item(Player *p) {
         cout << "level "<< req.lvl << endl;
         cout << "\n🪙  : " << p->gold << "g" << endl;
         if (this->owned==false) {
-            cout << "\n1. Buy\nB. Back\n";
+            cout << "\n1. Buy\nb. Back\n";
             string choice;
             cin >> choice;
             lower(choice);
             if(choice=="1" | choice=="buy") {
                 if(p->gold >= price) {
+                    owned_items.push_back(this);
                     this->owned=true;
                     p->gold -= price;
                 } else {
@@ -77,7 +79,7 @@ void Item::inspect_item(Player *p) {
             }
         } else if (this->owned==true) {
             if (p->equipped==this) {
-                cout << "\n1. Unequip 2. Sell - " << this->sell_price << "\nB. Back\n";
+                cout << "\n1. Unequip 2. Sell - " << this->sell_price << "g\nb. Back\n";
                 string choice;
                 cin >> choice;
                 lower(choice);
@@ -87,6 +89,10 @@ void Item::inspect_item(Player *p) {
                     cout << "\nAre you sure you want to sell "<< this->name << "? (y/n)\n";
                     cin >> choice;lower(choice);
                     if (choice=="y" | choice=="yes") {
+                        auto it = std::find(owned_items.begin(), owned_items.end(), this);
+                        if (it != owned_items.end()) {
+                            owned_items.erase(it);
+                        }
                         p->gold+=this->sell_price;
                         this->owned=false;
                         p->unequip();
@@ -95,7 +101,7 @@ void Item::inspect_item(Player *p) {
                     break;
                 }
             } else if (p->equipped!=this) {
-                cout << "\n1. Equip 2. Sell - " << this->sell_price << "\nB. Back\n";
+                cout << "\n1. Equip 2. Sell - " << this->sell_price << "g\nb. Back\n";
                 string choice;
                 cin >> choice;
                 lower(choice);
@@ -406,15 +412,16 @@ void items(Player *p) {
         system("cls");
         cout << "Items ⚔️\n\n";
         cout << p->equipped->name << " - Equipped\n";
-        int i;
-        for(i=0;i<all_items.size();++i) {
-            if(all_items[item_hashes[i]]->owned) {
-                if(all_items[item_hashes[i]]!=p->equipped) {
-                    cout << i+1 << ". " << all_items[item_hashes[i]]->name << endl;
+        int i,index=1;
+        for(i=0;i<owned_items.size();++i) {
+            if(owned_items[i]->owned) {
+                if(owned_items[i]!=p->equipped) {
+                    cout << index << ". " << owned_items[i]->name << endl;
+                    ++index;
                 }
             }
         }
-        cout << "E. Unequip Current Item\nB. Exit items\n";
+        cout << "e. Unequip Current Item\nb. Exit items\n";
         string choice;cin >> choice;lower(choice);
         try {
             if (choice == "b" || choice == "exit" || choice=="back") {
@@ -422,7 +429,7 @@ void items(Player *p) {
             } else if (choice=="e" || choice == "unequip") {
                 p->unequip();
             } else if(1<= stoi(choice) && stoi(choice)<=i) {
-                Item* item = all_items[item_hashes[stoi(choice)-1]];
+                Item* item = owned_items[stoi(choice)-1];
                 if (item->owned && item!=p->equipped) {
                     item->inspect_item(p);
                 }
@@ -476,7 +483,7 @@ void shop(Player *p) {
             cout << i+1 << ". ";
             print_item(current_area->shop_list[i]);
         }
-        cout <<"B. Exit shop\n";
+        cout <<"b. Exit shop\n";
         string choice;cin >> choice;lower(choice);
         if (choice == "b" || choice == "exit" || choice=="back") {
             break;
@@ -502,6 +509,7 @@ void load_game(Player *p) {
     string item;
     while(inFile >> item) {
         all_items[item]->owned=true;
+        owned_items.push_back(all_items[item]);
     }
     inFile.close();
 

@@ -24,3 +24,4 @@
 
 4. Save file [DONE]
 5. Encrypt save file []
+6. Goblin king takes revenge []

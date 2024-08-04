@@ -82,7 +82,6 @@ public:
     bool owned;
     void inspect_item(Player *p);
 private:
-    //empty
 };
 
 class Area {
@@ -132,7 +131,8 @@ std::unordered_map<std::string,Item*> create_items();
 
 std::array<Area*,AREAS> create_areas();
 
-extern std::array<Area*,AREAS> areas;
-extern std::unordered_map<std::string,Item*> all_items;
 extern std::vector<std::string> item_hashes;
+extern std::vector<Item*> owned_items;
+extern std::unordered_map<std::string,Item*> all_items;
+extern std::array<Area*,AREAS> areas;
 extern int rest;
