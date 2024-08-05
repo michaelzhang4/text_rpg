@@ -25,3 +25,12 @@
 4. Save file [DONE]
 5. Encrypt save file []
 6. Goblin king takes revenge []
+7. Make super hard game []
+
+
+# FOR TERMINAL EMOJI SUPPORT
+POWERSHELL:
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+
+CMD:
+chcp 65001

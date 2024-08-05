@@ -1,6 +1,7 @@
 #include "helpers.hpp"
 
 int main() {
+
     Player* player = create_player(start());
     while(1) {
         HUD(player);

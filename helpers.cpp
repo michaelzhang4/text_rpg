@@ -495,21 +495,34 @@ void shop(Player *p) {
 
 void load_game(Player *p) {
     ifstream inFile("save.txt");
-    inFile >> p->name;
-    inFile >> p->playerStats.health;
-    inFile >> p->playerStats.maxHealth;
-    inFile >> p->playerStats.armor;
-    inFile >> p->playerStats.damage;
-    inFile >> p->exp;
-    inFile >> p->expLevel;
-    inFile >> p->level;
-    inFile >> p->gold;
-    inFile >> rest;
+    if(inFile.fail()) {
+        string name;
+        while(1) {
+            system("cls");
+            cout << "No previous save. A new game has started.\n\n";
+            cout << "Your journey awaits...\n\n";
+            cout << "Enter the name of your character:\n";
+            cin >> name;
+            break;
+        }
+        p->name = name;
+    } else {
+        inFile >> p->name;
+        inFile >> p->playerStats.health;
+        inFile >> p->playerStats.maxHealth;
+        inFile >> p->playerStats.armor;
+        inFile >> p->playerStats.damage;
+        inFile >> p->exp;
+        inFile >> p->expLevel;
+        inFile >> p->level;
+        inFile >> p->gold;
+        inFile >> rest;
 
-    string item;
-    while(inFile >> item) {
-        all_items[item]->owned=true;
-        owned_items.push_back(all_items[item]);
+        string item;
+        while(inFile >> item) {
+            all_items[item]->owned=true;
+            owned_items.push_back(all_items[item]);
+        }
     }
     inFile.close();
 
