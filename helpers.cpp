@@ -3,7 +3,7 @@
 using namespace std;
 
 int rest=0;
-vector<string> item_hashes = {"dagger","short sword","sword","grass blade"};
+vector<string> item_hashes = {"Dagger","Short Sword","Sword","Grass Blade"};
 vector<Item*> owned_items;
 unordered_map<string,Item*> all_items = create_items();
 array<Area*,AREAS> areas = create_areas();
@@ -218,17 +218,17 @@ void Player::gain(int e, int g) {
         "\nYou have leveled up!\nYou are now level "
         << level;
         exp -=expLevel;
-        expLevel+=2;
+        expLevel+=expLevel/2;
         Sleep(SLEEP);
         system("cls");
         display_stats();
 
         cout << "\nChoose a stat to increase:"
-        << "\n1. +10❤️   2. +1🛡️   3. +1🗡️\n";
+        << "\n1. +5❤️   2. +1🛡️   3. +1🗡️\n";
         int choice;
         cin >> choice;
         if (choice==1) {
-            playerStats.maxHealth+=10;
+            playerStats.maxHealth+=5;
         } else if (choice==2) {
             playerStats.armor+=1;
         } else if (choice==3) {
@@ -291,7 +291,8 @@ void combatHUD(Enemy *enemy, Player *player) {
 }
 
 void combat(Player *p) {
-    Enemy *enemy = new Enemy(current_area->enemy_list[0]);
+    int random = rand()%current_area->enemy_list.size();
+    Enemy *enemy = new Enemy(current_area->enemy_list[random]);
     while(1) {
         start_combat:
         system("cls");
@@ -517,7 +518,11 @@ void load_game(Player *p) {
         inFile >> p->level;
         inFile >> p->gold;
         inFile >> rest;
-
+        string equip;
+        inFile >> equip;
+        if(equip!="None") {
+            p->equip(all_items[equip]);
+        }
         string item;
         while(inFile >> item) {
             all_items[item]->owned=true;
@@ -544,6 +549,7 @@ void save_game(Player *p) {
         outFile << p->level << " ";
         outFile << p->gold << " ";
         outFile << rest << " ";
+        outFile << p->equipped->name << " ";
 
         for(string item:item_hashes) {
             if (all_items[item]->owned) {
@@ -577,18 +583,25 @@ Player *create_player(int option) {
 
 unordered_map<string,Item*> create_items() {
     unordered_map<string,Item*> all_items;
+    // required stats - hp, armor, damage, level
+    // item stats - hp, armor, damage, price, sell price
+    all_items["Dagger"] = new Item(0,0,2,50,35
+    ,req_stats{0,0,1,1},"Dagger", false);
 
-    all_items["dagger"] = new Item(0,0,3,50,35
-    ,req_stats{0,0,1,1},"Dagger",false);
+    all_items["Short Sword"] = new Item(0,0,3,100,70
+    ,req_stats{0,0,2,1},"Short Sword", false);
 
-    all_items["short sword"] = new Item(0,0,5,100,70
-    ,req_stats{0,0,2,1},"Short Sword",false);
+    all_items["Sword"] = new Item(0,0,4,200,140
+    ,req_stats{0,0,3,3},"Sword", false);
 
-    all_items["sword"] = new Item(0,0,7,200,140
-    ,req_stats{0,0,3,3},"Sword",false);
+    all_items["Grass Blade"] = new Item(1,0,5,400,100
+    ,req_stats{0,0,3,3},"Grass Blade",false);
 
-    all_items["grass blade"] = new Item(1,0,7,400,100
-    ,req_stats{0,0,3,3},"Sword",false);
+    all_items["Orc Blade"] = new Item(-1,0,6,500,125
+    ,req_stats{0,0,3,3},"Orc Blade",false);
+
+    all_items["Goblin Spear"] = new Item(0,0,6,600,150
+    ,req_stats{0,0,3,3},"Goblin Spear", false);
 
     return all_items;
 }
@@ -601,7 +614,14 @@ array<Area*,AREAS> create_areas() {
     "Searing Desert"};
     vector<enemy_template> enemies[AREAS] = {
         {
-            {stat_roll{4,3,0,0,1,0},1,3,10,"Goblin"},
+            // base hp, var hp, base armor, var armor, base damage, var damage;
+            // level, exp drop, gold drop, name
+            {stat_roll{4,3,0,0,2,0},1,3,10,"Young Goblin"},
+            {stat_roll{1,0,0,0,0,0},1,3,10,"Dying Goblin"},
+            {stat_roll{3,2,0,0,1,0},35,15,100,"Elderly Goblin"},
+            {stat_roll{15,5,1,1,4,0},20,25,40,"Goblin Warrior"},
+            {stat_roll{10,3,0,0,5,0},50,40,10,"Goblin Sage"},
+            {stat_roll{30,0,3,0,7,0},100,100,200,"Goblin Chieftain"},
             {stat_roll{10,5,1,0,2,0},1,5,14,"Orc"},
             {stat_roll{20,10,2,0,3,0},1,10,20,"Troll"}
         },
@@ -611,9 +631,10 @@ array<Area*,AREAS> create_areas() {
     };
     vector<Item*> items[AREAS] {
         {
-            all_items["dagger"],
-            all_items["short sword"],
-            all_items["sword"]
+            all_items["Dagger"],
+            all_items["Short Sword"],
+            all_items["Sword"],
+            all_items["Grass Blade"],
         },
         {},
         {},
@@ -621,9 +642,9 @@ array<Area*,AREAS> create_areas() {
     };
     vector<Item*> shop_items[AREAS] {
         {
-            all_items["dagger"],
-            all_items["short sword"],
-            all_items["sword"]
+            all_items["Dagger"],
+            all_items["Short Sword"],
+            all_items["Sword"]
         },
         {},
         {},
