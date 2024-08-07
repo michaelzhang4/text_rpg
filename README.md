@@ -29,3 +29,4 @@ CMD:
 ```sh
 chcp 65001
 ```
+![image](https://github.com/user-attachments/assets/115bb9de-fbb0-458e-aa29-e665bc667ac4)
