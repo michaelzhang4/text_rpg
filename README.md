@@ -13,3 +13,16 @@ cd ~/textrpg
 
 # Run make command
 make
+```
+
+# Notes
+
+Make sure to enable UTF-8 fonts in terminal otherwise the emojis won't load.
+
+I found these commands work for me in windows CMD/Powershell to enable UTF-8 support for a terminal session:
+
+POWERSHELL:
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+
+CMD:
+chcp 65001
