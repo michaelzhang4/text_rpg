@@ -24,13 +24,15 @@
     - names/titles for stat boost etc. []
     - weapon next to name [DONE]
 
-4. Add equip slots e.g. armor []
+4. Add equip slots e.g. armor [DONE]
 
-5. Add arena with bosses []
+5. Add crit_chance/crit damage stat []
 
-6. Save file [DONE]
+6. Add arena with bosses []
 
-7. Encrypt save file []
+7. Save file [DONE]
+
+8. Encrypt save file []
 
 
 

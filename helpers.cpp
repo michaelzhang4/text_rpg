@@ -5,7 +5,7 @@ using namespace std;
 int rest=0;
 vector<string> item_hashes = {"dagger",
 "short_sword","sword","knife","goblin_spear",
-"bow", "staff","steel_sword","emerald_sword","diamond_sword"};
+"bow", "staff", "cloth_armor", "steel_sword","emerald_sword","diamond_sword"};
 vector<Item*> owned_items;
 unordered_map<string,Item*> all_items = create_items();
 array<Area*,AREAS> areas = create_areas();
@@ -119,6 +119,9 @@ void Item::inspect_item(Player *p, int from_shop) {
                         p->gold+=this->sell_price;
                         this->owned=false;
                         p->unequip(this,-1);
+                        if(from_shop==0) {
+                            return;
+                        } 
                     }
                 } else if (choice=="b" | choice=="back") {
                     break;
@@ -145,6 +148,9 @@ void Item::inspect_item(Player *p, int from_shop) {
                         p->gold+=this->sell_price;
                         this->owned=false;
                         p->unequip(this,-1);
+                        if(from_shop==0) {
+                            return;
+                        } 
                     }
                 } else if (choice=="b" | choice=="back") {
                     break;
@@ -155,7 +161,7 @@ void Item::inspect_item(Player *p, int from_shop) {
                 cin >> choice;
                 lower(choice);
                 if(choice=="1" | choice=="unequip") {
-                    p->equip(this,2);
+                    p->unequip(this,2);
                 } else if (choice=="2" | choice=="sell") {
                     cout << "\nAre you sure you want to sell "<< this->name << "? (y/n)\n";
                     cin >> choice;lower(choice);
@@ -167,6 +173,9 @@ void Item::inspect_item(Player *p, int from_shop) {
                         p->gold+=this->sell_price;
                         this->owned=false;
                         p->unequip(this,-1);
+                        if(from_shop==0) {
+                            return;
+                        } 
                     }
                 } else if (choice=="b" | choice=="back") {
                     break;
@@ -191,6 +200,9 @@ void Item::inspect_item(Player *p, int from_shop) {
                         }
                         p->gold+=this->sell_price;
                         this->owned=false;
+                        if(from_shop==0) {
+                            return;
+                        } 
                     }
                 } else if (choice=="b" | choice=="back") {
                     break;
@@ -200,7 +212,7 @@ void Item::inspect_item(Player *p, int from_shop) {
                 string choice;
                 cin >> choice;
                 lower(choice);
-                if(choice=="1" | choice=="unequip primary") {
+                if(choice=="1" | choice=="equip") {
                     p->equip(this,2);
                 } else if (choice=="2" | choice=="sell") {
                     cout << "\nAre you sure you want to sell "<< this->name << "? (y/n)\n";
@@ -212,6 +224,9 @@ void Item::inspect_item(Player *p, int from_shop) {
                         }
                         p->gold+=this->sell_price;
                         this->owned=false;
+                        if(from_shop==0) {
+                            return;
+                        } 
                     }
                 } else if (choice=="b" | choice=="back") {
                     break;
@@ -668,7 +683,7 @@ void items(Player *p) {
 
 void choices(Player *p) {
     cout << "\n1. Explore 2. Shop 3. Rest\n4. Items   5. Save";
-    cout << " 6. Travel\n7. Exit\n";
+    cout << " 6. Travel\n7. Arena   8. Exit\n";
     string choice;cin >> choice;lower(choice);
     if(choice=="1" || choice=="explore") {
         explore(p);
@@ -683,9 +698,15 @@ void choices(Player *p) {
         save_game(p);
     } else if(choice=="6" || choice=="travel") {
         travel(p);
-    } else if(choice=="7" || choice=="exit") {
+    } else if(choice=="7" || choice=="arena") {
+        arena(p);
+    } else if(choice=="8" || choice=="exit") {
         exit(0);
     } 
+}
+
+void arena(Player *p) {
+
 }
 
 void travel(Player* p) {
@@ -783,17 +804,17 @@ void load_game(Player *p) {
         string primary_equipped_item;
         inFile >> primary_equipped_item;
         if(primary_equipped_item!="none") {
-            p->equip(all_items[primary_equipped_item],0);
+            p->primary_equipped=all_items[primary_equipped_item];
         }
         string secondary_equipped_item;
         inFile >> secondary_equipped_item;
         if(secondary_equipped_item!="none") {
-            p->equip(all_items[secondary_equipped_item],1);
+            p->secondary_equipped=all_items[secondary_equipped_item];
         }
         string armor_equipped_item;
         inFile >> armor_equipped_item;
         if(armor_equipped_item!="none") {
-            p->equip(all_items[armor_equipped_item],2);
+            p->armor_equipped=all_items[armor_equipped_item];
         }
         int index;
         inFile >> index;
@@ -905,6 +926,9 @@ unordered_map<string,Item*> create_items() {
     all_items["staff"] = new Item(-3,0,5,0,50
     ,req_stats{15,0,0,1},"Staff", "staff", 0,false);
 
+    all_items["cloth_armor"] = new Item(5,1,0,0,50
+    ,req_stats{0,0,0,1},"Cloth Armor", "cloth_armor", 1,false);
+
     //Rocky Mountains items
     all_items["steel_sword"] = new Item(0,0,6,300,210
     ,req_stats{0,0,0,4},"Steel Sword", "steel_sword", 0,false);
@@ -955,6 +979,7 @@ array<Area*,AREAS> create_areas() {
             all_items["goblin_spear"],
             all_items["bow"],
             all_items["knife"],
+            all_items["cloth_armor"],
         },
         {
             all_items["steel_sword"],

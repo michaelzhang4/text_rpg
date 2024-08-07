@@ -127,6 +127,8 @@ void print_item(Item* item);
 
 void items(Player *p);
 
+void arena(Player *p);
+
 void travel(Player* p);
 
 void unlock_stages(Enemy* e);
