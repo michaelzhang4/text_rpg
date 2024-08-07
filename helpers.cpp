@@ -27,7 +27,7 @@ void HUD(Player* p) {
     choices(p);
 }
 
-Item::Item(int hp, int arm, int dmg, int p, int sell_p, req_stats required, string n, string h, bool oo) {
+Item::Item(int hp, int arm, int dmg, int p, int sell_p, req_stats required, string n, string h, int t, bool oo) {
     itemStats.health=hp;
     itemStats.maxHealth=hp;
     itemStats.armor=arm;
@@ -37,13 +37,26 @@ Item::Item(int hp, int arm, int dmg, int p, int sell_p, req_stats required, stri
     req=required;
     name=n;
     hash=h;
+    type=t;
     owned=oo;
 }
 
-void Item::inspect_item(Player *p) {
+void Item::inspect_item(Player *p, int from_shop) {
     while(1) {
         system("cls");
-        cout << name << " - " << price << "g" << endl;
+        if(from_shop==1) {
+            if(this->type==0) {
+                cout << name << " - Weapon\n" << "🪙  :" << price << "g" << endl;
+            } else if(this->type==1) {
+                cout << name << " - Armor\n" << "🪙  :" << price << "g" << endl;
+            }
+        } else if (from_shop==0) {
+            if(this->type==0) {
+                cout << name << " - Weapon"  << endl;
+            } else if(this->type==1) {
+                cout << name << " - Armor" << endl;
+            }
+        }
         if(itemStats.damage!=0) {
             cout << "🗡️  :" << itemStats.damage << " ";
         }
@@ -64,7 +77,9 @@ void Item::inspect_item(Player *p) {
             cout << req.hp <<"❤️ ";
         }
         cout << "level "<< req.lvl << endl;
-        cout << "\n🪙  : " << p->gold << "g" << endl;
+        if(from_shop==1) {
+            cout << "\n🪙  : " << p->gold << "g" << endl;
+        }
         if (this->owned==false) {
             cout << "\n1. Buy\nb. Back\n";
             string choice;
@@ -83,13 +98,64 @@ void Item::inspect_item(Player *p) {
                 break;
             }
         } else if (this->owned==true) {
-            if (p->equipped==this) {
+            if (p->primary_equipped==this) {
+                cout << "\n1. Unequip primary 2. Equip secondary 3. Sell - " << this->sell_price << "g\nb. Back\n";
+                string choice;
+                cin >> choice;
+                lower(choice);
+                if(choice=="1" | choice=="unequip primary") {
+                    p->unequip(this,0);
+                } else if(choice=="2" | choice=="equip secondary") {
+                    p->equip(this,1);
+                }
+                else if (choice=="3" | choice=="sell") {
+                    cout << "\nAre you sure you want to sell "<< this->name << "? (y/n)\n";
+                    cin >> choice;lower(choice);
+                    if (choice=="y" | choice=="yes") {
+                        auto it = std::find(owned_items.begin(), owned_items.end(), this);
+                        if (it != owned_items.end()) {
+                            owned_items.erase(it);
+                        }
+                        p->gold+=this->sell_price;
+                        this->owned=false;
+                        p->unequip(this,-1);
+                    }
+                } else if (choice=="b" | choice=="back") {
+                    break;
+                }
+            } else if (p->secondary_equipped==this) {
+                cout << "\n1. Equip primary 2. Unequip secondary 3. Sell - " << this->sell_price << "g\nb. Back\n";
+                string choice;
+                cin >> choice;
+                lower(choice);
+                if(choice=="1" | choice=="equip primary") {
+                    p->equip(this,0);
+                } else if(choice=="2" | choice=="unequip secondary") {
+                    p->unequip(this,1);
+                }
+                
+                else if (choice=="3" | choice=="sell") {
+                    cout << "\nAre you sure you want to sell "<< this->name << "? (y/n)\n";
+                    cin >> choice;lower(choice);
+                    if (choice=="y" | choice=="yes") {
+                        auto it = std::find(owned_items.begin(), owned_items.end(), this);
+                        if (it != owned_items.end()) {
+                            owned_items.erase(it);
+                        }
+                        p->gold+=this->sell_price;
+                        this->owned=false;
+                        p->unequip(this,-1);
+                    }
+                } else if (choice=="b" | choice=="back") {
+                    break;
+                }
+            } else if (p->armor_equipped==this) {
                 cout << "\n1. Unequip 2. Sell - " << this->sell_price << "g\nb. Back\n";
                 string choice;
                 cin >> choice;
                 lower(choice);
                 if(choice=="1" | choice=="unequip") {
-                    p->unequip();
+                    p->equip(this,2);
                 } else if (choice=="2" | choice=="sell") {
                     cout << "\nAre you sure you want to sell "<< this->name << "? (y/n)\n";
                     cin >> choice;lower(choice);
@@ -100,22 +166,50 @@ void Item::inspect_item(Player *p) {
                         }
                         p->gold+=this->sell_price;
                         this->owned=false;
-                        p->unequip();
+                        p->unequip(this,-1);
                     }
                 } else if (choice=="b" | choice=="back") {
                     break;
                 }
-            } else if (p->equipped!=this) {
+            } else if (type==0) {
+                cout << "\n1. Equip primary 2. Equip secondary 3. Sell - " << this->sell_price << "g\nb. Back\n";
+                string choice;
+                cin >> choice;
+                lower(choice);
+                if(choice=="1" | choice=="equip primary") {
+                    p->equip(this,0);
+                } else if(choice=="2" | choice=="equip secondary") {
+                    p->equip(this,1);
+                }
+                else if (choice=="3" | choice=="sell") {
+                    cout << "\nAre you sure you want to sell "<< this->name << "? (y/n)\n";
+                    cin >> choice;lower(choice);
+                    if (choice=="y" | choice=="yes") {
+                        auto it = std::find(owned_items.begin(), owned_items.end(), this);
+                        if (it != owned_items.end()) {
+                            owned_items.erase(it);
+                        }
+                        p->gold+=this->sell_price;
+                        this->owned=false;
+                    }
+                } else if (choice=="b" | choice=="back") {
+                    break;
+                }
+            } else if(type==1) {
                 cout << "\n1. Equip 2. Sell - " << this->sell_price << "g\nb. Back\n";
                 string choice;
                 cin >> choice;
                 lower(choice);
-                if(choice=="1" | choice=="equip") {
-                    p->equip(this);
+                if(choice=="1" | choice=="unequip primary") {
+                    p->equip(this,2);
                 } else if (choice=="2" | choice=="sell") {
                     cout << "\nAre you sure you want to sell "<< this->name << "? (y/n)\n";
                     cin >> choice;lower(choice);
                     if (choice=="y" | choice=="yes") {
+                        auto it = std::find(owned_items.begin(), owned_items.end(), this);
+                        if (it != owned_items.end()) {
+                            owned_items.erase(it);
+                        }
                         p->gold+=this->sell_price;
                         this->owned=false;
                     }
@@ -138,27 +232,57 @@ Player::Player(string s,int hp,int arm, int dmg, int lvl, int g) {
     level=lvl;
     gold=g;
     none = new Item(0,0,0,0,0
-    ,req_stats{0,0,0,0},"None","none",true);
-    equipped = none;
+    ,req_stats{0,0,0,0},"None","none",0,true);
+    none_armor = new Item(0,0,0,0,0
+    ,req_stats{0,0,0,0},"None","none",1,true);
+    primary_equipped = none;
+    secondary_equipped = none;
+    armor_equipped = none_armor;
 }
 
 Player::~Player() {
     delete none;
 }
 
-void Player::equip(Item* e) {
+void Player::equip(Item* e, int slot) {
     req_stats r = e->req;
     stats s = playerStats;
     if(s.armor >= r.arm &&
     s.damage >= r.dmg &&
     s.health >= r.hp &&
     level >= r.lvl) {
-        if(equipped->itemStats.health!=0) {
-            playerStats.health-=equipped->itemStats.health;
+        if((secondary_equipped==e ||primary_equipped==e) && e->name!="None") {
+            cout << "You already have this item equipped!\n";
+            Sleep(SLEEP);
+            return;
         }
-        equipped=e;
-        if(e->itemStats.health!=0) {
-            playerStats.health+=e->itemStats.health;
+        if(slot==0) {
+            if(primary_equipped->itemStats.health!=0) {
+                playerStats.health-=primary_equipped->itemStats.health;
+            }
+            primary_equipped=e;
+            if(e->itemStats.health!=0) {
+                playerStats.health+=e->itemStats.health;
+            }
+        } else if (slot==1) {
+            if(secondary_equipped->itemStats.health!=0) {
+                playerStats.health-=secondary_equipped->itemStats.health;
+            }
+            secondary_equipped=e;
+            if(e->itemStats.health!=0) {
+                playerStats.health+=e->itemStats.health;
+            }
+        } else if (slot==2) {
+            if(armor_equipped==e) {
+                return;
+            }
+            if(armor_equipped->itemStats.health!=0) {
+                playerStats.health-=armor_equipped->itemStats.health;
+            }
+            armor_equipped=e;
+            if(e->itemStats.health!=0) {
+                playerStats.health+=e->itemStats.health;
+            }
         }
     } else {
         cout << "You do not meet the requirements to equip this item\n";
@@ -166,8 +290,22 @@ void Player::equip(Item* e) {
     }
 }
 
-void Player::unequip() {
-    equip(none);
+void Player::unequip(Item* item, int slot) {
+    if(slot>=0){
+        if (slot==1 | slot==0) {
+            equip(none, slot);
+        } else if (slot==2) {
+            equip(none_armor, slot);
+        }
+    } else {
+        if(primary_equipped==item) {
+            equip(none,0);
+        } else if (secondary_equipped==item) {
+            equip(none,1);
+        } else if (armor_equipped==item) {
+            equip(none,2);
+        }
+    }
 }
 
 void Player::display_stats() {
@@ -175,25 +313,25 @@ void Player::display_stats() {
     cout <<"\n❤️  : " << 
     playerStats.health << 
     "/" << totalHealth()
-    << " (" << equipped->itemStats.health << ") "
+    << " (" << primary_equipped->itemStats.health+secondary_equipped->itemStats.health+armor_equipped->itemStats.health << ") "
      "🛡️  :" << totalArmor()
-    << " (" << equipped->itemStats.armor << ") "
+    << " (" << primary_equipped->itemStats.armor+secondary_equipped->itemStats.armor+armor_equipped->itemStats.armor << ") "
      "🗡️  :" << damage()
-    << " (" << equipped->itemStats.damage << ") "
+    << " (" << primary_equipped->itemStats.damage+secondary_equipped->itemStats.damage+armor_equipped->itemStats.damage << ") "
     << "\nLevel: "<<level<< " - " << exp << "/"
     << expLevel << " 🪙  : " << gold << "g" << endl;
 }
 
 void Player::print_name() {
-    cout << name << " - " << equipped->name;
+    cout << name << " - <" << primary_equipped->name << "> <" << secondary_equipped->name << "> <" << armor_equipped->name << ">";
 }
 
 void Player::take_damage(Enemy *e) {
     int effective_damage;
-    if(playerStats.armor > e->enemyStats.damage) {
+    if(totalArmor() > e->enemyStats.damage) {
         effective_damage=1;
     } else {
-        effective_damage=e->enemyStats.damage-playerStats.armor;
+        effective_damage=e->enemyStats.damage-totalArmor();
     }
     playerStats.health-=effective_damage;
 
@@ -206,15 +344,18 @@ void Player::take_damage(Enemy *e) {
 }
 
 int Player::damage() {
-    return playerStats.damage+equipped->itemStats.damage;
+    return playerStats.damage+primary_equipped->itemStats.damage
+    +secondary_equipped->itemStats.damage+armor_equipped->itemStats.damage;
 }
 
 int Player::totalHealth() {
-    return playerStats.maxHealth+equipped->itemStats.maxHealth;
+    return playerStats.maxHealth+primary_equipped->itemStats.maxHealth
+    +secondary_equipped->itemStats.maxHealth+armor_equipped->itemStats.maxHealth;
 }
 
 int Player::totalArmor() {
-    return playerStats.armor+equipped->itemStats.armor;
+    return playerStats.armor+primary_equipped->itemStats.armor
+    +secondary_equipped->itemStats.armor+armor_equipped->itemStats.armor;
 }
 
 void Player::gain(int e, int g) {
@@ -245,7 +386,10 @@ void Player::gain(int e, int g) {
         } else if (choice==3) {
             playerStats.damage+=1;
         }
-        playerStats.health=playerStats.maxHealth+equipped->itemStats.health;
+        playerStats.health=playerStats.maxHealth+
+        primary_equipped->itemStats.health+
+        secondary_equipped->itemStats.health+
+        armor_equipped->itemStats.health;
     }
 
 }
@@ -486,25 +630,33 @@ void items(Player *p) {
         int i,index=1;
         for(i=0;i<owned_items.size();++i) {
             if(owned_items[i]->owned) {
-                if(owned_items[i]==p->equipped) {
-                    cout << index << ". " << owned_items[i]->name << " - Equipped" << endl;
+                if(owned_items[i]==p->primary_equipped) {
+                    cout << index << ". " << owned_items[i]->name << " - primary" << endl;
+                } else if(owned_items[i]==p->secondary_equipped) {
+                    cout << index << ". " << owned_items[i]->name << " - secondary" << endl;
+                } else if(owned_items[i]==p->armor_equipped) {
+                    cout << index << ". " << owned_items[i]->name << " - armor" << endl;
                 } else {
                     cout << index << ". " << owned_items[i]->name << endl;
                 }
                 ++index;
             }
         }
-        cout << "e. Unequip Current Item\nb. Exit items\n";
+        cout << "e. Unequip primary\nf. Unequip secondary\ng. Unequip armor\nb. Exit items\n";
         string choice;cin >> choice;lower(choice);
         try {
             if (choice == "b" || choice == "exit" || choice=="back") {
                 break;
-            } else if (choice=="e" || choice == "unequip") {
-                p->unequip();
+            } else if (choice=="e" || choice == "unequip primary") {
+                p->unequip(NULL,0);
+            } else if (choice=="f" || choice == "unequip secondary") {
+                p->unequip(NULL,1);
+            } else if (choice=="g" || choice == "unequip armor") {
+                p->unequip(NULL,2);
             } else if(1<= stoi(choice) && stoi(choice)<=i) {
                 Item* item = owned_items[stoi(choice)-1];
                 if (item->owned) {
-                    item->inspect_item(p);
+                    item->inspect_item(p, 0);
                 }
             }
         } catch (...) {
@@ -599,7 +751,7 @@ void shop(Player *p) {
         if (choice == "b" || choice == "exit" || choice=="back") {
             break;
         } else if(1<=stoi(choice) && stoi(choice)<=i) {
-            current_area->shop_list[stoi(choice)-1]->inspect_item(p);
+            current_area->shop_list[stoi(choice)-1]->inspect_item(p,1);
         }
     }
 }
@@ -628,10 +780,20 @@ void load_game(Player *p) {
         inFile >> p->level;
         inFile >> p->gold;
         inFile >> rest;
-        string equipped_item;
-        inFile >> equipped_item;
-        if(equipped_item!="none") {
-            p->equip(all_items[equipped_item]);
+        string primary_equipped_item;
+        inFile >> primary_equipped_item;
+        if(primary_equipped_item!="none") {
+            p->equip(all_items[primary_equipped_item],0);
+        }
+        string secondary_equipped_item;
+        inFile >> secondary_equipped_item;
+        if(secondary_equipped_item!="none") {
+            p->equip(all_items[secondary_equipped_item],1);
+        }
+        string armor_equipped_item;
+        inFile >> armor_equipped_item;
+        if(armor_equipped_item!="none") {
+            p->equip(all_items[armor_equipped_item],2);
         }
         int index;
         inFile >> index;
@@ -668,7 +830,9 @@ void save_game(Player *p) {
         outFile << p->level << " ";
         outFile << p->gold << " ";
         outFile << rest << " ";
-        outFile << p->equipped->hash << " ";
+        outFile << p->primary_equipped->hash << " ";
+        outFile << p->secondary_equipped->hash << " ";
+        outFile << p->armor_equipped->hash << " ";
 
         int total=0;
         for(auto a:areas) {
@@ -721,35 +885,35 @@ unordered_map<string,Item*> create_items() {
 
     // Goblin Village items
     all_items["dagger"] = new Item(0,0,2,50,35
-    ,req_stats{0,0,1,1},"Dagger", "dagger", false);
+    ,req_stats{0,0,1,1},"Dagger", "dagger", 0,false);
 
     all_items["short_sword"] = new Item(0,0,3,100,70
-    ,req_stats{0,0,2,1},"Short Sword", "short_sword", false);
+    ,req_stats{0,0,2,1},"Short Sword", "short_sword", 0,false);
 
     all_items["sword"] = new Item(0,0,4,200,140
-    ,req_stats{0,0,3,3},"Sword", "sword", false);
+    ,req_stats{0,0,3,3},"Sword", "sword", 0,false);
 
     all_items["knife"] = new Item(0,0,1,0,10
-    ,req_stats{0,0,0,1},"Knife", "knife", false);
+    ,req_stats{0,0,0,1},"Knife", "knife", 0,false);
 
     all_items["goblin_spear"] = new Item(0,1,3,0,50
-    ,req_stats{0,0,2,3},"Goblin Spear", "goblin_spear", false);
+    ,req_stats{0,0,2,3},"Goblin Spear", "goblin_spear", 0,false);
 
     all_items["bow"] = new Item(5,0,2,0,40
-    ,req_stats{0,0,2,1},"Bow", "bow", false);
+    ,req_stats{0,0,2,1},"Bow", "bow", 0,false);
 
     all_items["staff"] = new Item(-3,0,5,0,50
-    ,req_stats{15,0,0,1},"Staff", "staff", false);
+    ,req_stats{15,0,0,1},"Staff", "staff", 0,false);
 
     //Rocky Mountains items
     all_items["steel_sword"] = new Item(0,0,6,300,210
-    ,req_stats{0,0,0,4},"Steel Sword", "steel_sword", false);
+    ,req_stats{0,0,0,4},"Steel Sword", "steel_sword", 0,false);
 
     all_items["emerald_sword"] = new Item(0,0,7,400,280
-    ,req_stats{0,0,0,5},"Emerald Sword", "emerald_sword", false);
+    ,req_stats{0,0,0,5},"Emerald Sword", "emerald_sword", 0,false);
 
     all_items["diamond_sword"] = new Item(0,0,8,500,350
-    ,req_stats{0,0,0,6},"Diamond Sword", "diamond_sword", false);
+    ,req_stats{0,0,0,6},"Diamond Sword", "diamond_sword", 0, false);
 
     return all_items;
 }

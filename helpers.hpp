@@ -63,26 +63,29 @@ public:
     void print_name();
     void take_damage(Enemy *e);
     void gain(int e, int g);
-    Item* equipped;
+    Item* primary_equipped;
+    Item* secondary_equipped;
+    Item* armor_equipped;
     int damage();
     int totalHealth();
     int totalArmor();
     Item* none;
-    void equip(Item* e);
-    void unequip();
+    Item* none_armor;
+    void equip(Item* e, int slot);
+    void unequip(Item *item, int slot);
     std::string name;
 private:
 };
 
 class Item {
 public:
-    Item(int hp, int arm, int dmg, int price, int sell_price, req_stats req, std::string name, std::string hash, bool oo);
+    Item(int hp, int arm, int dmg, int price, int sell_price, req_stats req, std::string name, std::string hash, int type, bool oo);
     stats itemStats;
-    int price, sell_price;
+    int price, sell_price, type;
     req_stats req;
     std::string name, hash;
     bool owned;
-    void inspect_item(Player *p);
+    void inspect_item(Player *p, int from_shop);
 private:
 };
 
