@@ -6,6 +6,8 @@ int rest=0;
 vector<string> item_hashes = {"dagger",
 "short_sword","sword","knife","goblin_spear",
 "bow", "staff", "cloth_armor", "steel_sword","emerald_sword","diamond_sword"};
+vector<Enemy*> arena_bosses = {new Enemy({stat_roll{50,0,10,0,10,0},50,0,0,"Dungeon Keeper",{{}}}),
+};
 vector<Item*> owned_items;
 unordered_map<string,Item*> all_items = create_items();
 array<Area*,AREAS> areas = create_areas();
@@ -374,11 +376,13 @@ int Player::totalArmor() {
 }
 
 void Player::gain(int e, int g) {
-    cout << "You gained " << e 
-    << " exp and " << g << " gold!" << endl;
-    exp+=e;
-    gold+=g;
-    Sleep(SLEEP);
+    if(e>0 || g>0) {
+        cout << "You gained " << e 
+        << " exp and " << g << " gold!" << endl;
+        exp+=e;
+        gold+=g;
+        Sleep(SLEEP);
+    }
     while (exp >= expLevel) {
         level+=1;
         cout << 
@@ -473,16 +477,21 @@ void combatHUD(Enemy *enemy, Player *player) {
     enemy->display_stats();
 }
 
-void combat(Player *p) {
-    enemy_template e;
-    int rng;
-    do {
-        rng = rand()%100 + current_area->enemy_list.size();
-        rng%=current_area->enemy_list.size();
-        e = current_area->enemy_list[rng];
-    } while(e.name == previous_encounter);
-    Enemy *enemy = new Enemy(current_area->enemy_list[rng]);
-    previous_encounter = enemy->name;
+void combat(Player *p, Enemy *arena_enemy) {
+    Enemy *enemy;
+    if(!arena_enemy) {
+        enemy_template e;
+        int rng;
+        do {
+            rng = rand()%100 + current_area->enemy_list.size();
+            rng%=current_area->enemy_list.size();
+            e = current_area->enemy_list[rng];
+        } while(e.name == previous_encounter);
+        enemy = new Enemy(current_area->enemy_list[rng]);
+        previous_encounter = enemy->name;
+    } else {
+        enemy = arena_enemy;
+    }
     while(1) {
         start_combat:
         system("cls");
@@ -607,7 +616,7 @@ void explore(Player *p) {
         cout << "\nMonster encountered! Get ready for combat!";
         Sleep(SLEEP);
         system("cls");
-        combat(p);
+        combat(p,NULL);
     } else {
         cout << "\nNothing of interest happened";
         Sleep(1000);
@@ -706,7 +715,18 @@ void choices(Player *p) {
 }
 
 void arena(Player *p) {
-
+    system("cls");
+    cout << "Arena Bosses: \n" << endl;
+    int i;
+    for(i=0;i<arena_bosses.size();++i) {
+        cout << i+1 << ". " << arena_bosses[i]->name << " - level " << arena_bosses[i]->level << endl;
+    }
+    cout << "b. Exit arena" << endl;
+    string choice;cin >> choice;lower(choice);
+    if (choice == "b" || choice == "exit" || choice=="back") {
+    } else if(1<=stoi(choice) && stoi(choice)<=i) {
+        combat(p, arena_bosses[stoi(choice)-1]);
+    }
 }
 
 void travel(Player* p) {

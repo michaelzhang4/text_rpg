@@ -48,8 +48,8 @@ public:
     int exp;
     int gold;
     std::vector<std::pair<int,Item*>> drops;
-private:
     int level;
+private:
     stat_roll statroll;
 };
 
@@ -107,7 +107,7 @@ void death_screen();
 
 void HUD(Player *p);
 
-void combat(Player *p);
+void combat(Player *p, Enemy *e);
 
 int start();
 
@@ -153,3 +153,4 @@ extern Area *current_area;
 extern std::vector<Area*> unlocked_areas;
 extern int rest;
 extern std::string previous_encounter;
+extern std::vector<Enemy*> arena_bosses;
