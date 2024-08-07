@@ -1,14 +1,14 @@
 # TODO
 
-1. Create first area []
-    - items []
+1. Create first area [DONE]
+    - items [DONE]
     - shop items [DONE]
     - link shop items with area [DONE]
-    - mobs []
-        - add varying percentage of discovery []
-        - add loot to mobs []
+    - mobs [DONE]
+        - add varying percentage of discovery [DONE]
+        - add loot to mobs [DONE]
     - names [DONE]
-    - area clear conditions []
+    - area clear conditions [DONE]
 
 2. Exploration []
     - More events []
@@ -29,8 +29,8 @@
 6. Goblin king takes revenge []
 7. Make super hard game []
 8. Add story []
-    - figure out whether to add to area class as function or exploration... []
-    - add switch area button []
+    - figure out whether to add to area class as function or exploration... [DONE]
+    - add switch area button [DONE]
     - requirements? []
 
 

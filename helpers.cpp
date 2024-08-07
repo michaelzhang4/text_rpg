@@ -5,7 +5,7 @@ using namespace std;
 int rest=0;
 vector<string> item_hashes = {"dagger",
 "short_sword","sword","knife","goblin_spear",
-"bow", "staff"};
+"bow", "staff","steel_sword","emerald_sword","diamond_sword"};
 vector<Item*> owned_items;
 unordered_map<string,Item*> all_items = create_items();
 array<Area*,AREAS> areas = create_areas();
@@ -289,13 +289,14 @@ void Enemy::display_stats() {
 }
 
 Area::Area(string n, vector<enemy_template> enemies, vector<Item*> items,
-vector<Item*> shop_items, string d, bool unlcked) {
+vector<Item*> shop_items, string d, bool unlcked, int i) {
     name = n;
     enemy_list = enemies;
     item_list = item_list;
     shop_list = shop_items;
     description = d;
     unlocked=unlcked;
+    index = i;
 }
 
 void Area::print_description() {
@@ -397,7 +398,7 @@ void unlock_stages(Enemy* e) {
         unlocked=true;
     }
     if(unlocked) {
-        cout << "\n\nEnter any key to continue...\n";
+        cout << "\nEnter any key to continue...\n";
         string choice;
         cin >> choice;
     }
@@ -632,6 +633,15 @@ void load_game(Player *p) {
         if(equipped_item!="none") {
             p->equip(all_items[equipped_item]);
         }
+        int index;
+        inFile >> index;
+        for(int i=0;i<=index;i++) {
+            areas[i]->unlocked=true;
+            unlocked_areas.push_back(areas[i]);
+        }
+        inFile >> index;
+        current_area = areas[index];
+        
         string item;
         while(inFile >> item) {
             all_items[item]->owned=true;
@@ -660,11 +670,25 @@ void save_game(Player *p) {
         outFile << rest << " ";
         outFile << p->equipped->hash << " ";
 
+        int total=0;
+        for(auto a:areas) {
+            if(a->unlocked) {
+                if(a->index>total) {
+                    total=a->index;
+                }
+            }
+        }
+        outFile << total << " ";
+
+        outFile << current_area->index << " ";
+
         for(string item:item_hashes) {
             if (all_items[item]->owned) {
                 outFile << item << " ";
             }
         }
+
+        
 
         outFile.close();
         cout << "Game saved successfully";
@@ -694,6 +718,8 @@ unordered_map<string,Item*> create_items() {
     unordered_map<string,Item*> all_items;
     // required stats - hp, armor, damage, level
     // item stats - hp, armor, damage, price, sell price
+
+    // Goblin Village items
     all_items["dagger"] = new Item(0,0,2,50,35
     ,req_stats{0,0,1,1},"Dagger", "dagger", false);
 
@@ -714,6 +740,16 @@ unordered_map<string,Item*> create_items() {
 
     all_items["staff"] = new Item(-3,0,5,0,50
     ,req_stats{15,0,0,1},"Staff", "staff", false);
+
+    //Rocky Mountains items
+    all_items["steel_sword"] = new Item(0,0,6,300,210
+    ,req_stats{0,0,0,4},"Steel Sword", "steel_sword", false);
+
+    all_items["emerald_sword"] = new Item(0,0,7,400,280
+    ,req_stats{0,0,0,5},"Emerald Sword", "emerald_sword", false);
+
+    all_items["diamond_sword"] = new Item(0,0,8,500,350
+    ,req_stats{0,0,0,6},"Diamond Sword", "diamond_sword", false);
 
     return all_items;
 }
@@ -772,7 +808,7 @@ array<Area*,AREAS> create_areas() {
     };
     string descriptions[AREAS] {
         "Goblin village is home to goblins.\n"
-        "A green hobbit-like species that attacks humans.\n",
+        "A green hobbit-like species that likes to attack humans.\n",
         "Rocky mountains are home to lava creatures\n"
         "Imbued with the power of fire they burn unlucky bypassers\n",
         "",
@@ -782,7 +818,7 @@ array<Area*,AREAS> create_areas() {
         true,false,false,false,
     };
     for(int i=0;i<AREAS;++i) {
-        arr[i] = new Area(areas[i],enemies[i],items[i],shop_items[i],descriptions[i],locks[i]);
+        arr[i] = new Area(areas[i],enemies[i],items[i],shop_items[i],descriptions[i],locks[i],i);
     }
     return arr;
 }

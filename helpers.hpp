@@ -89,12 +89,13 @@ private:
 class Area {
 public:
     Area(std::string n, std::vector<enemy_template> enemies, std::vector<Item*> items,
-std::vector<Item*> shop_items, std::string description, bool unlocked);
+std::vector<Item*> shop_items, std::string description, bool unlocked, int index);
     std::string name,description;
     std::vector<enemy_template> enemy_list;
     std::vector<Item*> item_list;
     std::vector<Item*> shop_list;
     bool unlocked;
+    int index;
     void print_description();
 private:
 };
