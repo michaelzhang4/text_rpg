@@ -3,11 +3,12 @@
 using namespace std;
 
 int rest=0;
-vector<string> item_hashes = {"Dagger","Short Sword","Sword","Grass Blade"};
+vector<string> item_hashes = {"dagger","short_sword","sword","grass_blade"};
 vector<Item*> owned_items;
 unordered_map<string,Item*> all_items = create_items();
 array<Area*,AREAS> areas = create_areas();
 Area *current_area = areas[0];
+string previous_encounter = "None";
 
 
 void death_screen() {
@@ -23,7 +24,7 @@ void HUD(Player* p) {
     choices(p);
 }
 
-Item::Item(int hp, int arm, int dmg, int p, int sell_p, req_stats required, string n, bool oo) {
+Item::Item(int hp, int arm, int dmg, int p, int sell_p, req_stats required, string n, string h, bool oo) {
     itemStats.health=hp;
     itemStats.maxHealth=hp;
     itemStats.armor=arm;
@@ -32,6 +33,7 @@ Item::Item(int hp, int arm, int dmg, int p, int sell_p, req_stats required, stri
     sell_price=sell_p;
     req=required;
     name=n;
+    hash=h;
     owned=oo;
 }
 
@@ -133,7 +135,7 @@ Player::Player(string s,int hp,int arm, int dmg, int lvl, int g) {
     level=lvl;
     gold=g;
     none = new Item(0,0,0,0,0
-    ,req_stats{0,0,0,0},"None",true);
+    ,req_stats{0,0,0,0},"None","none",true);
     equip(none);
 }
 
@@ -249,6 +251,7 @@ Enemy::Enemy(enemy_template e) {
     enemyStats.health= enemyStats.maxHealth;
     enemyStats.armor = r.ba+rand()%(r.a+1);
     enemyStats.damage = r.bd + rand()%(r.d+1);
+    drops=e.drops;
 }
 
 int Enemy::take_damage(int dmg) {
@@ -277,11 +280,21 @@ void Enemy::display_stats() {
 }
 
 Area::Area(string n, vector<enemy_template> enemies, vector<Item*> items,
-vector<Item*> shop_items) {
+vector<Item*> shop_items, string d) {
     name = n;
     enemy_list = enemies;
     item_list = item_list;
     shop_list = shop_items;
+    description = d;
+}
+
+void Area::print_description() {
+    system("cls");
+    string input;
+    cout << name << "\n\n";
+    cout << description << endl;
+    cout << "Enter any key to continue..." << endl;
+    cin >> input;
 }
 
 void combatHUD(Enemy *enemy, Player *player) {
@@ -291,8 +304,15 @@ void combatHUD(Enemy *enemy, Player *player) {
 }
 
 void combat(Player *p) {
-    int random = rand()%current_area->enemy_list.size();
-    Enemy *enemy = new Enemy(current_area->enemy_list[random]);
+    enemy_template e;
+    int rng;
+    do {
+        rng = rand()%100 + current_area->enemy_list.size();
+        rng%=current_area->enemy_list.size();
+        e = current_area->enemy_list[rng];
+    } while(e.name == previous_encounter);
+    Enemy *enemy = new Enemy(current_area->enemy_list[rng]);
+    previous_encounter = enemy->name;
     while(1) {
         start_combat:
         system("cls");
@@ -310,6 +330,23 @@ void combat(Player *p) {
             int died = enemy->take_damage(effective_damage);
             if(died==1) {
                 p->gain(enemy->exp, enemy->gold);
+                for(auto pair:enemy->drops) {
+                    if(!pair.second) {
+                        break;
+                    }
+                    if(pair.second->owned==false) {
+                        int rng = rand()%100;
+                        if(rng<=pair.first) {
+                            string choice;
+                            cout << enemy->name << " dropped " << pair.second->name << "!\n";
+                            cout << "\nEnter any key to continue...\n";
+                            pair.second->owned=true;
+                            cin >> choice;
+                            break;
+                        }
+                    }
+
+                }
                 break;
             }
             
@@ -520,7 +557,7 @@ void load_game(Player *p) {
         inFile >> rest;
         string equip;
         inFile >> equip;
-        if(equip!="None") {
+        if(equip!="none") {
             p->equip(all_items[equip]);
         }
         string item;
@@ -549,7 +586,7 @@ void save_game(Player *p) {
         outFile << p->level << " ";
         outFile << p->gold << " ";
         outFile << rest << " ";
-        outFile << p->equipped->name << " ";
+        outFile << p->equipped->hash << " ";
 
         for(string item:item_hashes) {
             if (all_items[item]->owned) {
@@ -585,23 +622,23 @@ unordered_map<string,Item*> create_items() {
     unordered_map<string,Item*> all_items;
     // required stats - hp, armor, damage, level
     // item stats - hp, armor, damage, price, sell price
-    all_items["Dagger"] = new Item(0,0,2,50,35
-    ,req_stats{0,0,1,1},"Dagger", false);
+    all_items["dagger"] = new Item(0,0,2,50,35
+    ,req_stats{0,0,1,1},"Dagger", "dagger", false);
 
-    all_items["Short Sword"] = new Item(0,0,3,100,70
-    ,req_stats{0,0,2,1},"Short Sword", false);
+    all_items["short_sword"] = new Item(0,0,3,100,70
+    ,req_stats{0,0,2,1},"Short Sword", "short_sword", false);
 
-    all_items["Sword"] = new Item(0,0,4,200,140
-    ,req_stats{0,0,3,3},"Sword", false);
+    all_items["sword"] = new Item(0,0,4,200,140
+    ,req_stats{0,0,3,3},"Sword", "sword", false);
 
-    all_items["Grass Blade"] = new Item(1,0,5,400,100
-    ,req_stats{0,0,3,3},"Grass Blade",false);
+    all_items["grass_blade"] = new Item(1,0,5,400,100
+    ,req_stats{0,0,3,3},"Grass Blade", "grass_blade", false);
 
-    all_items["Orc Blade"] = new Item(-1,0,6,500,125
-    ,req_stats{0,0,3,3},"Orc Blade",false);
+    all_items["orc_blade"] = new Item(-1,0,6,500,125
+    ,req_stats{0,0,3,3},"Orc Blade", "orc_blade", false);
 
-    all_items["Goblin Spear"] = new Item(0,0,6,600,150
-    ,req_stats{0,0,3,3},"Goblin Spear", false);
+    all_items["goblin_spear"] = new Item(0,0,6,600,150
+    ,req_stats{0,0,3,3},"Goblin Spear", "goblin_spear", false);
 
     return all_items;
 }
@@ -609,21 +646,20 @@ unordered_map<string,Item*> create_items() {
 array<Area*,AREAS> create_areas() {
     
     array<Area*,AREAS> arr;
-    string areas[AREAS] = {"Green Glade",
+    string areas[AREAS] = {"Goblin Village",
     "Rocky Mountain", "Murky Swamp",
     "Searing Desert"};
     vector<enemy_template> enemies[AREAS] = {
         {
             // base hp, var hp, base armor, var armor, base damage, var damage;
             // level, exp drop, gold drop, name
-            {stat_roll{4,3,0,0,2,0},1,3,10,"Young Goblin"},
-            {stat_roll{1,0,0,0,0,0},1,3,10,"Dying Goblin"},
-            {stat_roll{3,2,0,0,1,0},35,15,100,"Elderly Goblin"},
-            {stat_roll{15,5,1,1,4,0},20,25,40,"Goblin Warrior"},
-            {stat_roll{10,3,0,0,5,0},50,40,10,"Goblin Sage"},
-            {stat_roll{30,0,3,0,7,0},100,100,200,"Goblin Chieftain"},
-            {stat_roll{10,5,1,0,2,0},1,5,14,"Orc"},
-            {stat_roll{20,10,2,0,3,0},1,10,20,"Troll"}
+            // drops(percentage share, item*)
+            {stat_roll{4,0,0,0,1,0},1,3,5,"Goblin Thief",{{100,NULL}}},
+            {stat_roll{5,0,0,0,1,0},2,4,10,"Goblin Peon",{{100,NULL}}},
+            {stat_roll{6,0,1,0,1,0},3,5,15,"Goblin Hunter",{{100,NULL}}},
+            {stat_roll{6,0,0,0,2,0},3,5,15,"Goblin Mage",{{100,NULL}}},
+            {stat_roll{7,0,1,0,2,0},4,7,20,"Goblin Warrior",{{100,NULL}}},
+            {stat_roll{10,0,1,0,3,0},5,20,50,"Goblin Chieftain",{{100,NULL}}},
         },
         {},
         {},
@@ -631,10 +667,10 @@ array<Area*,AREAS> create_areas() {
     };
     vector<Item*> items[AREAS] {
         {
-            all_items["Dagger"],
-            all_items["Short Sword"],
-            all_items["Sword"],
-            all_items["Grass Blade"],
+            all_items["dagger"],
+            all_items["short_sword"],
+            all_items["sword"],
+            all_items["goblin_spear"],
         },
         {},
         {},
@@ -642,16 +678,23 @@ array<Area*,AREAS> create_areas() {
     };
     vector<Item*> shop_items[AREAS] {
         {
-            all_items["Dagger"],
-            all_items["Short Sword"],
-            all_items["Sword"]
+            all_items["dagger"],
+            all_items["short_sword"],
+            all_items["sword"]
         },
         {},
         {},
         {}
     };
+    string descriptions[AREAS] {
+        "Goblin village is home to goblins.\n"
+        "A green hobbit-like species that attacks humans.\n",
+        "",
+        "",
+        "",
+    };
     for(int i=0;i<AREAS;++i) {
-        arr[i] = new Area(areas[i],enemies[i],items[i],shop_items[i]);
+        arr[i] = new Area(areas[i],enemies[i],items[i],shop_items[i],descriptions[i]);
     }
     return arr;
 }

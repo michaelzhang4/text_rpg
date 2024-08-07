@@ -35,6 +35,7 @@ struct enemy_template {
     stat_roll statroll;
     int level,exp,gold;
     std::string name;
+    std::vector<std::pair<int,Item*>> drops;    
 };
 
 class Enemy {
@@ -46,6 +47,7 @@ public:
     std::string name;
     int exp;
     int gold;
+    std::vector<std::pair<int,Item*>> drops;
 private:
     int level;
     stat_roll statroll;
@@ -74,11 +76,11 @@ private:
 
 class Item {
 public:
-    Item(int hp, int arm, int dmg, int price, int sell_price, req_stats req, std::string name, bool oo);
+    Item(int hp, int arm, int dmg, int price, int sell_price, req_stats req, std::string name, std::string hash, bool oo);
     stats itemStats;
     int price, sell_price;
     req_stats req;
-    std::string name;
+    std::string name, hash;
     bool owned;
     void inspect_item(Player *p);
 private:
@@ -87,11 +89,12 @@ private:
 class Area {
 public:
     Area(std::string n, std::vector<enemy_template> enemies, std::vector<Item*> items,
-std::vector<Item*> shop_items);
-    std::string name;
+std::vector<Item*> shop_items, std::string description);
+    std::string name,description;
     std::vector<enemy_template> enemy_list;
     std::vector<Item*> item_list;
     std::vector<Item*> shop_list;
+    void print_description();
 private:
 };
 
@@ -135,4 +138,6 @@ extern std::vector<std::string> item_hashes;
 extern std::vector<Item*> owned_items;
 extern std::unordered_map<std::string,Item*> all_items;
 extern std::array<Area*,AREAS> areas;
+extern Area *current_area;
 extern int rest;
+extern std::string previous_encounter;
