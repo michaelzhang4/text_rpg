@@ -9,7 +9,7 @@ A game I created to help me learn C++
 git clone https://github.com/michaelzhang4/textrpg.git
 
 # Navigate to the project directory
-cd ~/textrpg
+cd textrpg
 
 # Run make command
 make
