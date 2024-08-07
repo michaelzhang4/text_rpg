@@ -8,6 +8,7 @@ vector<Item*> owned_items;
 unordered_map<string,Item*> all_items = create_items();
 array<Area*,AREAS> areas = create_areas();
 Area *current_area = areas[0];
+vector<Area*> unlocked_areas;
 string previous_encounter = "None";
 
 
@@ -280,12 +281,13 @@ void Enemy::display_stats() {
 }
 
 Area::Area(string n, vector<enemy_template> enemies, vector<Item*> items,
-vector<Item*> shop_items, string d) {
+vector<Item*> shop_items, string d, bool unlcked) {
     name = n;
     enemy_list = enemies;
     item_list = item_list;
     shop_list = shop_items;
     description = d;
+    unlocked=unlcked;
 }
 
 void Area::print_description() {
@@ -329,6 +331,7 @@ void combat(Player *p) {
             };
             int died = enemy->take_damage(effective_damage);
             if(died==1) {
+                unlock_stages(enemy);
                 p->gain(enemy->exp, enemy->gold);
                 for(auto pair:enemy->drops) {
                     if(!pair.second) {
@@ -367,6 +370,14 @@ void combat(Player *p) {
         combatHUD(enemy,p);
         Sleep(1000);
         p->take_damage(enemy);
+    }
+}
+
+void unlock_stages(Enemy* e) {
+    if(e->name=="Goblin Chieftain" && areas[1]->unlocked==false) {
+        cout << "\nYou have slain the strongest foe in Goblin Village\n";
+        cout << areas[1]->name << " has been unlocked for travel!\n";
+        areas[1]->unlocked=true;
     }
 }
 
@@ -481,7 +492,7 @@ void items(Player *p) {
 
 void choices(Player *p) {
     cout << "\n1. Explore 2. Shop 3. Rest\n4. Items   5. Save";
-    cout << " 6. Exit\n";
+    cout << " 6. Travel\n7. Exit\n";
     string choice;cin >> choice;lower(choice);
     if(choice=="1" || choice=="explore") {
         explore(p);
@@ -494,8 +505,46 @@ void choices(Player *p) {
         items(p);
     } else if(choice=="5" || choice=="save") {
         save_game(p);
-    } else if(choice=="6" || choice=="exit") {
+    } else if(choice=="6" || choice=="travel") {
+        travel(p);
+    } else if(choice=="7" || choice=="exit") {
         exit(0);
+    } 
+}
+
+void travel(Player* p) {
+    while(1) {
+        system("cls");
+        cout << "Areas to travel: \n" << endl;
+        int i;
+        for(i=0;i<areas.size();++i) {
+            if (areas[i]->unlocked) {
+                if (current_area==areas[i]) {
+                    cout << i+1 << ". " << areas[i]->name << " - Current location" << endl;
+                } else {
+                    cout << i+1 << ". " << areas[i]->name << endl;
+                }
+            } else {
+                cout << i+1 << ". ?" << endl;
+            }
+        }
+        cout << "b. Exit travel" << endl;
+        string choice;cin >> choice;lower(choice);
+        if (choice == "b" || choice == "exit" || choice=="back") {
+            break;
+        } else if(1<=stoi(choice) && stoi(choice)<=i) {
+            if (areas[stoi(choice)-1]->unlocked) {
+                if(current_area==areas[stoi(choice)-1]) {
+                    cout << "\nYou are already here!" << endl;
+                } else {
+                    current_area = areas[stoi(choice)-1];
+                    cout << "\nYou travelled to " << current_area->name << endl;
+                }
+            } else {
+                cout << "\nArea not unlocked yet!" << endl;
+            }
+            Sleep(SLEEP);
+        }
     }
 }
 
@@ -693,8 +742,11 @@ array<Area*,AREAS> create_areas() {
         "",
         "",
     };
+    bool locks[AREAS] {
+        true,false,false,false,
+    };
     for(int i=0;i<AREAS;++i) {
-        arr[i] = new Area(areas[i],enemies[i],items[i],shop_items[i],descriptions[i]);
+        arr[i] = new Area(areas[i],enemies[i],items[i],shop_items[i],descriptions[i],locks[i]);
     }
     return arr;
 }

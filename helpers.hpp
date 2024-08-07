@@ -89,11 +89,12 @@ private:
 class Area {
 public:
     Area(std::string n, std::vector<enemy_template> enemies, std::vector<Item*> items,
-std::vector<Item*> shop_items, std::string description);
+std::vector<Item*> shop_items, std::string description, bool unlocked);
     std::string name,description;
     std::vector<enemy_template> enemy_list;
     std::vector<Item*> item_list;
     std::vector<Item*> shop_list;
+    bool unlocked;
     void print_description();
 private:
 };
@@ -122,6 +123,10 @@ void print_item(Item* item);
 
 void items(Player *p);
 
+void travel(Player* p);
+
+void unlock_stages(Enemy* e);
+
 void shop(Player *p);
 
 void load_game();
@@ -139,5 +144,6 @@ extern std::vector<Item*> owned_items;
 extern std::unordered_map<std::string,Item*> all_items;
 extern std::array<Area*,AREAS> areas;
 extern Area *current_area;
+extern std::vector<Area*> unlocked_areas;
 extern int rest;
 extern std::string previous_encounter;
