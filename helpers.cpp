@@ -773,12 +773,12 @@ array<Area*,AREAS> create_areas() {
             {stat_roll{10,0,1,0,3,0},5,20,50,"Goblin Chieftain",{{}}},
         },
         {
-            {stat_roll{4,0,0,0,1,0},1,3,5,"Lava Slime",{{}}},
-            {stat_roll{5,0,0,0,1,0},2,4,10,"Lava Bat",{{}}},
-            {stat_roll{6,0,1,0,1,0},3,5,15,"Lava Pig",{{}}},
-            {stat_roll{6,0,1,0,1,0},3,5,15,"Lava Snake",{{}}},
-            {stat_roll{6,0,0,0,2,0},3,5,15,"Lava Demon",{{}}},
-            {stat_roll{10,0,1,0,3,0},5,20,50,"Isolated Frost Demon",{{}}},
+            {stat_roll{8,0,1,0,3,2},1,3,5,"Lava Slime",{{}}},
+            {stat_roll{9,0,1,0,4,2},2,4,10,"Lava Bat",{{}}},
+            {stat_roll{10,0,2,0,5,2},3,5,15,"Lava Wolf",{{}}},
+            {stat_roll{11,0,1,0,6,2},3,5,15,"Lava Snake",{{}}},
+            {stat_roll{12,0,2,0,7,2},3,5,15,"Lava Demon",{{}}},
+            {stat_roll{20,0,3,0,9,0},5,20,50,"Isolated Frost Demon",{{}}},
         },
         {},
         {}
@@ -792,7 +792,11 @@ array<Area*,AREAS> create_areas() {
             all_items["bow"],
             all_items["knife"],
         },
-        {},
+        {
+            all_items["steel_sword"],
+            all_items["emerald_sword"],
+            all_items["diamond_sword"]
+        },
         {},
         {}
     };
@@ -802,7 +806,11 @@ array<Area*,AREAS> create_areas() {
             all_items["short_sword"],
             all_items["sword"]
         },
-        {},
+        {
+            all_items["steel_sword"],
+            all_items["emerald_sword"],
+            all_items["diamond_sword"]
+        },
         {},
         {}
     };

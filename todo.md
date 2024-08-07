@@ -24,14 +24,14 @@
     - names/titles for stat boost etc. []
     - weapon next to name [DONE]
 
-4. Save file [DONE]
-5. Encrypt save file []
-6. Goblin king takes revenge []
-7. Make super hard game []
-8. Add story []
-    - figure out whether to add to area class as function or exploration... [DONE]
-    - add switch area button [DONE]
-    - requirements? []
+4. Add equip slots e.g. armor []
+
+5. Add arena with bosses []
+
+6. Save file [DONE]
+
+7. Encrypt save file []
+
 
 
 # FOR TERMINAL EMOJI SUPPORT
