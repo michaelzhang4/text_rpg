@@ -3,7 +3,9 @@
 using namespace std;
 
 int rest=0;
-vector<string> item_hashes = {"dagger","short_sword","sword","grass_blade"};
+vector<string> item_hashes = {"dagger",
+"short_sword","sword","knife","goblin_spear",
+"bow", "staff"};
 vector<Item*> owned_items;
 unordered_map<string,Item*> all_items = create_items();
 array<Area*,AREAS> areas = create_areas();
@@ -43,15 +45,15 @@ void Item::inspect_item(Player *p) {
         system("cls");
         cout << name << " - " << price << "g" << endl;
         if(itemStats.damage!=0) {
-            cout << "🗡️  :" << itemStats.damage << endl;
+            cout << "🗡️  :" << itemStats.damage << " ";
         }
         if(itemStats.armor!=0) {
-            cout << "🛡️  :" << itemStats.armor << endl;
+            cout << "🛡️  :" << itemStats.armor << " ";
         }
         if(itemStats.health!=0) {
-            cout << "❤️  :" << itemStats.health << endl;
+            cout << "❤️  :" << itemStats.health << " ";
         }
-        cout << "Requirements:\n";
+        cout << "\nRequirements:\n";
         if(req.dmg>0) {
             cout << req.dmg <<"🗡️ ";
         }
@@ -137,7 +139,7 @@ Player::Player(string s,int hp,int arm, int dmg, int lvl, int g) {
     gold=g;
     none = new Item(0,0,0,0,0
     ,req_stats{0,0,0,0},"None","none",true);
-    equip(none);
+    equipped = none;
 }
 
 Player::~Player() {
@@ -151,7 +153,13 @@ void Player::equip(Item* e) {
     s.damage >= r.dmg &&
     s.health >= r.hp &&
     level >= r.lvl) {
+        if(equipped->itemStats.health!=0) {
+            playerStats.health-=equipped->itemStats.health;
+        }
         equipped=e;
+        if(e->itemStats.health!=0) {
+            playerStats.health+=e->itemStats.health;
+        }
     } else {
         cout << "You do not meet the requirements to equip this item\n";
         Sleep(SLEEP);
@@ -215,7 +223,7 @@ void Player::gain(int e, int g) {
     exp+=e;
     gold+=g;
     Sleep(SLEEP);
-    if (exp >= expLevel) {
+    while (exp >= expLevel) {
         level+=1;
         cout << 
         "\nYou have leveled up!\nYou are now level "
@@ -237,7 +245,7 @@ void Player::gain(int e, int g) {
         } else if (choice==3) {
             playerStats.damage+=1;
         }
-        playerStats.health=playerStats.maxHealth;
+        playerStats.health=playerStats.maxHealth+equipped->itemStats.health;
     }
 
 }
@@ -331,19 +339,21 @@ void combat(Player *p) {
             };
             int died = enemy->take_damage(effective_damage);
             if(died==1) {
-                unlock_stages(enemy);
                 p->gain(enemy->exp, enemy->gold);
+                unlock_stages(enemy);
                 for(auto pair:enemy->drops) {
                     if(!pair.second) {
                         break;
                     }
+                    Item* item = all_items[pair.second->hash];
                     if(pair.second->owned==false) {
                         int rng = rand()%100;
                         if(rng<=pair.first) {
                             string choice;
-                            cout << enemy->name << " dropped " << pair.second->name << "!\n";
+                            cout << endl << enemy->name << " dropped a " << item->name << "!\n";
                             cout << "\nEnter any key to continue...\n";
-                            pair.second->owned=true;
+                            item->owned=true;
+                            owned_items.push_back(item);
                             cin >> choice;
                             break;
                         }
@@ -374,10 +384,22 @@ void combat(Player *p) {
 }
 
 void unlock_stages(Enemy* e) {
+    bool unlocked=false;
     if(e->name=="Goblin Chieftain" && areas[1]->unlocked==false) {
-        cout << "\nYou have slain the strongest foe in Goblin Village\n";
+        cout << "\nYou have slain the strongest foe in Goblin Village\n\n";
         cout << areas[1]->name << " has been unlocked for travel!\n";
         areas[1]->unlocked=true;
+        unlocked=true;
+    } else if(e->name=="Isolated Frost Demon" && areas[2]->unlocked==false) {
+        cout << "\nYou have slain the strongest foe in Rocky Mountains\n\n";
+        cout << areas[2]->name << " has been unlocked for travel!\n";
+        areas[2]->unlocked=true;
+        unlocked=true;
+    }
+    if(unlocked) {
+        cout << "\n\nEnter any key to continue...\n";
+        string choice;
+        cin >> choice;
     }
 }
 
@@ -460,14 +482,15 @@ void items(Player *p) {
     while(1) {
         system("cls");
         cout << "Items ⚔️\n\n";
-        cout << p->equipped->name << " - Equipped\n";
         int i,index=1;
         for(i=0;i<owned_items.size();++i) {
             if(owned_items[i]->owned) {
-                if(owned_items[i]!=p->equipped) {
+                if(owned_items[i]==p->equipped) {
+                    cout << index << ". " << owned_items[i]->name << " - Equipped" << endl;
+                } else {
                     cout << index << ". " << owned_items[i]->name << endl;
-                    ++index;
                 }
+                ++index;
             }
         }
         cout << "e. Unequip Current Item\nb. Exit items\n";
@@ -479,7 +502,7 @@ void items(Player *p) {
                 p->unequip();
             } else if(1<= stoi(choice) && stoi(choice)<=i) {
                 Item* item = owned_items[stoi(choice)-1];
-                if (item->owned && item!=p->equipped) {
+                if (item->owned) {
                     item->inspect_item(p);
                 }
             }
@@ -604,10 +627,10 @@ void load_game(Player *p) {
         inFile >> p->level;
         inFile >> p->gold;
         inFile >> rest;
-        string equip;
-        inFile >> equip;
-        if(equip!="none") {
-            p->equip(all_items[equip]);
+        string equipped_item;
+        inFile >> equipped_item;
+        if(equipped_item!="none") {
+            p->equip(all_items[equipped_item]);
         }
         string item;
         while(inFile >> item) {
@@ -680,14 +703,17 @@ unordered_map<string,Item*> create_items() {
     all_items["sword"] = new Item(0,0,4,200,140
     ,req_stats{0,0,3,3},"Sword", "sword", false);
 
-    all_items["grass_blade"] = new Item(1,0,5,400,100
-    ,req_stats{0,0,3,3},"Grass Blade", "grass_blade", false);
+    all_items["knife"] = new Item(0,0,1,0,10
+    ,req_stats{0,0,0,1},"Knife", "knife", false);
 
-    all_items["orc_blade"] = new Item(-1,0,6,500,125
-    ,req_stats{0,0,3,3},"Orc Blade", "orc_blade", false);
+    all_items["goblin_spear"] = new Item(0,1,3,0,50
+    ,req_stats{0,0,2,3},"Goblin Spear", "goblin_spear", false);
 
-    all_items["goblin_spear"] = new Item(0,0,6,600,150
-    ,req_stats{0,0,3,3},"Goblin Spear", "goblin_spear", false);
+    all_items["bow"] = new Item(5,0,2,0,40
+    ,req_stats{0,0,2,1},"Bow", "bow", false);
+
+    all_items["staff"] = new Item(-3,0,5,0,50
+    ,req_stats{15,0,0,1},"Staff", "staff", false);
 
     return all_items;
 }
@@ -703,14 +729,21 @@ array<Area*,AREAS> create_areas() {
             // base hp, var hp, base armor, var armor, base damage, var damage;
             // level, exp drop, gold drop, name
             // drops(percentage share, item*)
-            {stat_roll{4,0,0,0,1,0},1,3,5,"Goblin Thief",{{100,NULL}}},
-            {stat_roll{5,0,0,0,1,0},2,4,10,"Goblin Peon",{{100,NULL}}},
-            {stat_roll{6,0,1,0,1,0},3,5,15,"Goblin Hunter",{{100,NULL}}},
-            {stat_roll{6,0,0,0,2,0},3,5,15,"Goblin Mage",{{100,NULL}}},
-            {stat_roll{7,0,1,0,2,0},4,7,20,"Goblin Warrior",{{100,NULL}}},
-            {stat_roll{10,0,1,0,3,0},5,20,50,"Goblin Chieftain",{{100,NULL}}},
+            {stat_roll{4,0,0,0,1,0},1,3,5,"Goblin Thief",{{100,all_items["knife"]}}},
+            {stat_roll{5,0,0,0,1,0},2,4,10,"Goblin Peon",{{25,all_items["goblin_spear"]}}},
+            {stat_roll{6,0,1,0,1,0},3,5,15,"Goblin Hunter",{{25,all_items["bow"]}}},
+            {stat_roll{6,0,0,0,2,0},3,5,15,"Goblin Mage",{{25,all_items["staff"]}}},
+            {stat_roll{7,0,1,0,2,0},4,7,20,"Goblin Warrior",{{25,all_items["sword"]}}},
+            {stat_roll{10,0,1,0,3,0},5,20,50,"Goblin Chieftain",{{}}},
         },
-        {},
+        {
+            {stat_roll{4,0,0,0,1,0},1,3,5,"Lava Slime",{{}}},
+            {stat_roll{5,0,0,0,1,0},2,4,10,"Lava Bat",{{}}},
+            {stat_roll{6,0,1,0,1,0},3,5,15,"Lava Pig",{{}}},
+            {stat_roll{6,0,1,0,1,0},3,5,15,"Lava Snake",{{}}},
+            {stat_roll{6,0,0,0,2,0},3,5,15,"Lava Demon",{{}}},
+            {stat_roll{10,0,1,0,3,0},5,20,50,"Isolated Frost Demon",{{}}},
+        },
         {},
         {}
     };
@@ -720,6 +753,8 @@ array<Area*,AREAS> create_areas() {
             all_items["short_sword"],
             all_items["sword"],
             all_items["goblin_spear"],
+            all_items["bow"],
+            all_items["knife"],
         },
         {},
         {},
@@ -738,7 +773,8 @@ array<Area*,AREAS> create_areas() {
     string descriptions[AREAS] {
         "Goblin village is home to goblins.\n"
         "A green hobbit-like species that attacks humans.\n",
-        "",
+        "Rocky mountains are home to lava creatures\n"
+        "Imbued with the power of fire they burn unlucky bypassers\n",
         "",
         "",
     };
