@@ -227,7 +227,7 @@ Player::Player(string s,int hp,int arm, int dmg, int lvl, int g) {
     playerStats.armor=arm;
     playerStats.damage=dmg;
     playerStats.critChance=10;
-    playerStats.critDamage=1.75;
+    playerStats.critDamage=1.50;
     exp=0;
     expLevel=10;
     level=lvl;

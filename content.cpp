@@ -3,68 +3,43 @@
 using namespace std;
 
 int rest=0;
-vector<string> item_hashes = {"dagger",
-"short_sword","sword","knife","goblin_spear",
-"bow", "staff", "cloth_armor", "steel_sword",
-"emerald_sword","diamond_sword"};
+vector<string> item_hashes;
 vector<Enemy*> arena_bosses = {new Enemy({stat_roll{50,0,10,0,10,0},50,0,0,"Dungeon Keeper",{{}}}),
 };
 vector<Item*> owned_items;
-unordered_map<string,Item*> all_items = create_items();
+unordered_map<string,Item*> all_items;
 vector<Item*> gamba;
 array<Area*,AREAS> areas = create_areas();
 Area *current_area = areas[0];
 vector<Area*> unlocked_areas;
 string previous_encounter = "None";
 
-unordered_map<string,Item*> create_items() {
-    unordered_map<string,Item*> all_items;
+void create_items() {
     // required stats - hp, armor, damage, level
     // item stats - hp, armor, damage, crit_chance, crit_dmg, 
-    // price, sell price
+    // price, sell price, req_stats, name, armor/weapon, owned
 
     // Goblin Village items
-    all_items["dagger"] = new Item(0,0,2,0,0.0,50,35
-    ,req_stats{0,0,1,1},"Dagger", "dagger", 0,false);
-
-    all_items["short_sword"] = new Item(0,0,3,0,0.0,100,70
-    ,req_stats{0,0,2,1},"Short Sword", "short_sword", 0,false);
-
-    all_items["sword"] = new Item(0,0,4,0,0.0,200,140
-    ,req_stats{0,0,3,3},"Sword", "sword", 0,false);
-
-    all_items["knife"] = new Item(0,0,1,0,0.0,0,10
-    ,req_stats{0,0,0,1},"Knife", "knife", 0,false);
-
-    all_items["goblin_spear"] = new Item(0,1,3,0,0.0,0,50
-    ,req_stats{0,0,2,3},"Goblin Spear", "goblin_spear", 0,false);
-
-    all_items["bow"] = new Item(5,0,2,0,0.0,0,40
-    ,req_stats{0,0,2,1},"Bow", "bow", 0,false);
-
-    all_items["staff"] = new Item(-3,0,5,0,0.0,0,50
-    ,req_stats{15,0,0,1},"Staff", "staff", 0,false);
-
-    all_items["cloth_armor"] = new Item(5,1,0,0,0.0,0,50
-    ,req_stats{0,0,0,1},"Cloth Armor", "cloth_armor", 1,false);
+    add_item("dagger",0,0,2,0,0.0,50,35,{0,0,0,0},"Dagger",0,false);
+    add_item("short_sword",0,0,3,0,0.0,100,70,{0,0,0,0},"Short Sword",0,false);
+    add_item("sword",0,0,4,0,0.0,200,140,{0,0,0,0},"Sword",0,false);
+    add_item("knife",0,0,1,0,0.0,0,10,{0,0,0,0},"Knife",0,false);
+    add_item("goblin_spear",0,1,3,0,0.0,0,50,{0,0,0,0},"Goblin Spear",0,false);
+    add_item("bow",5,0,2,0,0.0,0,40,{0,0,0,0},"Bow",0,false);
+    add_item("staff",-3,-1,5,0,0.0,0,50,{0,0,0,0},"Staff",0,false);
+    add_item("cloth_armor",5,1,0,0,0.0,0,50,{0,0,0,0},"Cloth Armor",1,false);
 
     //Rocky Mountains items
-    all_items["steel_sword"] = new Item(0,0,6,0,0.0,300,210
-    ,req_stats{0,0,0,4},"Steel Sword", "steel_sword", 0,false);
+    add_item("sword",0,0,4,0,0.0,200,140,{0,0,0,0},"Sword",0,false);
+    add_item("knife",0,0,1,0,0.0,0,10,{0,0,0,0},"Knife",0,false);
+    add_item("goblin_spear",0,1,3,0,0.0,0,50,{0,0,0,0},"Goblin Spear",0,false);
+    add_item("bow",5,0,2,0,0.0,0,40,{0,0,0,0},"Bow",0,false);
+    add_item("staff",-3,-1,5,0,0.0,0,50,{0,0,0,0},"Staff",0,false);
+    add_item("cloth_armor",5,1,0,0,0.0,0,50,{0,0,0,0},"Cloth Armor",1,false);
+    add_item("fire_spell",-5,-1,9,0,0.0,0,150,{0,0,4,0},"Fire Spell",0,false);
+    add_item("fire_staff",-5,-2,10,0,0.0,0,150,{0,0,5,0},"Fire Staff",0,false);
 
-    all_items["emerald_sword"] = new Item(0,0,7,0,0.0,400,280
-    ,req_stats{0,0,0,5},"Emerald Sword", "emerald_sword", 0,false);
-
-    all_items["diamond_sword"] = new Item(0,0,8,0,0.0,500,350
-    ,req_stats{0,0,0,6},"Diamond Sword", "diamond_sword", 0, false);
-
-    // all_items["ember_sword"] = new Item(0,0,8,0,0,0,150
-    // ,req_stats{0,0,0,5},"Ember Sword", "ember_sword", 0, false);
-
-    // all_items["molten_sword"] = new Item(0,0,7,0,0,0,150
-    // ,req_stats{0,0,1,6},"Molten Sword", "molten_sword", 0,false);
-
-    return all_items;
+    
 }
 
 array<Area*,AREAS> create_areas() {
@@ -118,7 +93,7 @@ array<Area*,AREAS> create_areas() {
         "Goblin village is home to goblins.\n"
         "A green hobbit-like species that likes to attack humans.\n",
         "Rocky mountains are home to lava creatures\n"
-        "Imbued with the power of fire they burn unlucky bypassers\n",
+        "As well as many rare ores...\n",
         "",
         "",
     };

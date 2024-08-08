@@ -128,6 +128,10 @@ void chance(Player *p);
 
 void print_chance();
 
+void add_item(std::string hash, int hp, int arm, int dmg, int c,
+            double cdmg, int price, int sell_price, req_stats h,
+            std::string name, int type, bool owned);
+
 void title(Player *p);
 
 void print_item(Item* item);
@@ -148,7 +152,7 @@ void save_game(Player *p);
 
 Player *create_player(int option);
 
-std::unordered_map<std::string,Item*> create_items();
+void create_items();
 
 std::array<Area*,AREAS> create_areas();
 

@@ -531,3 +531,11 @@ Player *create_player(int option) {
     }
     return p;
 }
+
+void add_item(string hash, int hp, int arm, int dmg, int c,
+            double cdmg, int price, int sell_price, req_stats h,
+            string name, int type, bool owned) {
+    all_items[hash] = new Item(hp, arm, dmg, c, cdmg, price,
+    sell_price, h, name, hash, type, owned);
+    item_hashes.push_back(hash);
+}
