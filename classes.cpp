@@ -53,13 +53,13 @@ void Item::inspect_item(Player *p, int from_shop) {
         
         cout << "\nRequirements:\n";
         if(req.dmg>0) {
-            cout << req.dmg <<"🗡️ ";
+            cout << req.dmg <<"🗡️  ";
         }
         if(req.arm>0) {
-            cout << req.arm <<"🛡️ ";
+            cout << req.arm <<"🛡️  ";
         }
         if(req.hp>0) {
-            cout << req.hp <<"❤️ ";
+            cout << req.hp <<"❤️  ";
         }
         if(req.lvl>0) {
             cout << "level "<< req.lvl << endl;
@@ -254,7 +254,7 @@ void Player::equip(Item* e, int slot) {
     stats s = playerStats;
     if(s.armor >= r.arm &&
     s.damage >= r.dmg &&
-    s.health >= r.hp &&
+    baseHealth() >= r.hp &&
     level >= r.lvl) {
         if((secondary_equipped==e ||primary_equipped==e) && e->name!="None") {
             cout << "You already have this item equipped!\n";
@@ -364,6 +364,10 @@ int Player::totalHealth() {
     +secondary_equipped->itemStats.maxHealth+armor_equipped->itemStats.maxHealth;
 }
 
+int Player::baseHealth() {
+    return playerStats.maxHealth;
+}
+
 int Player::totalArmor() {
     return playerStats.armor+primary_equipped->itemStats.armor
     +secondary_equipped->itemStats.armor+armor_equipped->itemStats.armor;
@@ -398,8 +402,7 @@ void Player::gain(int e, int g) {
         "\nYou have leveled up!\nYou are now level "
         << level;
         exp -=expLevel;
-        expLevel+=expLevel/2;
-        Sleep(SLEEP);
+        expLevel+=expLevel/2.5;
         system("cls");
         display_stats();
 

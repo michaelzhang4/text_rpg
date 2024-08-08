@@ -70,6 +70,7 @@ public:
     Item* armor_equipped;
     int damage();
     int totalHealth();
+    int baseHealth();
     int totalArmor();
     int totalCritChance();
     double totalCritDmg();
@@ -121,6 +122,8 @@ void combat(Player *p, Enemy *e);
 
 int start();
 
+bool isNumber(const std::string& str);
+
 void lower(std::string &s);
 
 void print_explore();
@@ -151,6 +154,8 @@ void travel(Player* p);
 
 void unlock_stages(Enemy* e);
 
+void cleared(Player *p, Enemy* e);
+
 void shop(Player *p);
 
 void load_game();
@@ -172,4 +177,4 @@ extern Area *current_area;
 extern std::vector<Area*> unlocked_areas;
 extern int rest;
 extern std::string previous_encounter;
-extern std::vector<Enemy*> arena_bosses;
+extern std::vector<std::pair<Enemy*,bool>> arena_bosses;

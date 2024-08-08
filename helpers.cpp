@@ -38,6 +38,7 @@ int player_turn(Player *p, Enemy *enemy) {
         if(died==1) {
             p->gain(enemy->exp, enemy->gold);
             unlock_stages(enemy);
+            cleared(p,enemy);
             for(auto pair:enemy->drops) {
                 if(!pair.second) {
                     break;
@@ -79,7 +80,7 @@ void enemy_turn(Player *p, Enemy *enemy, int surprised) {
     combatHUD(enemy,p);
     if(surprised==1) {
         cout << "\n\nThe " << enemy->name << " caught you by surprise";
-        Sleep(SLEEP);
+        Sleep(1000);
     }
     Sleep(1000);
     p->take_damage(enemy);
@@ -100,6 +101,7 @@ void combat(Player *p, Enemy *arena_enemy) {
         previous_encounter = enemy->name;
     } else {
         enemy = arena_enemy;
+        enemy->enemyStats.health=enemy->enemyStats.maxHealth;
     }
     int rng = rand()%100;
     if(rng <= 35) {
@@ -114,6 +116,15 @@ void combat(Player *p, Enemy *arena_enemy) {
             goto start_combat;
         }
         enemy_turn(p,enemy,0);
+    }
+    rest=0;
+}
+
+void cleared(Player *p, Enemy *e) {
+    if(e->name == "Dungeon Keeper" && arena_bosses[0].second==false) {
+        arena_bosses[0].second=true;
+        p->gold+=1000;
+        arena_bosses[0].first->gold=0;
     }
 }
 
@@ -151,6 +162,10 @@ int start() {
             return 2;
         }
     }
+}
+
+bool isNumber(const string& str) {
+    return !str.empty() && all_of(str.begin(), str.end(), ::isdigit);
 }
 
 void lower(string &s) {
@@ -264,7 +279,6 @@ void choices(Player *p) {
     string choice;cin >> choice;lower(choice);
     if(choice=="1" || choice=="explore") {
         explore(p);
-        rest=0;
     } else if (choice=="2" || choice=="shop") {
         shop(p);
     } else if(choice=="3" || choice=="rest") {
@@ -355,13 +369,25 @@ void arena(Player *p) {
     cout << "Arena Bosses: \n" << endl;
     int i;
     for(i=0;i<arena_bosses.size();++i) {
-        cout << i+1 << ". " << arena_bosses[i]->name << " - level " << arena_bosses[i]->level << endl;
+        cout << i+1 << ". " << arena_bosses[i].first->name << " - level " << arena_bosses[i].first->level;
+        if (arena_bosses[i].second) {
+            cout << " <cleared>";
+        }
+        cout << endl;
     }
     cout << "b. Exit arena" << endl;
     string choice;cin >> choice;lower(choice);
     if (choice == "b" || choice == "exit" || choice=="back") {
-    } else if(1<=stoi(choice) && stoi(choice)<=i) {
-        combat(p, arena_bosses[stoi(choice)-1]);
+    } else {
+        try { 
+            if (1<=stoi(choice) && stoi(choice)<=i) {
+            combat(p, arena_bosses[stoi(choice)-1].first);
+            }
+        }
+        catch (...) {
+            cout << "Enter a valid input...";
+            Sleep(SLEEP);
+        }
     }
 }
 
@@ -385,18 +411,26 @@ void travel(Player* p) {
         string choice;cin >> choice;lower(choice);
         if (choice == "b" || choice == "exit" || choice=="back") {
             break;
-        } else if(1<=stoi(choice) && stoi(choice)<=i) {
-            if (areas[stoi(choice)-1]->unlocked) {
-                if(current_area==areas[stoi(choice)-1]) {
-                    cout << "\nYou are already here!" << endl;
-                } else {
-                    current_area = areas[stoi(choice)-1];
-                    cout << "\nYou travelled to " << current_area->name << endl;
+        } else {
+            try {
+                if (1<=stoi(choice) && stoi(choice)<=i) {
+                    if (areas[stoi(choice)-1]->unlocked) {
+                        if(current_area==areas[stoi(choice)-1]) {
+                            cout << "\nYou are already here!" << endl;
+                        } else {
+                            current_area = areas[stoi(choice)-1];
+                            cout << "\nYou travelled to " << current_area->name << endl;
+                        }
+                    } else {
+                        cout << "\nArea not unlocked yet!" << endl;
+                    }
+                    Sleep(SLEEP);
                 }
-            } else {
-                cout << "\nArea not unlocked yet!" << endl;
             }
+            catch (...) {
+            cout << "Enter a valid input...";
             Sleep(SLEEP);
+            }
         }
     }
 }
@@ -432,8 +466,16 @@ void shop(Player *p) {
         string choice;cin >> choice;lower(choice);
         if (choice == "b" || choice == "exit" || choice=="back") {
             break;
-        } else if(1<=stoi(choice) && stoi(choice)<=i) {
-            current_area->shop_list[stoi(choice)-1]->inspect_item(p,1);
+        } else {
+            try {
+                if(1<=stoi(choice) && stoi(choice)<=i) {
+                    current_area->shop_list[stoi(choice)-1]->inspect_item(p,1);
+                }
+            }
+            catch (...) {
+            cout << "Enter a valid input...";
+            Sleep(SLEEP);
+            }
         }
     }
 }
@@ -485,7 +527,17 @@ void load_game(Player *p) {
         }
         inFile >> index;
         current_area = areas[index];
-        
+
+        int arena_encoding,pos=0;
+        inFile >> arena_encoding;
+        while(arena_encoding>0){
+            if(arena_encoding&1) {
+                arena_bosses[pos].second=true;
+                arena_bosses[pos].first->gold=0;
+            }
+            ++pos;
+            arena_encoding>>=1;
+        }
         string item;
         while(inFile >> item) {
             all_items[item]->owned=true;
@@ -527,6 +579,13 @@ void save_game(Player *p) {
         outFile << total << " ";
 
         outFile << current_area->index << " ";
+        int encoding = 0;
+        for(int i=0;i<arena_bosses.size();++i) {
+            if(arena_bosses[i].second) {
+                encoding+=pow(2,i);
+            }
+        }
+        outFile << encoding;
 
         for(string item:item_hashes) {
             if (all_items[item]->owned) {

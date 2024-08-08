@@ -4,7 +4,8 @@ using namespace std;
 
 int rest=0;
 vector<string> item_hashes;
-vector<Enemy*> arena_bosses = {new Enemy({stat_roll{50,0,10,0,10,0},50,0,0,"Dungeon Keeper",{{}}}),
+vector<pair<Enemy*,bool>> arena_bosses = {
+    {new Enemy({stat_roll{50,0,10,0,10,0},50,0,1000,"Dungeon Keeper",{{}}}),false},
 };
 vector<Item*> owned_items;
 unordered_map<string,Item*> all_items;
