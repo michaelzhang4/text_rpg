@@ -4,7 +4,7 @@ using namespace std;
 
 void death_screen() {
     system("cls");
-    cout << "You died!\n\nGAME OVER";
+    cout << "You died!\n\nGame over - reload from previous save or start a new game";
     exit(0);
 }
 
@@ -21,7 +21,72 @@ void combatHUD(Enemy *enemy, Player *player) {
     enemy->display_stats();
 }
 
+int player_turn(Player *p, Enemy *enemy) {
+    system("cls");
+    combatHUD(enemy,p);
+    string choice;
+    cout << "\n\n1. Attack 2. Run\n";
+    cin >> choice;
+    lower(choice);
+    if(choice=="1" || choice=="attack") {
+        int effective_damage = p->damage();
+        if (rand()%100 <= p->totalCritChance()) {
+            cout << "You landed a critical strike!\n";
+            effective_damage=ceil((double)effective_damage*p->totalCritDmg());
+        };
+        int died = enemy->take_damage(effective_damage);
+        if(died==1) {
+            p->gain(enemy->exp, enemy->gold);
+            unlock_stages(enemy);
+            for(auto pair:enemy->drops) {
+                if(!pair.second) {
+                    break;
+                }
+                Item* item = all_items[pair.second->hash];
+                if(pair.second->owned==false) {
+                    int rng = rand()%100;
+                    if(rng<=pair.first) {
+                        string choice;
+                        cout << endl << enemy->name << " dropped a " << item->name << "!\n";
+                        cout << "\nEnter any key to continue...\n";
+                        item->owned=true;
+                        owned_items.push_back(item);
+                        cin >> choice;
+                        break;
+                    }
+                }
+
+            }
+            return 1;
+        }
+    } else if(choice=="2" || choice=="run") {
+        system("cls");
+        combatHUD(enemy,p);
+        p->take_damage(enemy);
+        cout << "\nYou ran away after taking a hit";
+        Sleep(SLEEP);
+        return 1;
+    } else {
+        cout << "Enter a valid action";
+        Sleep(SLEEP);
+        return 2;
+    }
+    return 0;
+}
+
+void enemy_turn(Player *p, Enemy *enemy, int surprised) {
+    system("cls");
+    combatHUD(enemy,p);
+    if(surprised==1) {
+        cout << "\n\nThe " << enemy->name << " caught you by surprise";
+        Sleep(SLEEP);
+    }
+    Sleep(1000);
+    p->take_damage(enemy);
+}
+
 void combat(Player *p, Enemy *arena_enemy) {
+    int decision;
     Enemy *enemy;
     if(!arena_enemy) {
         enemy_template e;
@@ -36,63 +101,19 @@ void combat(Player *p, Enemy *arena_enemy) {
     } else {
         enemy = arena_enemy;
     }
+    int rng = rand()%100;
+    if(rng <= 35) {
+        enemy_turn(p,enemy,1);
+    }
     while(1) {
         start_combat:
-        system("cls");
-        combatHUD(enemy,p);
-        string choice;
-        cout << "\n\n1. Attack 2. Run\n";
-        cin >> choice;
-        lower(choice);
-        if(choice=="1" || choice=="attack") {
-            int effective_damage = p->damage();
-            if (rand()%100 <= p->totalCritChance()) {
-                cout << "You landed a critical strike!\n";
-                effective_damage*=p->totalCritDmg();
-            };
-            int died = enemy->take_damage(effective_damage);
-            if(died==1) {
-                p->gain(enemy->exp, enemy->gold);
-                unlock_stages(enemy);
-                for(auto pair:enemy->drops) {
-                    if(!pair.second) {
-                        break;
-                    }
-                    Item* item = all_items[pair.second->hash];
-                    if(pair.second->owned==false) {
-                        int rng = rand()%100;
-                        if(rng<=pair.first) {
-                            string choice;
-                            cout << endl << enemy->name << " dropped a " << item->name << "!\n";
-                            cout << "\nEnter any key to continue...\n";
-                            item->owned=true;
-                            owned_items.push_back(item);
-                            cin >> choice;
-                            break;
-                        }
-                    }
-
-                }
-                break;
-            }
-            
-        } else if(choice=="2" || choice=="run") {
-            system("cls");
-            combatHUD(enemy,p);
-            Sleep(1000);
-            p->take_damage(enemy);
-            cout << "\nYou ran away after taking a hit";
-            Sleep(SLEEP);
+        decision = player_turn(p,enemy);
+        if(decision==1) {
             break;
-        } else {
-            cout << "Enter a valid action";
-            Sleep(SLEEP);
+        } else if (decision==2) {
             goto start_combat;
         }
-        system("cls");
-        combatHUD(enemy,p);
-        Sleep(1000);
-        p->take_damage(enemy);
+        enemy_turn(p,enemy,0);
     }
 }
 
@@ -171,10 +192,10 @@ void explore(Player *p) {
 
 void __rest(Player *p) {
     if(rest<2) {
-        if (p->playerStats.health==p->playerStats.maxHealth) {
+        if (p->playerStats.health==p->totalHealth()) {
             cout << "\nYou had a nice rest";
         } else {
-            int heal=p->totalHealth()*p->recoveryRate();
+            int heal=ceil((double)p->totalHealth()*p->recoveryRate());
             if (heal<=0) {
                 heal=1;
             }
@@ -194,23 +215,26 @@ void __rest(Player *p) {
 void items(Player *p) {
     while(1) {
         system("cls");
-        cout << "Items ⚔️\n\n";
+        cout << "Items ⚔️\n";
         int i,index=1;
         for(i=0;i<owned_items.size();++i) {
+            if(i%3==0) {
+                cout << endl;
+            }
             if(owned_items[i]->owned) {
                 if(owned_items[i]==p->primary_equipped) {
-                    cout << index << ". " << owned_items[i]->name << " - primary" << endl;
+                    cout << index << ". " << owned_items[i]->name << "<primary>  ";
                 } else if(owned_items[i]==p->secondary_equipped) {
-                    cout << index << ". " << owned_items[i]->name << " - secondary" << endl;
+                    cout << index << ". " << owned_items[i]->name << "<secondary>  ";
                 } else if(owned_items[i]==p->armor_equipped) {
-                    cout << index << ". " << owned_items[i]->name << " - armor" << endl;
+                    cout << index << ". " << owned_items[i]->name << "<armor>  ";
                 } else {
-                    cout << index << ". " << owned_items[i]->name << endl;
+                    cout << index << ". " << owned_items[i]->name << "  ";
                 }
                 ++index;
             }
         }
-        cout << "e. Unequip primary\nf. Unequip secondary\ng. Unequip armor\nb. Exit items\n";
+        cout << "\ne. Unequip primary f. Unequip secondary g. Unequip armor\nb. Exit items\n";
         string choice;cin >> choice;lower(choice);
         try {
             if (choice == "b" || choice == "exit" || choice=="back") {
@@ -262,7 +286,7 @@ void choices(Player *p) {
 
 void chance(Player *p) {
     int cost = 1000; //* p->level;
-    cout << "It costs " << cost << " to play the chance"
+    cout << "It costs " << cost << " to try your luck"
     "\nDo you accept(y/n)?";
     string choice;cin >> choice;lower(choice);
     if(choice=="y" || choice=="yes") {
@@ -519,7 +543,7 @@ void save_game(Player *p) {
 }
 
 Player *create_player(int option) {
-    Player *p = new Player("placeholder",10,0,1,1,0);
+    Player *p = new Player("",10,0,1,1,0);
     if(option==1) {
         string name;
         while(1) {

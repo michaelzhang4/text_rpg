@@ -10,6 +10,7 @@
 #include <unordered_map>
 #include <iomanip>
 #include <fstream>
+#include <cmath>
 
 #define MOBS 3
 #define AREAS 4
@@ -111,6 +112,10 @@ void set_up();
 void death_screen();
 
 void HUD(Player *p);
+
+int player_turn(Player *p, Enemy *enemy);
+
+void enemy_turn(Player *p, Enemy *enemy, int surprised);
 
 void combat(Player *p, Enemy *e);
 

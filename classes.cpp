@@ -42,7 +42,7 @@ void Item::inspect_item(Player *p, int from_shop) {
             cout << "🛡️  :" << itemStats.armor << " ";
         }
         if(itemStats.health!=0) {
-            cout << "❤️  :" << itemStats.health << " ";
+            cout << "❤️  : " << itemStats.health << " ";
         }
         if(itemStats.critChance!=0) {
             cout << "💥 : " << itemStats.critChance << "%  ";
@@ -61,7 +61,9 @@ void Item::inspect_item(Player *p, int from_shop) {
         if(req.hp>0) {
             cout << req.hp <<"❤️ ";
         }
-        cout << "level "<< req.lvl << endl;
+        if(req.lvl>0) {
+            cout << "level "<< req.lvl << endl;
+        }
         if(from_shop==1) {
             cout << "\n🪙  : " << p->gold << "g" << endl;
         }
@@ -325,8 +327,8 @@ void Player::display_stats() {
     << "% (" << primary_equipped->itemStats.critChance+secondary_equipped->itemStats.critChance+armor_equipped->itemStats.critChance << ") "
     "🔥 : " << totalCritDmg()
     << "x (" << primary_equipped->itemStats.critDamage+secondary_equipped->itemStats.critDamage+armor_equipped->itemStats.critDamage << ") "
-    "🌿 : " << recoveryRate()
-    << "% (" << primary_equipped->itemStats.recoveryRate+secondary_equipped->itemStats.recoveryRate+armor_equipped->itemStats.recoveryRate << ") "
+    "🌿 : " << (int)(recoveryRate()*100)
+    << "% (" << (int)(primary_equipped->itemStats.recoveryRate+secondary_equipped->itemStats.recoveryRate+armor_equipped->itemStats.recoveryRate)*100 << ") "
     << "\nLevel: "<<level<< " - " << exp << "/"
     << expLevel << " 🪙  : " << gold << "g" << endl;
 }
@@ -337,7 +339,7 @@ void Player::print_name() {
 
 void Player::take_damage(Enemy *e) {
     int effective_damage;
-    if(totalArmor() > e->enemyStats.damage) {
+    if(totalArmor() >= e->enemyStats.damage) {
         effective_damage=1;
     } else {
         effective_damage=e->enemyStats.damage-totalArmor();
