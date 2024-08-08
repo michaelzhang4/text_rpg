@@ -46,9 +46,9 @@ void combat(Player *p, Enemy *arena_enemy) {
         lower(choice);
         if(choice=="1" || choice=="attack") {
             int effective_damage = p->damage();
-            if (rand()%100 <= CRIT_CHANCE) {
+            if (rand()%100 <= p->totalCritChance()) {
                 cout << "You landed a critical strike!\n";
-                effective_damage*=2;
+                effective_damage*=p->totalCritDmg();
             };
             int died = enemy->take_damage(effective_damage);
             if(died==1) {

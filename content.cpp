@@ -5,7 +5,8 @@ using namespace std;
 int rest=0;
 vector<string> item_hashes = {"dagger",
 "short_sword","sword","knife","goblin_spear",
-"bow", "staff", "cloth_armor", "steel_sword","emerald_sword","diamond_sword"};
+"bow", "staff", "cloth_armor", "steel_sword",
+"emerald_sword","diamond_sword"};
 vector<Enemy*> arena_bosses = {new Enemy({stat_roll{50,0,10,0,10,0},50,0,0,"Dungeon Keeper",{{}}}),
 };
 vector<Item*> owned_items;
@@ -18,42 +19,49 @@ string previous_encounter = "None";
 unordered_map<string,Item*> create_items() {
     unordered_map<string,Item*> all_items;
     // required stats - hp, armor, damage, level
-    // item stats - hp, armor, damage, price, sell price
+    // item stats - hp, armor, damage, crit_chance, crit_dmg, 
+    // price, sell price
 
     // Goblin Village items
-    all_items["dagger"] = new Item(0,0,2,50,35
+    all_items["dagger"] = new Item(0,0,2,0,0,50,35
     ,req_stats{0,0,1,1},"Dagger", "dagger", 0,false);
 
-    all_items["short_sword"] = new Item(0,0,3,100,70
+    all_items["short_sword"] = new Item(0,0,3,0,0,100,70
     ,req_stats{0,0,2,1},"Short Sword", "short_sword", 0,false);
 
-    all_items["sword"] = new Item(0,0,4,200,140
+    all_items["sword"] = new Item(0,0,4,0,0,200,140
     ,req_stats{0,0,3,3},"Sword", "sword", 0,false);
 
-    all_items["knife"] = new Item(0,0,1,0,10
+    all_items["knife"] = new Item(0,0,1,0,0,0,10
     ,req_stats{0,0,0,1},"Knife", "knife", 0,false);
 
-    all_items["goblin_spear"] = new Item(0,1,3,0,50
+    all_items["goblin_spear"] = new Item(0,1,3,0,0,0,50
     ,req_stats{0,0,2,3},"Goblin Spear", "goblin_spear", 0,false);
 
-    all_items["bow"] = new Item(5,0,2,0,40
+    all_items["bow"] = new Item(5,0,2,0,0,0,40
     ,req_stats{0,0,2,1},"Bow", "bow", 0,false);
 
-    all_items["staff"] = new Item(-3,0,5,0,50
+    all_items["staff"] = new Item(-3,0,5,0,0,0,50
     ,req_stats{15,0,0,1},"Staff", "staff", 0,false);
 
-    all_items["cloth_armor"] = new Item(5,1,0,0,50
+    all_items["cloth_armor"] = new Item(5,1,0,0,0,0,50
     ,req_stats{0,0,0,1},"Cloth Armor", "cloth_armor", 1,false);
 
     //Rocky Mountains items
-    all_items["steel_sword"] = new Item(0,0,6,300,210
+    all_items["steel_sword"] = new Item(0,0,6,0,0,300,210
     ,req_stats{0,0,0,4},"Steel Sword", "steel_sword", 0,false);
 
-    all_items["emerald_sword"] = new Item(0,0,7,400,280
+    all_items["emerald_sword"] = new Item(0,0,7,0,0,400,280
     ,req_stats{0,0,0,5},"Emerald Sword", "emerald_sword", 0,false);
 
-    all_items["diamond_sword"] = new Item(0,0,8,500,350
+    all_items["diamond_sword"] = new Item(0,0,8,0,0,500,350
     ,req_stats{0,0,0,6},"Diamond Sword", "diamond_sword", 0, false);
+
+    // all_items["ember_sword"] = new Item(0,0,8,0,0,0,150
+    // ,req_stats{0,0,0,5},"Ember Sword", "ember_sword", 0, false);
+
+    // all_items["molten_sword"] = new Item(0,0,7,0,0,0,150
+    // ,req_stats{0,0,1,6},"Molten Sword", "molten_sword", 0,false);
 
     return all_items;
 }
@@ -74,15 +82,15 @@ array<Area*,AREAS> create_areas() {
             {stat_roll{6,0,1,0,1,0},3,5,15,"Goblin Hunter",{{25,all_items["bow"]}}},
             {stat_roll{6,0,0,0,2,0},3,5,15,"Goblin Mage",{{25,all_items["staff"]}}},
             {stat_roll{7,0,1,0,2,0},4,7,20,"Goblin Warrior",{{25,all_items["sword"]}}},
-            {stat_roll{10,0,1,0,3,0},5,20,50,"Goblin Chieftain",{{}}},
+            {stat_roll{10,0,1,0,3,0},5,20,50,"Goblin Chieftain",{{100,all_items["cloth_armor"]}}},
         },
         {
-            {stat_roll{8,0,1,0,3,2},1,3,5,"Lava Slime",{{}}},
-            {stat_roll{9,0,1,0,4,2},2,4,10,"Lava Bat",{{}}},
-            {stat_roll{10,0,2,0,5,2},3,5,15,"Lava Wolf",{{}}},
-            {stat_roll{11,0,1,0,6,2},3,5,15,"Lava Snake",{{}}},
-            {stat_roll{12,0,2,0,7,2},3,5,15,"Lava Demon",{{}}},
-            {stat_roll{20,0,3,0,9,0},5,20,50,"Isolated Frost Demon",{{}}},
+            {stat_roll{8,0,1,0,3,2},6,10,25,"Lava Slime",{{}}},
+            {stat_roll{9,0,1,0,4,2},7,15,30,"Lava Bat",{{}}},
+            {stat_roll{10,0,2,0,5,2},8,20,40,"Lava Wolf",{{}}},
+            {stat_roll{11,0,1,0,6,2},8,30,40,"Lava Snake",{{}}},
+            {stat_roll{12,0,2,0,7,2},9,30,50,"Lava Demon",{{}}},
+            {stat_roll{20,0,3,0,9,0},10,100,100,"Isolated Frost Demon",{{}}},
         },
         {},
         {}

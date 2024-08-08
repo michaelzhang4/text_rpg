@@ -13,14 +13,13 @@
 #define MOBS 3
 #define AREAS 4
 #define SLEEP 1800
-#define CRIT_CHANCE 10
 
 class Item;
 class Player;
 class Enemy;
 
 struct stats {
-    int health,maxHealth,armor,damage;
+    int health,maxHealth,armor,damage,critChance,critDamage;
 };
 
 struct stat_roll {
@@ -69,6 +68,8 @@ public:
     int damage();
     int totalHealth();
     int totalArmor();
+    int totalCritChance();
+    int totalCritDmg();
     Item* none;
     Item* none_armor;
     void equip(Item* e, int slot);
@@ -79,7 +80,7 @@ private:
 
 class Item {
 public:
-    Item(int hp, int arm, int dmg, int price, int sell_price, req_stats req, std::string name, std::string hash, int type, bool oo);
+    Item(int hp, int arm, int dmg, int c, int cdmg, int price, int sell_price, req_stats req, std::string name, std::string hash, int type, bool oo);
     stats itemStats;
     int price, sell_price, type;
     req_stats req;

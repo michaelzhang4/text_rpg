@@ -2,11 +2,13 @@
 
 using namespace std;
 
-Item::Item(int hp, int arm, int dmg, int p, int sell_p, req_stats required, string n, string h, int t, bool oo) {
+Item::Item(int hp, int arm, int dmg, int chance, int cdmg, int p, int sell_p, req_stats required, string n, string h, int t, bool oo) {
     itemStats.health=hp;
     itemStats.maxHealth=hp;
     itemStats.armor=arm;
     itemStats.damage=dmg;
+    itemStats.critChance=chance;
+    itemStats.critDamage=cdmg;
     price=p;
     sell_price=sell_p;
     req=required;
@@ -41,6 +43,13 @@ void Item::inspect_item(Player *p, int from_shop) {
         if(itemStats.health!=0) {
             cout << "❤️  :" << itemStats.health << " ";
         }
+        if(itemStats.critChance!=0) {
+            cout << "💥 : " << itemStats.critChance << "%  ";
+        }
+        if(itemStats.critDamage!=0) {
+            cout << "🔥 : " << itemStats.critDamage << "x ";
+        }
+        
         cout << "\nRequirements:\n";
         if(req.dmg>0) {
             cout << req.dmg <<"🗡️ ";
@@ -217,13 +226,15 @@ Player::Player(string s,int hp,int arm, int dmg, int lvl, int g) {
     playerStats.health=hp;
     playerStats.armor=arm;
     playerStats.damage=dmg;
+    playerStats.critChance=10;
+    playerStats.critDamage=2;
     exp=0;
     expLevel=10;
     level=lvl;
     gold=g;
-    none = new Item(0,0,0,0,0
+    none = new Item(0,0,0,0,0,0,0
     ,req_stats{0,0,0,0},"None","none",0,true);
-    none_armor = new Item(0,0,0,0,0
+    none_armor = new Item(0,0,0,0,0,0,0
     ,req_stats{0,0,0,0},"None","none",1,true);
     primary_equipped = none;
     secondary_equipped = none;
@@ -304,10 +315,14 @@ void Player::display_stats() {
     playerStats.health << 
     "/" << totalHealth()
     << " (" << primary_equipped->itemStats.health+secondary_equipped->itemStats.health+armor_equipped->itemStats.health << ") "
-     "🛡️  :" << totalArmor()
+    "🛡️  :" << totalArmor()
     << " (" << primary_equipped->itemStats.armor+secondary_equipped->itemStats.armor+armor_equipped->itemStats.armor << ") "
-     "🗡️  :" << damage()
+    "🗡️  :" << damage()
     << " (" << primary_equipped->itemStats.damage+secondary_equipped->itemStats.damage+armor_equipped->itemStats.damage << ") "
+    "💥 : " << totalCritChance()
+    << " (" << primary_equipped->itemStats.critChance+secondary_equipped->itemStats.critChance+armor_equipped->itemStats.critChance << ") "
+    "🔥 : " << totalCritDmg()
+    << " (" << primary_equipped->itemStats.critDamage+secondary_equipped->itemStats.critDamage+armor_equipped->itemStats.critDamage << ") "
     << "\nLevel: "<<level<< " - " << exp << "/"
     << expLevel << " 🪙  : " << gold << "g" << endl;
 }
@@ -346,6 +361,16 @@ int Player::totalHealth() {
 int Player::totalArmor() {
     return playerStats.armor+primary_equipped->itemStats.armor
     +secondary_equipped->itemStats.armor+armor_equipped->itemStats.armor;
+}
+
+int Player::totalCritChance() {
+    return playerStats.critChance + primary_equipped->itemStats.critChance
+    +secondary_equipped->itemStats.critChance+armor_equipped->itemStats.critChance;
+}
+
+int Player::totalCritDmg() {
+    return playerStats.critDamage+primary_equipped->itemStats.critDamage
+    +secondary_equipped->itemStats.critDamage+armor_equipped->itemStats.critDamage;
 }
 
 void Player::gain(int e, int g) {
@@ -396,6 +421,8 @@ Enemy::Enemy(enemy_template e) {
     enemyStats.health= enemyStats.maxHealth;
     enemyStats.armor = r.ba+rand()%(r.a+1);
     enemyStats.damage = r.bd + rand()%(r.d+1);
+    enemyStats.critChance = 0;
+    enemyStats.critDamage = 0;
     drops=e.drops;
 }
 
