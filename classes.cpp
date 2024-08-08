@@ -2,13 +2,14 @@
 
 using namespace std;
 
-Item::Item(int hp, int arm, int dmg, int chance, double cdmg, int p, int sell_p, req_stats required, string n, string h, int t, bool oo) {
+Item::Item(int hp, int arm, int dmg, int chance, double cdmg, double rr, int p, int sell_p, req_stats required, string n, string h, int t, bool oo) {
     itemStats.health=hp;
     itemStats.maxHealth=hp;
     itemStats.armor=arm;
     itemStats.damage=dmg;
     itemStats.critChance=chance;
     itemStats.critDamage=cdmg;
+    itemStats.recoveryRate=rr;
     price=p;
     sell_price=sell_p;
     req=required;
@@ -228,13 +229,14 @@ Player::Player(string s,int hp,int arm, int dmg, int lvl, int g) {
     playerStats.damage=dmg;
     playerStats.critChance=10;
     playerStats.critDamage=1.50;
+    playerStats.recoveryRate=0.10;
     exp=0;
     expLevel=10;
     level=lvl;
     gold=g;
-    none = new Item(0,0,0,0,0,0,0
+    none = new Item(0,0,0,0,0,0,0,0
     ,req_stats{0,0,0,0},"None","none",0,true);
-    none_armor = new Item(0,0,0,0,0,0,0
+    none_armor = new Item(0,0,0,0,0,0,0,0
     ,req_stats{0,0,0,0},"None","none",1,true);
     primary_equipped = none;
     secondary_equipped = none;
@@ -319,10 +321,12 @@ void Player::display_stats() {
     << " (" << primary_equipped->itemStats.armor+secondary_equipped->itemStats.armor+armor_equipped->itemStats.armor << ") "
     "🗡️  :" << damage()
     << " (" << primary_equipped->itemStats.damage+secondary_equipped->itemStats.damage+armor_equipped->itemStats.damage << ") "
-    "💥 : " << totalCritChance()
+    "\n💥 : " << totalCritChance()
     << "% (" << primary_equipped->itemStats.critChance+secondary_equipped->itemStats.critChance+armor_equipped->itemStats.critChance << ") "
     "🔥 : " << totalCritDmg()
     << "x (" << primary_equipped->itemStats.critDamage+secondary_equipped->itemStats.critDamage+armor_equipped->itemStats.critDamage << ") "
+    "🌿 : " << recoveryRate()
+    << "% (" << primary_equipped->itemStats.recoveryRate+secondary_equipped->itemStats.recoveryRate+armor_equipped->itemStats.recoveryRate << ") "
     << "\nLevel: "<<level<< " - " << exp << "/"
     << expLevel << " 🪙  : " << gold << "g" << endl;
 }
@@ -371,6 +375,11 @@ int Player::totalCritChance() {
 double Player::totalCritDmg() {
     return playerStats.critDamage+primary_equipped->itemStats.critDamage
     +secondary_equipped->itemStats.critDamage+armor_equipped->itemStats.critDamage;
+}
+
+double Player::recoveryRate() {
+    return playerStats.recoveryRate+primary_equipped->itemStats.recoveryRate
+    +secondary_equipped->itemStats.recoveryRate+armor_equipped->itemStats.recoveryRate;
 }
 
 void Player::gain(int e, int g) {
@@ -455,7 +464,6 @@ Area::Area(string n, vector<enemy_template> enemies,
 vector<Item*> shop_items, string d, bool unlcked, int i) {
     name = n;
     enemy_list = enemies;
-    item_list = item_list;
     shop_list = shop_items;
     description = d;
     unlocked=unlcked;

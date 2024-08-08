@@ -174,8 +174,7 @@ void __rest(Player *p) {
         if (p->playerStats.health==p->playerStats.maxHealth) {
             cout << "\nYou had a nice rest";
         } else {
-            int heal=p->totalHealth()/20
-            + rand()%p->totalHealth()/20;
+            int heal=p->totalHealth()*p->recoveryRate();
             if (heal<=0) {
                 heal=1;
             }
@@ -390,6 +389,11 @@ void print_item(Item* item) {
     }
 }
 
+void set_up() {
+    create_items();
+    create_areas();
+}
+
 void shop(Player *p) {
     while(1) {
         system("cls");
@@ -532,10 +536,10 @@ Player *create_player(int option) {
     return p;
 }
 
-void add_item(string hash, int hp, int arm, int dmg, int c,
-            double cdmg, int price, int sell_price, req_stats h,
-            string name, int type, bool owned) {
-    all_items[hash] = new Item(hp, arm, dmg, c, cdmg, price,
+void add_item(int hp, int arm, int dmg, int c,
+            double cdmg, double rr, int price, int sell_price, req_stats h,
+            string name,string hash, int type, bool owned) {
+    all_items[hash] = new Item(hp, arm, dmg, c, cdmg, rr, price,
     sell_price, h, name, hash, type, owned);
     item_hashes.push_back(hash);
 }

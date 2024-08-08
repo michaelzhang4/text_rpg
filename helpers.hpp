@@ -21,7 +21,7 @@ class Enemy;
 
 struct stats {
     int health,maxHealth,armor,damage,critChance;
-    double critDamage;
+    double critDamage,recoveryRate;
 };
 
 struct stat_roll {
@@ -72,6 +72,7 @@ public:
     int totalArmor();
     int totalCritChance();
     double totalCritDmg();
+    double recoveryRate();
     Item* none;
     Item* none_armor;
     void equip(Item* e, int slot);
@@ -82,7 +83,7 @@ private:
 
 class Item {
 public:
-    Item(int hp, int arm, int dmg, int c, double cdmg, int price, int sell_price, req_stats req, std::string name, std::string hash, int type, bool oo);
+    Item(int hp, int arm, int dmg, int c, double cdmg,double rr, int price, int sell_price, req_stats req, std::string name, std::string hash, int type, bool oo);
     stats itemStats;
     int price, sell_price, type;
     req_stats req;
@@ -98,13 +99,14 @@ public:
 std::vector<Item*> shop_items, std::string description, bool unlocked, int index);
     std::string name,description;
     std::vector<enemy_template> enemy_list;
-    std::vector<Item*> item_list;
     std::vector<Item*> shop_list;
     bool unlocked;
     int index;
     void print_description();
 private:
 };
+
+void set_up();
 
 void death_screen();
 
@@ -128,9 +130,9 @@ void chance(Player *p);
 
 void print_chance();
 
-void add_item(std::string hash, int hp, int arm, int dmg, int c,
-            double cdmg, int price, int sell_price, req_stats h,
-            std::string name, int type, bool owned);
+void add_item(int hp, int arm, int dmg, int c,
+            double cdmg, double rr, int price, int sell_price, req_stats h,
+            std::string name,std::string hash, int type, bool owned);
 
 void title(Player *p);
 
@@ -154,7 +156,7 @@ Player *create_player(int option);
 
 void create_items();
 
-std::array<Area*,AREAS> create_areas();
+void create_areas();
 
 extern std::vector<std::string> item_hashes;
 extern std::vector<Item*> owned_items;
