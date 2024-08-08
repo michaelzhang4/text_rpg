@@ -1,7 +1,6 @@
 #include "helpers.hpp"
 
 int main() {
-
     Player* player = create_player(start());
     current_area->print_description();
     while(1) {

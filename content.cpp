@@ -11,6 +11,7 @@ vector<Enemy*> arena_bosses = {new Enemy({stat_roll{50,0,10,0,10,0},50,0,0,"Dung
 };
 vector<Item*> owned_items;
 unordered_map<string,Item*> all_items = create_items();
+vector<Item*> gamba;
 array<Area*,AREAS> areas = create_areas();
 Area *current_area = areas[0];
 vector<Area*> unlocked_areas;
@@ -23,38 +24,38 @@ unordered_map<string,Item*> create_items() {
     // price, sell price
 
     // Goblin Village items
-    all_items["dagger"] = new Item(0,0,2,0,0,50,35
+    all_items["dagger"] = new Item(0,0,2,0,0.0,50,35
     ,req_stats{0,0,1,1},"Dagger", "dagger", 0,false);
 
-    all_items["short_sword"] = new Item(0,0,3,0,0,100,70
+    all_items["short_sword"] = new Item(0,0,3,0,0.0,100,70
     ,req_stats{0,0,2,1},"Short Sword", "short_sword", 0,false);
 
-    all_items["sword"] = new Item(0,0,4,0,0,200,140
+    all_items["sword"] = new Item(0,0,4,0,0.0,200,140
     ,req_stats{0,0,3,3},"Sword", "sword", 0,false);
 
-    all_items["knife"] = new Item(0,0,1,0,0,0,10
+    all_items["knife"] = new Item(0,0,1,0,0.0,0,10
     ,req_stats{0,0,0,1},"Knife", "knife", 0,false);
 
-    all_items["goblin_spear"] = new Item(0,1,3,0,0,0,50
+    all_items["goblin_spear"] = new Item(0,1,3,0,0.0,0,50
     ,req_stats{0,0,2,3},"Goblin Spear", "goblin_spear", 0,false);
 
-    all_items["bow"] = new Item(5,0,2,0,0,0,40
+    all_items["bow"] = new Item(5,0,2,0,0.0,0,40
     ,req_stats{0,0,2,1},"Bow", "bow", 0,false);
 
-    all_items["staff"] = new Item(-3,0,5,0,0,0,50
+    all_items["staff"] = new Item(-3,0,5,0,0.0,0,50
     ,req_stats{15,0,0,1},"Staff", "staff", 0,false);
 
-    all_items["cloth_armor"] = new Item(5,1,0,0,0,0,50
+    all_items["cloth_armor"] = new Item(5,1,0,0,0.0,0,50
     ,req_stats{0,0,0,1},"Cloth Armor", "cloth_armor", 1,false);
 
     //Rocky Mountains items
-    all_items["steel_sword"] = new Item(0,0,6,0,0,300,210
+    all_items["steel_sword"] = new Item(0,0,6,0,0.0,300,210
     ,req_stats{0,0,0,4},"Steel Sword", "steel_sword", 0,false);
 
-    all_items["emerald_sword"] = new Item(0,0,7,0,0,400,280
+    all_items["emerald_sword"] = new Item(0,0,7,0,0.0,400,280
     ,req_stats{0,0,0,5},"Emerald Sword", "emerald_sword", 0,false);
 
-    all_items["diamond_sword"] = new Item(0,0,8,0,0,500,350
+    all_items["diamond_sword"] = new Item(0,0,8,0,0.0,500,350
     ,req_stats{0,0,0,6},"Diamond Sword", "diamond_sword", 0, false);
 
     // all_items["ember_sword"] = new Item(0,0,8,0,0,0,150
@@ -95,24 +96,6 @@ array<Area*,AREAS> create_areas() {
         {},
         {}
     };
-    vector<Item*> items[AREAS] {
-        {
-            all_items["dagger"],
-            all_items["short_sword"],
-            all_items["sword"],
-            all_items["goblin_spear"],
-            all_items["bow"],
-            all_items["knife"],
-            all_items["cloth_armor"],
-        },
-        {
-            all_items["steel_sword"],
-            all_items["emerald_sword"],
-            all_items["diamond_sword"]
-        },
-        {},
-        {}
-    };
     vector<Item*> shop_items[AREAS] {
         {
             all_items["dagger"],
@@ -127,6 +110,10 @@ array<Area*,AREAS> create_areas() {
         {},
         {}
     };
+    gamba.push_back(all_items["steel_sword"]);
+    gamba.push_back(all_items["emerald_sword"]);
+    gamba.push_back(all_items["diamond_sword"]);
+
     string descriptions[AREAS] {
         "Goblin village is home to goblins.\n"
         "A green hobbit-like species that likes to attack humans.\n",
@@ -139,7 +126,7 @@ array<Area*,AREAS> create_areas() {
         true,false,false,false,
     };
     for(int i=0;i<AREAS;++i) {
-        arr[i] = new Area(areas[i],enemies[i],items[i],shop_items[i],descriptions[i],locks[i],i);
+        arr[i] = new Area(areas[i],enemies[i],shop_items[i],descriptions[i],locks[i],i);
     }
     return arr;
 }

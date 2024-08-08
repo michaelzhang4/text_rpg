@@ -8,6 +8,7 @@
 #include <time.h>
 #include <array>
 #include <unordered_map>
+#include <iomanip>
 #include <fstream>
 
 #define MOBS 3
@@ -19,7 +20,8 @@ class Player;
 class Enemy;
 
 struct stats {
-    int health,maxHealth,armor,damage,critChance,critDamage;
+    int health,maxHealth,armor,damage,critChance;
+    double critDamage;
 };
 
 struct stat_roll {
@@ -69,7 +71,7 @@ public:
     int totalHealth();
     int totalArmor();
     int totalCritChance();
-    int totalCritDmg();
+    double totalCritDmg();
     Item* none;
     Item* none_armor;
     void equip(Item* e, int slot);
@@ -80,7 +82,7 @@ private:
 
 class Item {
 public:
-    Item(int hp, int arm, int dmg, int c, int cdmg, int price, int sell_price, req_stats req, std::string name, std::string hash, int type, bool oo);
+    Item(int hp, int arm, int dmg, int c, double cdmg, int price, int sell_price, req_stats req, std::string name, std::string hash, int type, bool oo);
     stats itemStats;
     int price, sell_price, type;
     req_stats req;
@@ -92,7 +94,7 @@ private:
 
 class Area {
 public:
-    Area(std::string n, std::vector<enemy_template> enemies, std::vector<Item*> items,
+    Area(std::string n, std::vector<enemy_template> enemies,
 std::vector<Item*> shop_items, std::string description, bool unlocked, int index);
     std::string name,description;
     std::vector<enemy_template> enemy_list;
@@ -122,6 +124,10 @@ void __rest(Player *p);
 
 void choices(Player *p);
 
+void chance(Player *p);
+
+void print_chance();
+
 void title(Player *p);
 
 void print_item(Item* item);
@@ -148,6 +154,7 @@ std::array<Area*,AREAS> create_areas();
 
 extern std::vector<std::string> item_hashes;
 extern std::vector<Item*> owned_items;
+extern std::vector<Item*> gamba;
 extern std::unordered_map<std::string,Item*> all_items;
 extern std::array<Area*,AREAS> areas;
 extern Area *current_area;

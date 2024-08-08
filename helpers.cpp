@@ -117,6 +117,8 @@ void unlock_stages(Enemy* e) {
 }
 
 int start() {
+    srand(time(NULL));
+    cout << fixed << setprecision(2);
     while(1) {
         system("cls");
         cout << "Welcome to my text-based RPG\n\n";
@@ -151,7 +153,6 @@ void print_explore() {
 }
 
 void explore(Player *p) {
-    srand(time(NULL));
     for(int i=0;i<3;++i) {
         print_explore();
     }
@@ -235,8 +236,8 @@ void items(Player *p) {
 }
 
 void choices(Player *p) {
-    cout << "\n1. Explore 2. Shop 3. Rest\n4. Items   5. Save";
-    cout << " 6. Travel\n7. Arena   8. Exit\n";
+    cout << "\n1. Explore 2. Shop   3. Rest\n4. Items   5. Save";
+    cout << "   6. Travel\n7. Arena   8. Chance 9. Exit\n";
     string choice;cin >> choice;lower(choice);
     if(choice=="1" || choice=="explore") {
         explore(p);
@@ -253,9 +254,77 @@ void choices(Player *p) {
         travel(p);
     } else if(choice=="7" || choice=="arena") {
         arena(p);
-    } else if(choice=="8" || choice=="exit") {
+    } else if(choice=="8" || choice=="chance") {
+        chance(p);
+    } else if(choice=="9" || choice=="exit") {
         exit(0);
     } 
+}
+
+void chance(Player *p) {
+    int cost = 1000; //* p->level;
+    cout << "It costs " << cost << " to play the chance"
+    "\nDo you accept(y/n)?";
+    string choice;cin >> choice;lower(choice);
+    if(choice=="y" || choice=="yes") {
+        if(p->gold < cost) {
+            cout << "\nYou do not have enough gold";
+        } else {
+            p->gold-=cost;
+            int sleep_time=400;
+            print_chance();
+            int rng = rand()%100;
+            cout << "\n\n";
+            int size = gamba.size();
+            if (size==0) {
+                cout << "You have won all the chance items already!";
+            }
+            int random_ind = rand()%gamba.size();
+            if(!gamba[random_ind]->owned && rng <= 10) {
+                cout << "7 ";
+                Sleep(sleep_time);
+                cout << "7 ";
+                Sleep(sleep_time*2);
+                cout << "7 ";
+                cout << "\nCongrats you won a " << gamba[random_ind]->name;
+                gamba[random_ind]->owned = true;
+                owned_items.push_back(gamba[random_ind]);
+            } else {
+                if(rng>=45){
+                    cout << "7 ";
+                    Sleep(sleep_time);
+                    cout << "7 ";
+                    Sleep(sleep_time*2);
+                    cout << rand()%7 << " ";
+                } else {
+                    cout << "7 ";
+                    Sleep(sleep_time);
+                    cout << rand()%7 << " ";
+                    Sleep(sleep_time);
+                    cout << "7 ";
+                }
+                cout << "\nBetter luck next time";
+            }
+        }
+        Sleep(SLEEP);
+    }
+}
+
+void print_chance() {
+    int sleep_time=400;
+    system("cls");
+    cout << "1 ";
+    Sleep(sleep_time);
+    cout << "2 ";
+    Sleep(sleep_time);
+    cout << "3 ";
+    Sleep(sleep_time);
+    cout << "4 ";
+    Sleep(sleep_time);
+    cout << "5 ";
+    Sleep(sleep_time);
+    cout << "6 ";
+    Sleep(sleep_time);
 }
 
 void arena(Player *p) {

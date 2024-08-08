@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Item::Item(int hp, int arm, int dmg, int chance, int cdmg, int p, int sell_p, req_stats required, string n, string h, int t, bool oo) {
+Item::Item(int hp, int arm, int dmg, int chance, double cdmg, int p, int sell_p, req_stats required, string n, string h, int t, bool oo) {
     itemStats.health=hp;
     itemStats.maxHealth=hp;
     itemStats.armor=arm;
@@ -227,7 +227,7 @@ Player::Player(string s,int hp,int arm, int dmg, int lvl, int g) {
     playerStats.armor=arm;
     playerStats.damage=dmg;
     playerStats.critChance=10;
-    playerStats.critDamage=2;
+    playerStats.critDamage=1.75;
     exp=0;
     expLevel=10;
     level=lvl;
@@ -320,9 +320,9 @@ void Player::display_stats() {
     "🗡️  :" << damage()
     << " (" << primary_equipped->itemStats.damage+secondary_equipped->itemStats.damage+armor_equipped->itemStats.damage << ") "
     "💥 : " << totalCritChance()
-    << " (" << primary_equipped->itemStats.critChance+secondary_equipped->itemStats.critChance+armor_equipped->itemStats.critChance << ") "
+    << "% (" << primary_equipped->itemStats.critChance+secondary_equipped->itemStats.critChance+armor_equipped->itemStats.critChance << ") "
     "🔥 : " << totalCritDmg()
-    << " (" << primary_equipped->itemStats.critDamage+secondary_equipped->itemStats.critDamage+armor_equipped->itemStats.critDamage << ") "
+    << "x (" << primary_equipped->itemStats.critDamage+secondary_equipped->itemStats.critDamage+armor_equipped->itemStats.critDamage << ") "
     << "\nLevel: "<<level<< " - " << exp << "/"
     << expLevel << " 🪙  : " << gold << "g" << endl;
 }
@@ -368,7 +368,7 @@ int Player::totalCritChance() {
     +secondary_equipped->itemStats.critChance+armor_equipped->itemStats.critChance;
 }
 
-int Player::totalCritDmg() {
+double Player::totalCritDmg() {
     return playerStats.critDamage+primary_equipped->itemStats.critDamage
     +secondary_equipped->itemStats.critDamage+armor_equipped->itemStats.critDamage;
 }
@@ -451,7 +451,7 @@ void Enemy::display_stats() {
     << "\nLevel: " << level;
 }
 
-Area::Area(string n, vector<enemy_template> enemies, vector<Item*> items,
+Area::Area(string n, vector<enemy_template> enemies,
 vector<Item*> shop_items, string d, bool unlcked, int i) {
     name = n;
     enemy_list = enemies;
