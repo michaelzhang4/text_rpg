@@ -4,7 +4,7 @@ A game I created to help me learn C++
 
 ## Installation
 
-Requires C++ GCC version 7.1 or later
+Requires C++17 or later to compile
 
 ```sh
 # Clone the repository
@@ -31,4 +31,5 @@ CMD:
 ```sh
 chcp 65001
 ```
-![image](https://github.com/user-attachments/assets/9b17960f-b600-448a-8b2b-aebd3c63a4bd)
+![image](https://github.com/user-attachments/assets/f44fbe68-555c-4770-b93e-14b5efd3b07e)
+
