@@ -10,6 +10,7 @@
 #include <iomanip>
 #include <fstream>
 #include <cmath>
+#include <sstream>
 #include <any>
 
 #define MOBS 3
@@ -20,8 +21,10 @@
     #include <windows.h>
     inline void SleepMs(int milliseconds) { Sleep(milliseconds); }
     inline void ClearScreen() { system("cls"); }
+    #define FLUSH()
 #elif __linux__ || __APPLE__
     #include <unistd.h>
+    #define FLUSH() fflush(stdout)
     inline void SleepMs(int milliseconds) { usleep(milliseconds * 1000); }
     inline void ClearScreen() { system("clear"); }
 #endif
@@ -190,9 +193,11 @@ void cleared(Player *p, Enemy* e);
 
 void shop(Player *p);
 
+std::string xor_encrypt_decrypt(const std::string &data, const std::string &key);
+
 void load_game();
 
-void save_game(Player *p);
+void save_game(Player *p, bool force);
 
 Player *create_player(int option);
 

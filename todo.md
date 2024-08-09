@@ -10,11 +10,10 @@
     - names [DONE]
     - area clear conditions [DONE]
 
-2. Exploration []
-    - More events []
-    - Text/story intro added to events/areas on enter []
-    - Live escaped mobs per area []
-    - ? options in choices/events []
+2. Exploration [DONE]
+    - More events [DONE]
+    - Text/story intro added to events/areas on enter [DONE]
+    - ? options in choices/events [DONE]
     - 10% crit chance for player [DONE]
 
 3. Items []
@@ -32,11 +31,11 @@
 
 7. Save file [DONE]
 
-8. Encrypt save file []
+8. Encrypt save file [DONE]
 
 
 
-# FOR TERMINAL EMOJI SUPPORT
+# FOR WINDOWS TERMINAL EMOJI SUPPORT
 POWERSHELL:
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 

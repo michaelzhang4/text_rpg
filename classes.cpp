@@ -96,7 +96,7 @@ void Event::execute_event(Player *p) {
         case event_type::stat:
             break;
     }
-    cout << "Enter any key to continue..." << endl;
+    cout << "\nEnter any key to continue..." << endl;
     cin>>choice;
 }
 
@@ -487,10 +487,20 @@ double Player::recoveryRate() {
 }
 
 void Player::gain(int e, int g) {
-    if(e>0 || g>0) {
+    if(e>0 && g>0) {
         cout << "You gained " << e 
         << " exp and " << g << " gold!" << endl;
         exp+=e;
+        gold+=g;
+        SleepMs(SLEEP);
+    } else if (e>0) {
+        cout << "You gained " << e 
+        << " exp!" << endl;
+        exp+=e;
+        SleepMs(SLEEP);
+    } else if (g>0) {
+        cout << "You gained " << g 
+        << " gold!" << endl;
         gold+=g;
         SleepMs(SLEEP);
     }
@@ -560,7 +570,7 @@ void Enemy::display_stats() {
     cout << name << "\n❤️  :" << enemyStats.health << 
     "/" << enemyStats.maxHealth << " 🛡️  :" << 
     enemyStats.armor << " 🗡️  :" << enemyStats.damage
-    << "\nLevel: " << level;
+    << "\nLevel: " << level << "\n";
 }
 
 Area::Area(string n, vector<enemy_template> enemies,

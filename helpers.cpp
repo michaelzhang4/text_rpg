@@ -25,7 +25,7 @@ int player_turn(Player *p, Enemy *enemy) {
     ClearScreen();
     combatHUD(enemy,p);
     string choice;
-    cout << "\n\n1. Attack 2. Run\n";
+    cout << "\n1. Attack 2. Run\n";
     cin >> choice;
     lower(choice);
     if(choice=="1" || choice=="attack") {
@@ -208,7 +208,7 @@ void explore(Player *p) {
         event(p);
     } else {
         cout << "\nNothing of interest happened\n";
-        SleepMs(1000);
+        SleepMs(SLEEP);
         ClearScreen();
     }
 }
@@ -230,7 +230,7 @@ void __rest(Player *p) {
         }
         rest+=1;
     } else {
-        cout << "\nYou have rested too long, it's time to move\n";
+        cout << "\nYou may rest again after the next combat\n";
     }
     SleepMs(SLEEP);
 }
@@ -294,7 +294,7 @@ void choices(Player *p) {
     } else if(choice=="4" || choice=="items") {
         items(p);
     } else if(choice=="5" || choice=="save") {
-        save_game(p);
+        save_game(p,false);
     } else if(choice=="6" || choice=="travel") {
         travel(p);
     } else if(choice=="7" || choice=="arena") {
@@ -308,12 +308,12 @@ void choices(Player *p) {
 
 void chance(Player *p) {
     int cost = 1000; //* p->level;
-    cout << "It costs " << cost << " to try your luck"
-    "\nDo you accept(y/n)?";
+    cout << "Pay " << cost << " to try your luck? (y/n)"
+    " <Careful this overwrites your save>\n";
     string choice;cin >> choice;lower(choice);
     if(choice=="y" || choice=="yes") {
         if(p->gold < cost) {
-            cout << "\nYou do not have enough gold";
+            cout << "\nYou do not have enough gold\n";
         } else {
             p->gold-=cost;
             int sleep_time=400;
@@ -322,36 +322,60 @@ void chance(Player *p) {
             cout << "\n\n";
             int size = gamba.size();
             if (size==0) {
-                cout << "You have won all the chance items already!";
+                cout << "You have won all the chance items already!\n";
             }
             int random_ind = rand()%gamba.size();
             if(!gamba[random_ind]->owned && rng <= 10) {
                 cout << "7 ";
+                FLUSH();
                 SleepMs(sleep_time);
                 cout << "7 ";
+                FLUSH();
                 SleepMs(sleep_time*2);
                 cout << "7 ";
-                cout << "\nCongrats you won a " << gamba[random_ind]->name;
+                FLUSH();
+                SleepMs(1000);
+                cout << "\nCongratulations you won a " << gamba[random_ind]->name << "!\n";
                 gamba[random_ind]->owned = true;
                 owned_items.push_back(gamba[random_ind]);
             } else {
-                if(rng>=45){
+                if(rng>=70){
                     cout << "7 ";
+                    FLUSH();
                     SleepMs(sleep_time);
                     cout << "7 ";
+                    FLUSH();
                     SleepMs(sleep_time*2);
                     cout << rand()%7 << " ";
-                } else {
+                    FLUSH();
+                    SleepMs(1000);
+                } else if(rng>=40){
+                    cout << rand()%10 << " ";
+                    FLUSH();
+                    SleepMs(sleep_time);
+                    cout << rand()%10 << " ";
+                    FLUSH();
+                    SleepMs(sleep_time*2);
+                    cout << rand()%7 << " ";
+                    FLUSH();
+                    SleepMs(1000);
+                }else {
                     cout << "7 ";
+                    FLUSH();
                     SleepMs(sleep_time);
                     cout << rand()%7 << " ";
-                    SleepMs(sleep_time);
+                    FLUSH();
+                    SleepMs(sleep_time*2);
                     cout << "7 ";
+                    FLUSH();
+                    SleepMs(1000);
                 }
-                cout << "\nBetter luck next time";
+                cout << "\n\nBetter luck next time\n";
             }
         }
-        SleepMs(SLEEP);
+        save_game(p,true);
+        cout << "\nEnter any key to continue...\n";
+        string choice;cin>>choice;
     }
 }
 
@@ -359,16 +383,22 @@ void print_chance() {
     int sleep_time=400;
     ClearScreen();
     cout << "1 ";
+    FLUSH();
     SleepMs(sleep_time);
     cout << "2 ";
+    FLUSH();
     SleepMs(sleep_time);
     cout << "3 ";
+    FLUSH();
     SleepMs(sleep_time);
     cout << "4 ";
+    FLUSH();
     SleepMs(sleep_time);
     cout << "5 ";
+    FLUSH();
     SleepMs(sleep_time);
     cout << "6 ";
+    FLUSH();
     SleepMs(sleep_time);
 }
 
@@ -502,53 +532,61 @@ void load_game(Player *p) {
         }
         p->name = name;
     } else {
-        inFile >> p->name;
-        inFile >> p->playerStats.health;
-        inFile >> p->playerStats.maxHealth;
-        inFile >> p->playerStats.armor;
-        inFile >> p->playerStats.damage;
-        inFile >> p->exp;
-        inFile >> p->expLevel;
-        inFile >> p->level;
-        inFile >> p->gold;
-        inFile >> rest;
+        string key = "a8b65fbd5d6b4d2be18be1d55f5b0b73ff7b578a0e8727d79c8f9bb6e227fbdb";
+        string encrypted_data((istreambuf_iterator<char>(inFile)),
+                                   istreambuf_iterator<char>());
+        inFile.close();
+
+        string data = xor_encrypt_decrypt(encrypted_data, key);
+        istringstream dataStream(data);
+
+        dataStream >> p->name;
+        dataStream >> p->playerStats.health;
+        dataStream >> p->playerStats.maxHealth;
+        dataStream >> p->playerStats.armor;
+        dataStream >> p->playerStats.damage;
+        dataStream >> p->exp;
+        dataStream >> p->expLevel;
+        dataStream >> p->level;
+        dataStream >> p->gold;
+        dataStream >> rest;
         string primary_equipped_item;
-        inFile >> primary_equipped_item;
-        if(primary_equipped_item!="none") {
-            p->primary_equipped=all_items[primary_equipped_item];
+        dataStream >> primary_equipped_item;
+        if (primary_equipped_item != "none") {
+            p->primary_equipped = all_items[primary_equipped_item];
         }
         string secondary_equipped_item;
-        inFile >> secondary_equipped_item;
-        if(secondary_equipped_item!="none") {
-            p->secondary_equipped=all_items[secondary_equipped_item];
+        dataStream >> secondary_equipped_item;
+        if (secondary_equipped_item != "none") {
+            p->secondary_equipped = all_items[secondary_equipped_item];
         }
         string armor_equipped_item;
-        inFile >> armor_equipped_item;
-        if(armor_equipped_item!="none") {
-            p->armor_equipped=all_items[armor_equipped_item];
+        dataStream >> armor_equipped_item;
+        if (armor_equipped_item != "none") {
+            p->armor_equipped = all_items[armor_equipped_item];
         }
         int index;
-        inFile >> index;
-        for(int i=0;i<=index;i++) {
-            areas[i]->unlocked=true;
+        dataStream >> index;
+        for (int i = 0; i <= index; i++) {
+            areas[i]->unlocked = true;
             unlocked_areas.push_back(areas[i]);
         }
-        inFile >> index;
+        dataStream >> index;
         current_area = areas[index];
 
-        int arena_encoding,pos=0;
-        inFile >> arena_encoding;
-        while(arena_encoding>0){
-            if(arena_encoding&1) {
-                arena_bosses[pos].second=true;
-                arena_bosses[pos].first->gold=0;
+        int arena_encoding, pos = 0;
+        dataStream >> arena_encoding;
+        while (arena_encoding > 0) {
+            if (arena_encoding & 1) {
+                arena_bosses[pos].second = true;
+                arena_bosses[pos].first->gold = 0;
             }
             ++pos;
-            arena_encoding>>=1;
+            arena_encoding >>= 1;
         }
         string item;
-        while(inFile >> item) {
-            all_items[item]->owned=true;
+        while (dataStream >> item) {
+            all_items[item]->owned = true;
             owned_items.push_back(all_items[item]);
         }
     }
@@ -556,25 +594,35 @@ void load_game(Player *p) {
 
 }
 
-void save_game(Player *p) {
-    cout << "This will overwrite any previous saves\nAre you sure you want to save? (y/n)\n";
-    string choice;cin >> choice;lower(choice);
+void save_game(Player *p, bool force) {
+    string choice;
+    if(force==false) {
+        cout << "This will overwrite any previous saves\nAre you sure you want to save? (y/n)\n";
+        cin >> choice;lower(choice);
+    } else if(force==true) {
+        choice="y";
+    }
     if (choice=="y" | choice=="yes") {
         ofstream outFile("save.txt");
+        
+        string key = "a8b65fbd5d6b4d2be18be1d55f5b0b73ff7b578a0e8727d79c8f9bb6e227fbdb";
 
-        outFile << p->name << " ";
-        outFile << p->playerStats.health << " ";
-        outFile << p->playerStats.maxHealth << " ";
-        outFile << p->playerStats.armor << " ";
-        outFile << p->playerStats.damage << " ";
-        outFile << p->exp << " ";
-        outFile << p->expLevel << " ";
-        outFile << p->level << " ";
-        outFile << p->gold << " ";
-        outFile << rest << " ";
-        outFile << p->primary_equipped->hash << " ";
-        outFile << p->secondary_equipped->hash << " ";
-        outFile << p->armor_equipped->hash << " ";
+        string data;
+
+        data += p->name + " ";
+        data += std::to_string(p->playerStats.health) + " ";
+        data += std::to_string(p->playerStats.maxHealth) + " ";
+        data += std::to_string(p->playerStats.armor) + " ";
+        data += std::to_string(p->playerStats.damage) + " ";
+        data += std::to_string(p->exp) + " ";
+        data += std::to_string(p->expLevel) + " ";
+        data += std::to_string(p->level) + " ";
+        data += std::to_string(p->gold) + " ";
+        data += std::to_string(rest) + " ";
+        data += p->primary_equipped->hash + " ";
+        data += p->secondary_equipped->hash + " ";
+        data += p->armor_equipped->hash + " ";
+
 
         int total=0;
         for(auto a:areas) {
@@ -584,29 +632,46 @@ void save_game(Player *p) {
                 }
             }
         }
-        outFile << total << " ";
+        data += to_string(total) + " ";
 
-        outFile << current_area->index << " ";
+        data += to_string(current_area->index) + " ";
+
         int encoding = 0;
         for(int i=0;i<arena_bosses.size();++i) {
             if(arena_bosses[i].second) {
                 encoding+=pow(2,i);
             }
         }
-        outFile << encoding;
+
+        data += to_string(encoding);
 
         for(string item:item_hashes) {
             if (all_items[item]->owned) {
-                outFile << item << " ";
+                data += item + " ";
             }
         }
 
-        
+        string encrypted_data = xor_encrypt_decrypt(data, key);
+
+        outFile << encrypted_data;
 
         outFile.close();
-        cout << "Game saved successfully";
+        if(!force) {
+            cout << "Game saved successfully\n";
+        }
         SleepMs(SLEEP);
     }
+}
+
+string xor_encrypt_decrypt(const string &data, const string &key) {
+    if (key.empty()) {
+        return data;
+    }
+    string result = data;
+    for (size_t i = 0; i < data.size(); ++i) {
+        result[i] ^= key[i % key.size()];
+    }
+    return result;
 }
 
 Player *create_player(int option) {

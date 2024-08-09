@@ -55,7 +55,7 @@ void create_areas() {
             // drops(percentage share, item*)
             {stat_roll{4,0,0,0,1,0},1,3,5,"Goblin Thief",{{100,all_items["knife"]}}},
             {stat_roll{5,0,0,0,1,0},2,4,10,"Goblin Peon",{{25,all_items["goblin_spear"]}}},
-            {stat_roll{6,0,1,0,1,0},3,5,15,"Goblin Hunter",{{25,all_items["bow"]}}},
+            {stat_roll{6,0,1,0,2,0},3,5,15,"Goblin Hunter",{{25,all_items["bow"]}}},
             {stat_roll{6,0,0,0,2,0},3,5,15,"Goblin Mage",{{25,all_items["staff"]}}},
             {stat_roll{7,0,1,0,2,0},4,7,20,"Goblin Warrior",{{25,all_items["sword"]}}},
             {stat_roll{10,0,1,0,3,0},5,20,50,"Goblin Chieftain",{{100,all_items["cloth_armor"]}}},
@@ -103,11 +103,11 @@ void create_areas() {
     vector<Event*> area_events[AREAS] = {
         {
             new Event(event_type::currency,
-        "You almost fall into a Goblin trap",
+        "You almost fall into a Goblin trap, that was a close one!",
         {0,4,0}),
             new Event(event_type::currency,
-        "You discover a Goblin's stolen gold",
-        {0,0,4}),
+        "You discover a Goblin's stolen loot!",
+        {1,0,4}),
         },
         {},
         {},
