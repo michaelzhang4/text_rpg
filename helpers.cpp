@@ -3,13 +3,13 @@
 using namespace std;
 
 void death_screen() {
-    system("cls");
-    cout << "You died!\n\nGame over - reload from previous save or start a new game";
+    ClearScreen();
+    cout << "You died!\n\nGame over - reload from previous save or start a new game\n";
     exit(0);
 }
 
 void HUD(Player* p) {
-    system("cls");
+    ClearScreen();
     cout << "Area - " << current_area->name << endl;
     p->display_stats();
     choices(p);
@@ -22,7 +22,7 @@ void combatHUD(Enemy *enemy, Player *player) {
 }
 
 int player_turn(Player *p, Enemy *enemy) {
-    system("cls");
+    ClearScreen();
     combatHUD(enemy,p);
     string choice;
     cout << "\n\n1. Attack 2. Run\n";
@@ -49,7 +49,7 @@ int player_turn(Player *p, Enemy *enemy) {
                     if(rng<=pair.first) {
                         string choice;
                         cout << endl << enemy->name << " dropped a " << item->name << "!\n";
-                        cout << "\nEnter any key to continue...\n";
+                        cout << "\n\nEnter any key to continue...\n";
                         item->owned=true;
                         owned_items.push_back(item);
                         cin >> choice;
@@ -61,28 +61,28 @@ int player_turn(Player *p, Enemy *enemy) {
             return 1;
         }
     } else if(choice=="2" || choice=="run") {
-        system("cls");
+        ClearScreen();
         combatHUD(enemy,p);
         p->take_damage(enemy);
-        cout << "\nYou ran away after taking a hit";
-        Sleep(SLEEP);
+        cout << "\nYou ran away after taking a hit\n";
+        SleepMs(SLEEP);
         return 1;
     } else {
-        cout << "Enter a valid action";
-        Sleep(SLEEP);
+        cout << "Enter a valid action\n";
+        SleepMs(SLEEP);
         return 2;
     }
     return 0;
 }
 
 void enemy_turn(Player *p, Enemy *enemy, int surprised) {
-    system("cls");
+    ClearScreen();
     combatHUD(enemy,p);
     if(surprised==1) {
-        cout << "\n\nThe " << enemy->name << " caught you by surprise";
-        Sleep(1000);
+        cout << "\n\nThe " << enemy->name << " caught you by surprise\n";
+        SleepMs(1000);
     }
-    Sleep(1000);
+    SleepMs(1000);
     p->take_damage(enemy);
 }
 
@@ -142,7 +142,7 @@ void unlock_stages(Enemy* e) {
         unlocked=true;
     }
     if(unlocked) {
-        cout << "\nEnter any key to continue...\n";
+        cout << "\n\nEnter any key to continue...\n";
         string choice;
         cin >> choice;
     }
@@ -152,7 +152,7 @@ int start() {
     srand(time(NULL));
     cout << fixed << setprecision(2);
     while(1) {
-        system("cls");
+        ClearScreen();
         cout << "Welcome to my text-based RPG\n\n";
         cout << "1. New Game\n2. Load Save\n";
         string choice; cin >> choice;lower(choice);
@@ -174,18 +174,18 @@ void lower(string &s) {
 
 void print_explore() {
     int sleep_time=250;
-    system("cls");
+    ClearScreen();
     cout << "Exploring\n";
-    Sleep(sleep_time);
-    system("cls");
+    SleepMs(sleep_time);
+    ClearScreen();
     cout << "Exploring.\n";
-    Sleep(sleep_time);
-    system("cls");
+    SleepMs(sleep_time);
+    ClearScreen();
     cout << "Exploring..\n";
-    Sleep(sleep_time);
-    system("cls");
+    SleepMs(sleep_time);
+    ClearScreen();
     cout << "Exploring...\n";
-    Sleep(sleep_time);
+    SleepMs(sleep_time);
 }
 
 void event(Player *p) {
@@ -200,29 +200,29 @@ void explore(Player *p) {
     }
     int temp = rand() % 100;
     if (temp>=40) {
-        cout << "\nMonster encountered! Get ready for combat!";
-        Sleep(SLEEP);
-        system("cls");
+        cout << "\nMonster encountered! Get ready for combat!\n";
+        SleepMs(SLEEP);
+        ClearScreen();
         combat(p,NULL);
     } else if (temp>=20) {
         event(p);
     } else {
-        cout << "\nNothing of interest happened";
-        Sleep(1000);
-        system("cls");
+        cout << "\nNothing of interest happened\n";
+        SleepMs(1000);
+        ClearScreen();
     }
 }
 
 void __rest(Player *p) {
     if(rest<2) {
         if (p->playerStats.health==p->totalHealth()) {
-            cout << "\nYou had a nice rest";
+            cout << "\nYou had a nice rest\n";
         } else {
             int heal=ceil((double)p->totalHealth()*p->recoveryRate());
             if (heal<=0) {
                 heal=1;
             }
-            cout << "\nYou rested, healing " << heal << " health";
+            cout << "\nYou rested, healing " << heal << " health\n";
             p->playerStats.health+=heal;
             if (p->playerStats.health>p->totalHealth()) {
                 p->playerStats.health=p->totalHealth();
@@ -230,14 +230,14 @@ void __rest(Player *p) {
         }
         rest+=1;
     } else {
-        cout << "\nYou have rested too long, it's time to move";
+        cout << "\nYou have rested too long, it's time to move\n";
     }
-    Sleep(SLEEP);
+    SleepMs(SLEEP);
 }
 
 void items(Player *p) {
     while(1) {
-        system("cls");
+        ClearScreen();
         cout << "Items ⚔️\n";
         int i,index=1;
         for(i=0;i<owned_items.size();++i) {
@@ -276,7 +276,7 @@ void items(Player *p) {
             }
         } catch (...) {
             cout << "Enter a valid input...";
-            Sleep(SLEEP);
+            SleepMs(SLEEP);
         }
     }
 }
@@ -327,9 +327,9 @@ void chance(Player *p) {
             int random_ind = rand()%gamba.size();
             if(!gamba[random_ind]->owned && rng <= 10) {
                 cout << "7 ";
-                Sleep(sleep_time);
+                SleepMs(sleep_time);
                 cout << "7 ";
-                Sleep(sleep_time*2);
+                SleepMs(sleep_time*2);
                 cout << "7 ";
                 cout << "\nCongrats you won a " << gamba[random_ind]->name;
                 gamba[random_ind]->owned = true;
@@ -337,43 +337,43 @@ void chance(Player *p) {
             } else {
                 if(rng>=45){
                     cout << "7 ";
-                    Sleep(sleep_time);
+                    SleepMs(sleep_time);
                     cout << "7 ";
-                    Sleep(sleep_time*2);
+                    SleepMs(sleep_time*2);
                     cout << rand()%7 << " ";
                 } else {
                     cout << "7 ";
-                    Sleep(sleep_time);
+                    SleepMs(sleep_time);
                     cout << rand()%7 << " ";
-                    Sleep(sleep_time);
+                    SleepMs(sleep_time);
                     cout << "7 ";
                 }
                 cout << "\nBetter luck next time";
             }
         }
-        Sleep(SLEEP);
+        SleepMs(SLEEP);
     }
 }
 
 void print_chance() {
     int sleep_time=400;
-    system("cls");
+    ClearScreen();
     cout << "1 ";
-    Sleep(sleep_time);
+    SleepMs(sleep_time);
     cout << "2 ";
-    Sleep(sleep_time);
+    SleepMs(sleep_time);
     cout << "3 ";
-    Sleep(sleep_time);
+    SleepMs(sleep_time);
     cout << "4 ";
-    Sleep(sleep_time);
+    SleepMs(sleep_time);
     cout << "5 ";
-    Sleep(sleep_time);
+    SleepMs(sleep_time);
     cout << "6 ";
-    Sleep(sleep_time);
+    SleepMs(sleep_time);
 }
 
 void arena(Player *p) {
-    system("cls");
+    ClearScreen();
     cout << "Arena Bosses: \n" << endl;
     int i;
     for(i=0;i<arena_bosses.size();++i) {
@@ -394,14 +394,14 @@ void arena(Player *p) {
         }
         catch (...) {
             cout << "Enter a valid input...";
-            Sleep(SLEEP);
+            SleepMs(SLEEP);
         }
     }
 }
 
 void travel(Player* p) {
     while(1) {
-        system("cls");
+        ClearScreen();
         cout << "Areas to travel: \n" << endl;
         int i;
         for(i=0;i<areas.size();++i) {
@@ -432,12 +432,12 @@ void travel(Player* p) {
                     } else {
                         cout << "\nArea not unlocked yet!" << endl;
                     }
-                    Sleep(SLEEP);
+                    SleepMs(SLEEP);
                 }
             }
             catch (...) {
             cout << "Enter a valid input...";
-            Sleep(SLEEP);
+            SleepMs(SLEEP);
             }
         }
     }
@@ -462,7 +462,7 @@ void set_up() {
 
 void shop(Player *p) {
     while(1) {
-        system("cls");
+        ClearScreen();
         cout << "Shop 🛒\n";
         cout << "🪙  : " << p->gold << "g\n\n";
         int i;
@@ -482,7 +482,7 @@ void shop(Player *p) {
             }
             catch (...) {
             cout << "Enter a valid input...";
-            Sleep(SLEEP);
+            SleepMs(SLEEP);
             }
         }
     }
@@ -493,7 +493,7 @@ void load_game(Player *p) {
     if(inFile.fail()) {
         string name;
         while(1) {
-            system("cls");
+            ClearScreen();
             cout << "No previous save. A new game has started.\n\n";
             cout << "Your journey awaits...\n\n";
             cout << "Enter the name of your character:\n";
@@ -605,7 +605,7 @@ void save_game(Player *p) {
 
         outFile.close();
         cout << "Game saved successfully";
-        Sleep(SLEEP);
+        SleepMs(SLEEP);
     }
 }
 
@@ -614,7 +614,7 @@ Player *create_player(int option) {
     if(option==1) {
         string name;
         while(1) {
-            system("cls");
+            ClearScreen();
             cout << "Your journey awaits...\n\n";
             cout << "Enter the name of your character:\n";
             cin >> name;

@@ -1,4 +1,4 @@
-TARGET = textrpg.exe
+TARGET = ./textrpg.exe
 
 FLAGS = g++
 

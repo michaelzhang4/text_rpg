@@ -4,7 +4,6 @@
 #include <algorithm>
 #include <cctype>
 #include <stdlib.h>
-#include <windows.h>
 #include <time.h>
 #include <array>
 #include <unordered_map>
@@ -16,6 +15,17 @@
 #define MOBS 3
 #define AREAS 4
 #define SLEEP 1800
+
+#ifdef _WIN32
+    #include <windows.h>
+    inline void SleepMs(int milliseconds) { Sleep(milliseconds); }
+    inline void ClearScreen() { system("cls"); }
+#elif __linux__ || __APPLE__
+    #include <unistd.h>
+    inline void SleepMs(int milliseconds) { usleep(milliseconds * 1000); }
+    inline void ClearScreen() { system("clear"); }
+#endif
+
 
 class Item;
 class Player;

@@ -58,7 +58,7 @@ bool Event::pass(Player *p, int stat, int threshold) {
 
 void Event::execute_event(Player *p) {
     string choice;
-    system("cls");
+    ClearScreen();
     cout << descript << "\n\n";
     switch(type) {
         case event_type::currency: {
@@ -119,7 +119,7 @@ Item::Item(int hp, int arm, int dmg, int chance, double cdmg, double rr, int p, 
 
 void Item::inspect_item(Player *p, int from_shop) {
     while(1) {
-        system("cls");
+        ClearScreen();
         if(from_shop==1) {
             if(this->type==0) {
                 cout << name << " - Weapon\n" << "🪙  :" << price << "g" << endl;
@@ -177,7 +177,7 @@ void Item::inspect_item(Player *p, int from_shop) {
                     p->gold -= price;
                 } else {
                     cout << "You can't afford this item";
-                    Sleep(SLEEP);
+                    SleepMs(SLEEP);
                 }
             } else if (choice=="b" | choice=="back") {
                 break;
@@ -356,7 +356,7 @@ void Player::equip(Item* e, int slot) {
     level >= r.lvl) {
         if((secondary_equipped==e ||primary_equipped==e) && e->name!="None") {
             cout << "You already have this item equipped!\n";
-            Sleep(SLEEP);
+            SleepMs(SLEEP);
             return;
         }
         if(slot==0) {
@@ -389,7 +389,7 @@ void Player::equip(Item* e, int slot) {
         }
     } else {
         cout << "You do not meet the requirements to equip this item\n";
-        Sleep(SLEEP);
+        SleepMs(SLEEP);
     }
 }
 
@@ -446,7 +446,7 @@ void Player::take_damage(Enemy *e) {
 
     cout << "\n\n" << e->name << " hit you for " <<
     effective_damage << " damage!\n";
-    Sleep(SLEEP);
+    SleepMs(SLEEP);
     if(playerStats.health <=0) {
         death_screen();
     }
@@ -492,7 +492,7 @@ void Player::gain(int e, int g) {
         << " exp and " << g << " gold!" << endl;
         exp+=e;
         gold+=g;
-        Sleep(SLEEP);
+        SleepMs(SLEEP);
     }
     while (exp >= expLevel) {
         level+=1;
@@ -501,7 +501,7 @@ void Player::gain(int e, int g) {
         << level;
         exp -=expLevel;
         expLevel+=(5+expLevel/4);
-        system("cls");
+        ClearScreen();
         display_stats();
 
         cout << "\nChoose a stat to increase:"
@@ -548,7 +548,7 @@ int Enemy::take_damage(int dmg) {
     cout << "You hit " << name << 
     " for " << effective_dmg << " damage!\n\n";
     enemyStats.health-=effective_dmg;
-    Sleep(SLEEP);
+    SleepMs(SLEEP);
     if(enemyStats.health <=0 ) {
         cout << "You have slain " << name << endl;
         return 1;
@@ -575,7 +575,7 @@ vector<Item*> shop_items, string d, vector<Event*> e_list, bool unlcked, int i) 
 }
 
 void Area::print_description() {
-    system("cls");
+    ClearScreen();
     string input;
     cout << name << "\n\n";
     cout << description << endl;
