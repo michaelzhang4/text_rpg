@@ -77,7 +77,7 @@ int player_turn(Player *p, Enemy *enemy) {
                 }
 
             }
-            return 1;
+            return 0;
         }
     } else if(choice=="2" || choice=="run") {
         ClearScreen();
@@ -91,21 +91,21 @@ int player_turn(Player *p, Enemy *enemy) {
         SleepMs(SLEEP);
         return 2;
     }
-    return 0;
+    return 3;
 }
 
 void enemy_turn(Player *p, Enemy *enemy, int surprised) {
     ClearScreen();
     combatHUD(enemy,p);
     if(surprised==1) {
-        cout << "\n\nThe " << enemy->name << " caught you by surprise\n";
+        cout << "\nThe " << enemy->name << " caught you by surprise\n";
         SleepMs(1000);
     }
     SleepMs(1000);
     p->take_damage(enemy);
 }
 
-void combat(Player *p, Enemy *arena_enemy) {
+int combat(Player *p, Enemy *arena_enemy) {
     int decision;
     Enemy *enemy;
     if(!arena_enemy) {
@@ -130,13 +130,25 @@ void combat(Player *p, Enemy *arena_enemy) {
         start_combat:
         decision = player_turn(p,enemy);
         if(decision==1) {
-            break;
+            if(current_area->index==0){
+                rest=-1;
+            } else {
+                rest=1;
+            }
+            return decision;
         } else if (decision==2) {
             goto start_combat;
+        } else if (decision==0) {
+            break;
         }
         enemy_turn(p,enemy,0);
     }
-    rest=0;
+    if(current_area->index==0){
+        rest=-1;
+    } else {
+        rest=0;
+    }
+    return 0;
 }
 
 void cleared(Player *p, Enemy *e) {
@@ -153,15 +165,16 @@ void unlock_stages(Enemy* e) {
         cout << "\nYou have slain the strongest foe in Goblin Village\n\n";
         cout << areas[1]->name << " has been unlocked for travel!\n";
         areas[1]->unlocked=true;
+        areas[2]->unlocked=true;
         unlocked=true;
     } else if(e->name=="Isolated Frost Demon" && areas[2]->unlocked==false) {
         cout << "\nYou have slain the strongest foe in Rocky Mountains\n\n";
-        cout << areas[2]->name << " has been unlocked for travel!\n";
-        areas[2]->unlocked=true;
+        cout << areas[3]->name << " has been unlocked for travel!\n";
+        areas[3]->unlocked=true;
         unlocked=true;
     }
     if(unlocked) {
-        cout << "\n\nEnter any key to continue...\n";
+        cout << "\nEnter any key to continue...\n";
         string choice;
         cin >> choice;
     }
@@ -210,7 +223,11 @@ void print_explore() {
 void event(Player *p) {
     vector<Event*> e = current_area->event_list;
     int rng = rand() % e.size();
+    while(e[rng]==previous_event) {
+        rng = rand() % e.size();
+    }
     e[rng]->execute_event(p);
+    previous_event=e[rng];
 }
 
 void explore(Player *p) {
@@ -218,12 +235,12 @@ void explore(Player *p) {
         print_explore();
     }
     int temp = rand() % 100;
-    if (temp>=40) {
+    if (temp>=current_area->chance_split[0]) {
         cout << "\nMonster encountered! Get ready for combat!\n";
         SleepMs(SLEEP);
         ClearScreen();
         combat(p,NULL);
-    } else if (temp>=10) {
+    } else if (temp>=current_area->chance_split[1]) {
         event(p);
     } else {
         cout << "\nNothing of interest happened\n";
@@ -302,14 +319,14 @@ void items(Player *p) {
 
 void intro() {
     ClearScreen();
-    slow_print("You find yourself transported into a strange tower.\n\n");
+    slow_print("You find yourself transported to a strange tower.\n\n");
     slow_print("Looking up you see a vast number of floors to the top.\n\n");
-    slow_print("You hear a laugh and a glimpse of many eyes observing you in the distance.\n\n");
-    if(areas[1]->unlocked) {
-        slow_print("A lone figure ponders life on the peak of a mountain.\n\n");
+    slow_print("You see a glimpse of many eyes observing you from above.\n\n");
+    if(areas[2]->unlocked) {
+        slow_print("A lone figure ponders life on the peak of a volcano.\n\n");
     }
     slow_print("Will you find an escape on the highest floor?\n\n\n");
-    cout << "Enter any key to continue...";
+    cout << "Enter any key to continue...\n";
     string choice;cin >> choice;
 };
 
@@ -464,7 +481,7 @@ void arena(Player *p) {
 void travel(Player* p) {
     while(1) {
         ClearScreen();
-        cout << "Floors to travel to: \n" << endl;
+        cout << "Floors: \n" << endl;
         int i;
         for(i=0;i<areas.size();++i) {
             if (areas[i]->unlocked) {
@@ -491,6 +508,7 @@ void travel(Player* p) {
                             current_area = areas[stoi(choice)-1];
                             cout << "\nYou travelled to " << current_area->name << endl;
                             current_area->print_description();
+                            break;
                         }
                     } else {
                         cout << "\nArea not unlocked yet!" << endl;

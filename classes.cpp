@@ -53,7 +53,7 @@ bool Event::pass(Player *p, int stat, int threshold) {
             success=false;
         }
     }
-    cout << endl << endl;
+    cout << endl;
     return success;
 }
 
@@ -61,7 +61,7 @@ void Event::execute_event(Player *p) {
     string choice;
     ClearScreen();
     cout << descript << "\n\n";
-    SleepMs(1000);
+    SleepMs(SLEEP);
     switch(type) {
         case event_type::currency: {
             // args, 0==branch(0==none,1==decision,2==test),
@@ -89,14 +89,22 @@ void Event::execute_event(Player *p) {
                     int threshold = any_cast<int>(args[4]);
                     if(pass(p,stat,threshold)) {
                         SleepMs(SLEEP);
+                        cout << endl;
                         p->gain(exp,gold);
                     }
                     break;
             }
             break;
         }
-        case event_type::encounter:
+        case event_type::encounter: {
+            enemy_template e = any_cast<enemy_template>(args[0]);
+            Enemy* encounter_enemy = new Enemy(e);
+            int dec = combat(p,encounter_enemy);
+            if(dec!=1 && current_area->index==1) {
+                cout << "\nThe people of the city praise your efforts in protecting the peace!\n";
+            }
             break;
+        }
         case event_type::hp: {
             // args, 0==branch(0==none,1==decision,2==test),
             // 1==hp_change
@@ -125,13 +133,29 @@ void Event::execute_event(Player *p) {
         }
             break;
         case event_type::item: {
-            Item* gear = any_cast<Item*>(args[0]);
-            if(gear->owned) {
-                cout << "Unfortunately you already have this item\n";
-            } else {
-                gear->owned=true;
-                owned_items.push_back(gear);
-                cout << "You gained a " << gear->name << "!\n";
+            int type = any_cast<int>(args[0]);
+            Item* gear = any_cast<Item*>(args[1]);
+            if(type==0) {
+                if(gear->owned) {
+                    cout << "Unfortunately you already have this item\n";
+                    
+                } else {
+                    gear->owned=true;
+                    owned_items.push_back(gear);
+                    cout << "You gained a " << gear->name << "!\n";
+                }
+            } else if (type==1) {
+                cout << "Do you take it? (y/n)\n";
+                cin >> choice;lower(choice);
+                if(choice=="y" || choice=="yes") {
+                    if(gear->owned) {
+                        cout << "Unfortunately you already have this item\n";
+                    } else {
+                        gear->owned=true;
+                        owned_items.push_back(gear);
+                        cout << "You gained a " << gear->name << "!\n";
+                    }
+                }
             }
             break;
         }
@@ -371,7 +395,7 @@ Player::Player(string s,int hp,int arm, int dmg, int lvl, int g) {
     playerStats.damage=dmg;
     playerStats.critChance=10;
     playerStats.critDamage=1.50;
-    playerStats.recoveryRate=0.10;
+    playerStats.recoveryRate=0.06;
     exp=0;
     expLevel=10;
     level=lvl;
@@ -486,7 +510,7 @@ void Player::take_damage(Enemy *e) {
     }
     playerStats.health-=effective_damage;
 
-    cout << e->name << " hit you for " <<
+    cout << endl << e->name << " hit you for " <<
     effective_damage << " damage!\n";
     SleepMs(SLEEP);
     if(playerStats.health <=0) {
@@ -496,8 +520,8 @@ void Player::take_damage(Enemy *e) {
 
 void Player::event_hp_change(int c) {
     playerStats.health+=c;
-    if(playerStats.health>playerStats.maxHealth) {
-        playerStats.health=playerStats.maxHealth;
+    if(playerStats.health>totalHealth()) {
+        playerStats.health=totalHealth();
     }
     if(c<0) {
         cout << "You lost " <<
@@ -561,6 +585,11 @@ void Player::gain(int e, int g) {
     } else if (g>0) {
         cout << "You gained " << g 
         << " gold!" << endl;
+        gold+=g;
+        SleepMs(SLEEP);
+    }
+    if(g<0) {
+        cout << "You spent " << -g << " gold!" << endl;
         gold+=g;
         SleepMs(SLEEP);
     }
@@ -634,7 +663,7 @@ void Enemy::display_stats() {
 }
 
 Area::Area(string n, vector<enemy_template> enemies,
-vector<Item*> shop_items, string d, vector<Event*> e_list, bool unlcked, int i, Color c) {
+vector<Item*> shop_items, string d, vector<Event*> e_list, bool unlcked, int i, Color c,int encounterc, int eventc) {
     name = n;
     enemy_list = enemies;
     shop_list = shop_items;
@@ -643,6 +672,8 @@ vector<Item*> shop_items, string d, vector<Event*> e_list, bool unlcked, int i, 
     index = i;
     event_list=e_list;
     color = c;
+    chance_split[0]=encounterc;
+    chance_split[1]=eventc;
 }
 
 void Area::print_description() {

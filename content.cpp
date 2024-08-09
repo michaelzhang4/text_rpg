@@ -14,11 +14,12 @@ array<Area*,AREAS> areas;
 Area *current_area;
 vector<Area*> unlocked_areas;
 string previous_encounter = "None";
+Event *previous_event = areas[0]->event_list[5];
 
 void create_items() {
-    // required stats - hp, armor, damage, level
     // item stats - hp, armor, damage, crit_chance, crit_dmg, recRate 
     // price, sell price, req_stats, name, armor/weapon, owned
+    // required stats - hp, armor, damage, level
     // template
     // add_item(0,0,0,0,0.0,0,0,{0,0,0,1},"","",0,false);
 
@@ -28,15 +29,21 @@ void create_items() {
     add_item(0,0,4,0,0.0,0,200,140,{0,0,0,1},"Sword","sword",0,false);
     add_item(0,0,1,10,0.0,0,0,10,{0,0,0,1},"Knife","knife",0,false);
     add_item(1,1,1,0,0.0,0,0,50,{0,0,0,1},"Goblin Spear","goblin_spear",0,false);
-    add_item(5,0,2,0,0.0,0,0,40,{0,0,0,1},"Bow","bow",0,false);
+    add_item(3,0,2,0,0.0,0,0,40,{0,0,0,1},"Bow","bow",0,false);
     add_item(-3,-1,5,0,0.0,0,0,50,{0,0,0,1},"Staff","staff",0,false);
     add_item(0,2,0,0,0,0,0,35,{0,0,0,1},"Fishing Rod","fishing_rod",0,false);
     add_item(5,1,0,0,0.0,0,0,50,{0,0,0,1},"Cloth Armor","cloth_armor",1,false);
 
+    // Magical Forest items
+    add_item(5,0,4,10,0.0,0,300,210,{0,3,0,5},"Elven Bow","elven_bow",0,false);
+    add_item(-5,-1,7,0,0.0,0,300,210,{0,0,3,5},"Leaf Spell","leaf_spell",0,false);
+    add_item(0,1,6,0,0.0,0,300,210,{25,0,0,5},"Elven Blade","elven_blade",0,false);
+    add_item(5,1,0,10,0.15,0.04,0,50,{15,1,1,5},"Elven Cloth","elven_cloth",1,false);
+
     //Rocky Mountains items
-    add_item(0,0,5,0,0.0,0,300,210,{20,0,0,1},"Steel Sword","steel_sword",0,false);
-    add_item(0,0,6,0,0.0,0,400,280,{25,0,0,1},"Emerald Sword","emerald_sword",0,false);
-    add_item(0,0,7,0,0.0,0,500,350,{30,0,0,1},"Diamond Sword","diamond_sword",0,false);
+    add_item(0,0,5,0,0.0,0,250,210,{15,0,0,1},"Steel Pickaxe","steel_pickaxe",0,false);
+    add_item(0,0,6,0,0.0,0,300,280,{20,0,0,1},"Emerald Pickaxe","emerald_pickaxe",0,false);
+    add_item(0,0,7,0,0.0,0,400,350,{25,0,0,1},"Diamond Pickaxe","diamond_pickaxe",0,false);
     add_item(0,0,3,20,0.0,0,0,150,{0,3,0,1},"Molten Dagger","molten_dagger",0,false);
     add_item(0,0,4,0,0.30,0,0,150,{0,4,0,1},"Obsidian Dagger","obsidian_dagger",0,false);
     add_item(-5,-1,9,0,0.0,0,0,150,{0,0,3,1},"Lava Spell","fire_spell",0,false);
@@ -47,29 +54,31 @@ void create_items() {
 
 void create_areas() {
     string area_names[AREAS] = {"Goblin Village",
-    "Rocky Mountain", "Murky Swamp",
+    "Magical Forest", "Rocky Mountain",
     "Searing Desert"};
     vector<enemy_template> enemies[AREAS] = {
         {
             // base hp, var hp, base armor, var armor, base damage, var damage;
             // level, exp drop, gold drop, name
             // drops(percentage share, item*)
-            {stat_roll{4,0,0,0,1,0},1,3,5,"Goblin Thief",{{100,all_items["knife"]}}},
-            {stat_roll{6,0,0,0,1,0},2,4,10,"Goblin Peon",{{25,all_items["goblin_spear"]}}},
-            {stat_roll{8,0,1,0,2,0},3,5,15,"Goblin Hunter",{{25,all_items["bow"]}}},
-            {stat_roll{8,0,0,0,3,0},3,5,15,"Goblin Mage",{{25,all_items["staff"]}}},
-            {stat_roll{12,0,1,0,2,0},4,7,20,"Goblin Warrior",{{25,all_items["sword"]}}},
-            {stat_roll{15,0,2,0,3,0},5,20,50,"Goblin Chieftain",{{100,all_items["cloth_armor"]}}},
+            {stat_roll{4,0,0,0,1,0},1,3,5,"Goblin Thief",{{25,all_items["knife"]},{12.5,all_items["dagger"]}}},
+            {stat_roll{6,0,2,0,1,0},2,4,10,"Goblin Peon",{{12.5,all_items["goblin_spear"]}}},
+            {stat_roll{8,0,1,0,2,0},3,5,15,"Goblin Hunter",{{12.5,all_items["bow"]}}},
+            {stat_roll{8,0,0,0,3,0},3,5,15,"Goblin Mage",{{12.5,all_items["staff"]}}},
+            {stat_roll{12,0,2,0,2,0},4,7,20,"Goblin Warrior",{{12.5,all_items["sword"]}}},
+            {stat_roll{15,0,3,0,4,0},5,20,50,"Goblin Chieftain",{{100,all_items["cloth_armor"]}}},
         },
         {
-            {stat_roll{8,0,1,0,3,2},6,10,25,"Lava Slime",{{10,all_items["molten_dagger"]},{5,all_items["obsidian_dagger"]}}},
-            {stat_roll{9,0,1,0,4,2},7,15,30,"Lava Bat",{{{10,all_items["molten_dagger"]},{5,all_items["obsidian_dagger"]}}}},
-            {stat_roll{10,0,2,0,5,2},8,20,40,"Lava Wolf",{{20,all_items["molten_dagger"]},{10,all_items["obsidian_dagger"]}}},
-            {stat_roll{11,0,1,0,6,2},8,30,40,"Lava Snake",{{20,all_items["fire_spell"]},{10,all_items["fire_staff"]}}},
-            {stat_roll{12,0,2,0,7,2},9,30,50,"Lava Demon",{{{20,all_items["fire_spell"]},{15,all_items["fire_staff"]}}}},
-            {stat_roll{20,0,3,0,9,0},10,100,100,"Isolated Frost Demon",{{100,all_items["sunfire_cape"]}}},
+            {stat_roll{25,0,2,0,4,0},7,10,25,"Troll",{{}}},
         },
-        {},
+        {
+            {stat_roll{15,0,1,0,3,2},6,10,25,"Lava Slime",{{5,all_items["molten_dagger"]},{5,all_items["obsidian_dagger"]}}},
+            {stat_roll{15,0,1,0,4,2},7,15,30,"Lava Bat",{{{5,all_items["molten_dagger"]},{5,all_items["obsidian_dagger"]}}}},
+            {stat_roll{20,0,2,0,5,2},8,20,40,"Lava Wolf",{{8,all_items["molten_dagger"]},{8,all_items["obsidian_dagger"]}}},
+            {stat_roll{22,0,1,0,6,2},8,30,40,"Lava Snake",{{8,all_items["fire_spell"]},{8,all_items["fire_staff"]}}},
+            {stat_roll{30,0,2,0,7,2},9,30,50,"Lava Demon",{{{10,all_items["fire_spell"]},{10,all_items["fire_staff"]}}}},
+            {stat_roll{50,0,3,0,9,0},10,100,100,"Isolated Frost Demon",{{100,all_items["sunfire_cape"]}}},
+        },
         {}
     };
 
@@ -80,11 +89,15 @@ void create_areas() {
             all_items["sword"]
         },
         {
-            all_items["steel_sword"],
-            all_items["emerald_sword"],
-            all_items["diamond_sword"]
+            all_items["elven_bow"],
+            all_items["leaf_spell"],
+            all_items["elven_blade"]
         },
-        {},
+        {
+            all_items["steel_pickaxe"],
+            all_items["emerald_pickaxe"],
+            all_items["diamond_pickaxe"]
+        },
         {}
     };
 
@@ -93,12 +106,15 @@ void create_areas() {
     gamba.push_back(all_items["diamond_sword"]);
 
     string descriptions[AREAS] = {
-        "You find the first floor is home to goblins.\n"
+        "You find the 1st floor is home to goblins.\n"
         "While few are friendly, most are out to get you.\n"
         "You see another person farming them for loot.\n",
-        "Rocky mountains are home to lava creatures\n"
-        "As well as many rare ores...\n",
-        "",
+        "The 2nd floor is a friendly floor, indicated by the green sign next to the floor name.\n"
+        "This enchanted forest is inhabited by elves, a race which are amiable to you otherworldly tower climbers.\n"
+        "The elves have already cleared this floor and are happy to let you pass to the next.\n"
+        "In the future you are welcome to return at any point.\n",
+        "These 3rd floor mountains have been heating up for over a century and are close to eruption.\n"
+        "Lava creatures roam the floor and many rare ores can be found within the caverns.\n",
         "",
     };
 
@@ -121,13 +137,29 @@ void create_areas() {
         "\nIs your armor strong enough to shield you?",
         {2,-3,1,3}),
         new Event(event_type::hp,
-        "You find a friendly Goblin Sage who heals your wounds",
+        "You find a friendly Goblin Sage who heals your wounds.",
         {0,4}),
         new Event(event_type::item,
         "You find an old fishing rod by the lake!",
-        {all_items["fishing_rod"]}),
+        {0,all_items["fishing_rod"]}),
         },
-        {},
+        {new Event(event_type::currency,
+        "While walking through the city you stop a thief from stealing from an elf.\n"
+        "The elf is grateful and wants to pay you back as a reward",
+        {1,0,25}),
+        new Event(event_type::encounter,
+        "While queuing at the city entrance you see an armed troll attacking civilians.",
+        {enemies[1][0]}),
+        new Event(event_type::currency,
+        "You hang out with friends you made in the city.",
+        {0,10,-25}),
+        new Event(event_type::hp,
+        "You visit the local healer who heals your wounds.",
+        {0,100}),
+        new Event(event_type::item,
+        "A friendly elven blacksmith offers you elven cloth.",
+        {1,all_items["elven_cloth"]}),
+        },
         {},
         {}
     };
@@ -140,8 +172,16 @@ void create_areas() {
         Color::Amber, Color::Green, Color::Amber, Color::Amber
     };
 
+    int encounters[AREAS] {
+        50,100,50,60,
+    };
+
+    int events[AREAS] {
+        10,40,10,30,
+    };
+
     for(int i=0;i<AREAS;++i) {
-        areas[i] = new Area(area_names[i],enemies[i],shop_items[i],descriptions[i],area_events[i],locks[i],i,colours[i]);
+        areas[i] = new Area(area_names[i],enemies[i],shop_items[i],descriptions[i],area_events[i],locks[i],i,colours[i],encounters[i],events[i]);
     }
     current_area=areas[0];
 }

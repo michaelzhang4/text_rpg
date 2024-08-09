@@ -139,7 +139,7 @@ private:
 class Area {
 public:
     Area(std::string n, std::vector<enemy_template> enemies,
-std::vector<Item*> shop_items, std::string description, std::vector<Event*> event_list, bool unlocked, int index, Color color);
+std::vector<Item*> shop_items, std::string description, std::vector<Event*> event_list, bool unlocked, int index, Color color, int encounter, int event);
     std::string name,description;
     std::vector<enemy_template> enemy_list;
     std::vector<Item*> shop_list;
@@ -147,6 +147,7 @@ std::vector<Item*> shop_items, std::string description, std::vector<Event*> even
     bool unlocked;
     int index;
     Color color;
+    int chance_split[2];
     void print_description();
 private:
 };
@@ -161,7 +162,7 @@ int player_turn(Player *p, Enemy *enemy);
 
 void enemy_turn(Player *p, Enemy *enemy, int surprised);
 
-void combat(Player *p, Enemy *e);
+int combat(Player *p, Enemy *e);
 
 int start();
 
@@ -229,3 +230,4 @@ extern std::vector<Area*> unlocked_areas;
 extern int rest;
 extern std::string previous_encounter;
 extern std::vector<std::pair<Enemy*,bool>> arena_bosses;
+extern Event *previous_event;
