@@ -188,16 +188,24 @@ void print_explore() {
     Sleep(sleep_time);
 }
 
+void event(Player *p) {
+    vector<Event*> e = current_area->event_list;
+    int rng = rand() % e.size();
+    e[rng]->execute_event(p);
+}
+
 void explore(Player *p) {
     for(int i=0;i<3;++i) {
         print_explore();
     }
     int temp = rand() % 100;
-    if (temp>=0) {
+    if (temp>=40) {
         cout << "\nMonster encountered! Get ready for combat!";
         Sleep(SLEEP);
         system("cls");
         combat(p,NULL);
+    } else if (temp>=20) {
+        event(p);
     } else {
         cout << "\nNothing of interest happened";
         Sleep(1000);

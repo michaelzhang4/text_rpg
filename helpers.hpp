@@ -11,6 +11,7 @@
 #include <iomanip>
 #include <fstream>
 #include <cmath>
+#include <any>
 
 #define MOBS 3
 #define AREAS 4
@@ -83,6 +84,24 @@ public:
 private:
 };
 
+enum event_type {
+    item,
+    currency,
+    stat,
+    hp,
+    encounter,
+};
+
+class Event {
+public:
+    Event(event_type type, std::string d,std::vector<std::any> v);
+    event_type type;
+    std::vector<std::any> args;
+    std::string descript;
+    void execute_event(Player *p);
+    bool pass(Player *p, int stat, int threshold);
+};
+
 class Item {
 public:
     Item(int hp, int arm, int dmg, int c, double cdmg,double rr, int price, int sell_price, req_stats req, std::string name, std::string hash, int type, bool oo);
@@ -98,10 +117,11 @@ private:
 class Area {
 public:
     Area(std::string n, std::vector<enemy_template> enemies,
-std::vector<Item*> shop_items, std::string description, bool unlocked, int index);
+std::vector<Item*> shop_items, std::string description, std::vector<Event*> event_list, bool unlocked, int index);
     std::string name,description;
     std::vector<enemy_template> enemy_list;
     std::vector<Item*> shop_list;
+    std::vector<Event*> event_list;
     bool unlocked;
     int index;
     void print_description();
@@ -127,6 +147,8 @@ bool isNumber(const std::string& str);
 void lower(std::string &s);
 
 void print_explore();
+
+void event(Player *p);
 
 void explore(Player *p);
 

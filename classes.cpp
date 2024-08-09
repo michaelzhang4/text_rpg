@@ -2,6 +2,104 @@
 
 using namespace std;
 
+Event::Event(event_type t, string d, vector<any> v) {
+    type=t;
+    args=v;
+    descript=d;
+}
+
+bool Event::pass(Player *p, int stat, int threshold) {
+    bool success = true;
+    if(stat==0) {
+        if(p->totalHealth() >= threshold) {
+            cout << "You passed the " << threshold << " ❤️  requirements!";
+        } else {
+            cout << "You did not have " << threshold << " ❤️  stats";
+            success=false;
+        }
+    } else if(stat==1) {
+        if(p->totalArmor() >= threshold) {
+            cout << "You passed the " << threshold << " 🛡️  requirements!";
+        } else {
+            cout << "You did not have " << threshold << " 🗡️  stats";
+            success=false;
+        }
+    } else if(stat==2) {
+        if(p->totalArmor() >= threshold) {
+            cout << "You passed the " << threshold << " 🗡️  requirements!";
+        } else {
+            cout << "You did not have " << threshold << " 🗡️  stats";
+            success=false;
+        }
+    } else if(stat==3) {
+        if(p->totalCritChance() >= threshold) {
+            cout << "You passed the " << threshold << " 💥 requirements!";
+        } else {
+            cout << "You did not have " << threshold << " 💥 stats";
+            success=false;
+        }
+    } else if(stat==4) {
+        if(p->totalCritDmg() >= threshold) {
+            cout << "You passed the " << threshold << " 🔥 requirements!";
+        } else {
+            cout << "You did not have " << threshold << " 🔥 stats";
+            success=false;
+        }
+    } else if(stat==5) {
+        if(p->recoveryRate() >= threshold) {
+            cout << "You passed the " << threshold << " 🌿 requirements!";
+        } else {
+            cout << "You did not have " << threshold << " 🌿 stats";
+            success=false;
+        }
+    }
+    return success;
+}
+
+void Event::execute_event(Player *p) {
+    string choice;
+    system("cls");
+    cout << descript << "\n\n";
+    switch(type) {
+        case event_type::currency: {
+            // args, 0==branch(0==none,1==decision,2==test),
+            // 1==exp, 2==gold;
+            int branch = any_cast<int>(args[0]);
+            int exp = any_cast<int>(args[1]);
+            int gold = any_cast<int>(args[2]);
+            switch(branch) {
+                case 0:
+                    p->gain(exp,gold);
+                    break;
+                case 1:
+                    "Do you take it?(y/n)";
+                    cin >> choice;lower(choice);
+                    if(choice=="y" || choice=="yes") {
+                        p->gain(exp,gold);
+                    }
+                    break;
+                case 2:
+                    // 3==stat(hp,armor,dmg,critc,cdmg,restoration)
+                    // 4==threshold
+                    int stat = any_cast<int>(args[3]);
+                    int threshold = any_cast<int>(args[4]);
+                    pass(p,stat,threshold);
+            }
+            break;
+        }
+        case event_type::encounter:
+            break;
+        case event_type::hp:
+            break;
+        case event_type::item:
+            break;
+        case event_type::stat:
+            break;
+    }
+    cout << "Enter any key to continue..." << endl;
+    cin>>choice;
+}
+
 Item::Item(int hp, int arm, int dmg, int chance, double cdmg, double rr, int p, int sell_p, req_stats required, string n, string h, int t, bool oo) {
     itemStats.health=hp;
     itemStats.maxHealth=hp;
@@ -402,7 +500,7 @@ void Player::gain(int e, int g) {
         "\nYou have leveled up!\nYou are now level "
         << level;
         exp -=expLevel;
-        expLevel+=expLevel/2.5;
+        expLevel+=(5+expLevel/4);
         system("cls");
         display_stats();
 
@@ -466,13 +564,14 @@ void Enemy::display_stats() {
 }
 
 Area::Area(string n, vector<enemy_template> enemies,
-vector<Item*> shop_items, string d, bool unlcked, int i) {
+vector<Item*> shop_items, string d, vector<Event*> e_list, bool unlcked, int i) {
     name = n;
     enemy_list = enemies;
     shop_list = shop_items;
     description = d;
     unlocked=unlcked;
     index = i;
+    event_list=e_list;
 }
 
 void Area::print_description() {

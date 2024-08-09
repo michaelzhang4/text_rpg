@@ -91,7 +91,7 @@ void create_areas() {
     gamba.push_back(all_items["emerald_sword"]);
     gamba.push_back(all_items["diamond_sword"]);
 
-    string descriptions[AREAS] {
+    string descriptions[AREAS] = {
         "Goblin village is home to goblins.\n"
         "A green hobbit-like species that likes to attack humans.\n",
         "Rocky mountains are home to lava creatures\n"
@@ -99,11 +99,26 @@ void create_areas() {
         "",
         "",
     };
+
+    vector<Event*> area_events[AREAS] = {
+        {
+            new Event(event_type::currency,
+        "You almost fall into a Goblin trap",
+        {0,4,0}),
+            new Event(event_type::currency,
+        "You discover a Goblin's stolen gold",
+        {0,0,4}),
+        },
+        {},
+        {},
+        {}
+    };
+
     bool locks[AREAS] {
         true,false,false,false,
     };
     for(int i=0;i<AREAS;++i) {
-        areas[i] = new Area(area_names[i],enemies[i],shop_items[i],descriptions[i],locks[i],i);
+        areas[i] = new Area(area_names[i],enemies[i],shop_items[i],descriptions[i],area_events[i],locks[i],i);
     }
     current_area=areas[0];
 }

@@ -26,9 +26,9 @@
 
 4. Add equip slots e.g. armor [DONE]
 
-5. Add crit_chance/crit damage stat []
+5. Add crit_chance/crit damage stat [DONE]
 
-6. Add arena with bosses []
+6. Add arena with bosses [DONE]
 
 7. Save file [DONE]
 

@@ -4,6 +4,8 @@ A game I created to help me learn C++
 
 ## Installation
 
+Requires C++ GCC version 7.1 or later
+
 ```sh
 # Clone the repository
 git clone https://github.com/michaelzhang4/textrpg.git
