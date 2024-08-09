@@ -19,6 +19,8 @@ make
 
 # Notes
 
+Works on Windows, MacOS and Linux.
+
 Make sure to enable UTF-8 fonts in terminal otherwise the emojis won't load.
 
 I found these commands work for me in windows CMD/Powershell to enable UTF-8 support for a terminal session:
