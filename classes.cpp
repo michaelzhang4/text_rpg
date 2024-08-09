@@ -214,7 +214,9 @@ void Item::inspect_item(Player *p, int from_shop) {
         if(itemStats.critDamage!=0) {
             cout << "🔥 : " << itemStats.critDamage << "x ";
         }
-        
+        if(itemStats.recoveryRate!=0) {
+            cout << "🌿 : " << itemStats.recoveryRate << "x ";
+        }
         cout << "\nRequirements:\n";
         if(req.dmg>0) {
             cout << req.dmg <<"🗡️  ";
@@ -491,8 +493,8 @@ void Player::display_stats() {
     << "% (" << primary_equipped->itemStats.critChance+secondary_equipped->itemStats.critChance+armor_equipped->itemStats.critChance << ") "
     "🔥 : " << totalCritDmg()
     << "x (" << primary_equipped->itemStats.critDamage+secondary_equipped->itemStats.critDamage+armor_equipped->itemStats.critDamage << ") "
-    "🌿 : " << (int)(recoveryRate()*100)
-    << "% (" << (int)(primary_equipped->itemStats.recoveryRate+secondary_equipped->itemStats.recoveryRate+armor_equipped->itemStats.recoveryRate)*100 << ") "
+    "🌿 : " << (int)(recoveryRate()*100.0)
+    << "% (" << (int)((primary_equipped->itemStats.recoveryRate+secondary_equipped->itemStats.recoveryRate+armor_equipped->itemStats.recoveryRate)*100.0) << ") "
     << "\nLevel: "<<level<< " - " << exp << "/"
     << expLevel << " 🪙  : " << gold << "g" << endl;
 }

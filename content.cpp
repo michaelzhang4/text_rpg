@@ -38,7 +38,7 @@ void create_items() {
     add_item(5,0,4,10,0.0,0,300,210,{0,3,0,5},"Elven Bow","elven_bow",0,false);
     add_item(-5,-1,7,0,0.0,0,300,210,{0,0,3,5},"Leaf Spell","leaf_spell",0,false);
     add_item(0,1,6,0,0.0,0,300,210,{25,0,0,5},"Elven Blade","elven_blade",0,false);
-    add_item(5,1,0,10,0.15,0.04,0,50,{15,1,1,5},"Elven Cloth","elven_cloth",1,false);
+    add_item(5,1,0,10,0.15,0.04,0,100,{15,1,1,5},"Elven Cloth","elven_cloth",1,false);
 
     //Rocky Mountains items
     add_item(0,0,5,0,0.0,0,250,210,{15,0,0,1},"Steel Pickaxe","steel_pickaxe",0,false);
