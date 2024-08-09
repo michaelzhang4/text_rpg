@@ -33,5 +33,6 @@ CMD:
 ```sh
 chcp 65001
 ```
-![image](https://github.com/user-attachments/assets/f44fbe68-555c-4770-b93e-14b5efd3b07e)
+![image](https://github.com/user-attachments/assets/7b9e073d-59d0-48c0-b530-ed1677b998c6)
+
 
