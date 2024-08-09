@@ -14,7 +14,7 @@ array<Area*,AREAS> areas;
 Area *current_area;
 vector<Area*> unlocked_areas;
 string previous_encounter = "None";
-Event *previous_event = areas[0]->event_list[5];
+Event *previous_event = nullptr;//areas[0]->event_list[5]
 
 void create_items() {
     // item stats - hp, armor, damage, crit_chance, crit_dmg, recRate 
@@ -123,44 +123,55 @@ void create_areas() {
         // curr(branch,exp,gold,stat(hp,ar,d,crit,cdmg,rest),threshhold)
         // hp(branch,change,stat(hp,ar,d,crit,cdmg,rest),threshold)
         {
-        new Event(event_type::currency,
-        "You almost fall into a Goblin trap, that was a close one!",
-        {0,4,0}),
-        new Event(event_type::currency,
-        "You discover a Goblin's loot!",
-        {1,0,10}),
-        new Event(event_type::currency,
-        "You find a locked chest... are you strong enough to open it?",
-        {2,0,50,0,20}),
-        new Event(event_type::hp,
-        "You get caught in a landslide near the village!"
-        "\nIs your armor strong enough to shield you?",
-        {2,-3,1,3}),
-        new Event(event_type::hp,
-        "You find a friendly Goblin Sage who heals your wounds.",
-        {0,4}),
-        new Event(event_type::item,
-        "You find an old fishing rod by the lake!",
-        {0,all_items["fishing_rod"]}),
+            new Event(event_type::currency,
+            "You almost fall into a Goblin trap, that was a close one!",
+            {0,4,0}),
+            new Event(event_type::currency,
+            "You discover a Goblin's loot!",
+            {1,0,10}),
+            new Event(event_type::currency,
+            "You find a locked chest... are you strong enough to open it?",
+            {2,0,50,0,20}),
+            new Event(event_type::hp,
+            "You get caught in a landslide near the village!"
+            "\nIs your armor strong enough to shield you?",
+            {2,-3,1,3}),
+            new Event(event_type::hp,
+            "You find a friendly Goblin Sage who heals your wounds.",
+            {0,4}),
+            new Event(event_type::item,
+            "You find an old fishing rod by the lake!",
+            {0,all_items["fishing_rod"]}),
         },
-        {new Event(event_type::currency,
-        "While walking through the city you stop a thief from stealing from an elf.\n"
-        "The elf is grateful and wants to pay you back as a reward",
-        {1,0,25}),
-        new Event(event_type::encounter,
-        "While queuing at the city entrance you see an armed troll attacking civilians.",
-        {enemies[1][0]}),
-        new Event(event_type::currency,
-        "You hang out with friends you made in the city.",
-        {0,10,-25}),
-        new Event(event_type::hp,
-        "You visit the local healer who heals your wounds.",
-        {0,100}),
-        new Event(event_type::item,
-        "A friendly elven blacksmith offers you elven cloth.",
-        {1,all_items["elven_cloth"]}),
+        {
+            new Event(event_type::currency,
+            "While walking through the city you stop a thief from stealing from an elf.\n"
+            "The elf is grateful and wants to pay you back as a reward.",
+            {1,0,25}),
+            new Event(event_type::encounter,
+            "While queuing at the city entrance you see an armed troll attacking civilians.",
+            {enemies[1][0]}),
+            new Event(event_type::currency,
+            "You hang out with friends you made in the city.",
+            {0,10,-25}),
+            new Event(event_type::hp,
+            "You visit the local healer who heals your wounds.",
+            {0,100}),
+            new Event(event_type::item,
+            "A friendly elven blacksmith offers you elven cloth.",
+            {1,all_items["elven_cloth"]}),
         },
-        {},
+        {
+            new Event(event_type::hp,
+            "A lava slime cannonballs into a pool of fire.\n"
+            "You were splashed by the lava.",
+            {2,-3,0,30}),
+            new Event(event_type::currency,
+            "You meet another tower climber.\n"
+            "They want to trade you 30 exp for 50 gold.",
+            {1,30,-50}),
+        },
+        
         {}
     };
 
@@ -177,11 +188,12 @@ void create_areas() {
     };
 
     int events[AREAS] {
-        10,40,10,30,
+        10,30,10,30,
     };
 
     for(int i=0;i<AREAS;++i) {
         areas[i] = new Area(area_names[i],enemies[i],shop_items[i],descriptions[i],area_events[i],locks[i],i,colours[i],encounters[i],events[i]);
     }
     current_area=areas[0];
+    previous_event = areas[0]->event_list[5];
 }
