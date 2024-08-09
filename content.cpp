@@ -30,6 +30,7 @@ void create_items() {
     add_item(1,1,1,0,0.0,0,0,50,{0,0,0,1},"Goblin Spear","goblin_spear",0,false);
     add_item(5,0,2,0,0.0,0,0,40,{0,0,0,1},"Bow","bow",0,false);
     add_item(-3,-1,5,0,0.0,0,0,50,{0,0,0,1},"Staff","staff",0,false);
+    add_item(0,2,0,0,0,0,0,35,{0,0,0,1},"Fishing Rod","fishing_rod",0,false);
     add_item(5,1,0,0,0.0,0,0,50,{0,0,0,1},"Cloth Armor","cloth_armor",1,false);
 
     //Rocky Mountains items
@@ -54,11 +55,11 @@ void create_areas() {
             // level, exp drop, gold drop, name
             // drops(percentage share, item*)
             {stat_roll{4,0,0,0,1,0},1,3,5,"Goblin Thief",{{100,all_items["knife"]}}},
-            {stat_roll{5,0,0,0,1,0},2,4,10,"Goblin Peon",{{25,all_items["goblin_spear"]}}},
-            {stat_roll{6,0,1,0,2,0},3,5,15,"Goblin Hunter",{{25,all_items["bow"]}}},
-            {stat_roll{6,0,0,0,2,0},3,5,15,"Goblin Mage",{{25,all_items["staff"]}}},
-            {stat_roll{7,0,1,0,2,0},4,7,20,"Goblin Warrior",{{25,all_items["sword"]}}},
-            {stat_roll{10,0,1,0,3,0},5,20,50,"Goblin Chieftain",{{100,all_items["cloth_armor"]}}},
+            {stat_roll{6,0,0,0,1,0},2,4,10,"Goblin Peon",{{25,all_items["goblin_spear"]}}},
+            {stat_roll{8,0,1,0,2,0},3,5,15,"Goblin Hunter",{{25,all_items["bow"]}}},
+            {stat_roll{8,0,0,0,3,0},3,5,15,"Goblin Mage",{{25,all_items["staff"]}}},
+            {stat_roll{12,0,1,0,2,0},4,7,20,"Goblin Warrior",{{25,all_items["sword"]}}},
+            {stat_roll{15,0,2,0,3,0},5,20,50,"Goblin Chieftain",{{100,all_items["cloth_armor"]}}},
         },
         {
             {stat_roll{8,0,1,0,3,2},6,10,25,"Lava Slime",{{10,all_items["molten_dagger"]},{5,all_items["obsidian_dagger"]}}},
@@ -92,8 +93,9 @@ void create_areas() {
     gamba.push_back(all_items["diamond_sword"]);
 
     string descriptions[AREAS] = {
-        "Goblin village is home to goblins.\n"
-        "A green hobbit-like species that likes to attack humans.\n",
+        "You find the first floor is home to goblins.\n"
+        "While few are friendly, most are out to get you.\n"
+        "You see another person farming them for loot.\n",
         "Rocky mountains are home to lava creatures\n"
         "As well as many rare ores...\n",
         "",
@@ -101,13 +103,29 @@ void create_areas() {
     };
 
     vector<Event*> area_events[AREAS] = {
+        // branch(0==none,1==decision,2==test)
+        // curr(branch,exp,gold,stat(hp,ar,d,crit,cdmg,rest),threshhold)
+        // hp(branch,change,stat(hp,ar,d,crit,cdmg,rest),threshold)
         {
-            new Event(event_type::currency,
+        new Event(event_type::currency,
         "You almost fall into a Goblin trap, that was a close one!",
         {0,4,0}),
-            new Event(event_type::currency,
-        "You discover a Goblin's stolen loot!",
-        {1,0,4}),
+        new Event(event_type::currency,
+        "You discover a Goblin's loot!",
+        {1,0,10}),
+        new Event(event_type::currency,
+        "You find a locked chest... are you strong enough to open it?",
+        {2,0,50,0,20}),
+        new Event(event_type::hp,
+        "You get caught in a landslide near the village!"
+        "\nIs your armor strong enough to shield you?",
+        {2,-3,1,3}),
+        new Event(event_type::hp,
+        "You find a friendly Goblin Sage who heals your wounds",
+        {0,4}),
+        new Event(event_type::item,
+        "You find an old fishing rod by the lake!",
+        {all_items["fishing_rod"]}),
         },
         {},
         {},
@@ -117,8 +135,13 @@ void create_areas() {
     bool locks[AREAS] {
         true,false,false,false,
     };
+
+    Color colours[AREAS] {
+        Color::Amber, Color::Green, Color::Amber, Color::Amber
+    };
+
     for(int i=0;i<AREAS;++i) {
-        areas[i] = new Area(area_names[i],enemies[i],shop_items[i],descriptions[i],area_events[i],locks[i],i);
+        areas[i] = new Area(area_names[i],enemies[i],shop_items[i],descriptions[i],area_events[i],locks[i],i,colours[i]);
     }
     current_area=areas[0];
 }

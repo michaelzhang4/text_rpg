@@ -1,4 +1,4 @@
-TARGET = ./textrpg.exe
+TARGET = ./towerofgod.exe
 
 FLAGS = g++
 

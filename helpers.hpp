@@ -78,6 +78,7 @@ public:
     void display_stats();
     void print_name();
     void take_damage(Enemy *e);
+    void event_hp_change(int i);
     void gain(int e, int g);
     Item* primary_equipped;
     Item* secondary_equipped;
@@ -105,6 +106,14 @@ enum event_type {
     encounter,
 };
 
+enum Color {
+    Green,
+    Amber,
+    Red,
+    Black,
+    White,
+};
+
 class Event {
 public:
     Event(event_type type, std::string d,std::vector<std::any> v);
@@ -130,13 +139,14 @@ private:
 class Area {
 public:
     Area(std::string n, std::vector<enemy_template> enemies,
-std::vector<Item*> shop_items, std::string description, std::vector<Event*> event_list, bool unlocked, int index);
+std::vector<Item*> shop_items, std::string description, std::vector<Event*> event_list, bool unlocked, int index, Color color);
     std::string name,description;
     std::vector<enemy_template> enemy_list;
     std::vector<Item*> shop_list;
     std::vector<Event*> event_list;
     bool unlocked;
     int index;
+    Color color;
     void print_description();
 private:
 };
@@ -154,6 +164,8 @@ void enemy_turn(Player *p, Enemy *enemy, int surprised);
 void combat(Player *p, Enemy *e);
 
 int start();
+
+void slow_print(std::string s);
 
 bool isNumber(const std::string& str);
 
@@ -192,6 +204,8 @@ void unlock_stages(Enemy* e);
 void cleared(Player *p, Enemy* e);
 
 void shop(Player *p);
+
+void intro();
 
 std::string xor_encrypt_decrypt(const std::string &data, const std::string &key);
 

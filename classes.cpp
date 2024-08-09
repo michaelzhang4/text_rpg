@@ -12,47 +12,48 @@ bool Event::pass(Player *p, int stat, int threshold) {
     bool success = true;
     if(stat==0) {
         if(p->totalHealth() >= threshold) {
-            cout << "You passed the " << threshold << " ❤️  requirements!";
+            cout << "You passed! - " << threshold << " ❤️";
         } else {
-            cout << "You did not have " << threshold << " ❤️  stats";
+            cout << "You do not have " << threshold << " ❤️";
             success=false;
         }
     } else if(stat==1) {
         if(p->totalArmor() >= threshold) {
-            cout << "You passed the " << threshold << " 🛡️  requirements!";
+            cout << "You passed! - " << threshold << " 🛡️";
         } else {
-            cout << "You did not have " << threshold << " 🗡️  stats";
+            cout << "You do not have " << threshold << " 🛡️";
             success=false;
         }
     } else if(stat==2) {
         if(p->totalArmor() >= threshold) {
-            cout << "You passed the " << threshold << " 🗡️  requirements!";
+            cout << "You passed! - " << threshold << " 🗡️";
         } else {
-            cout << "You did not have " << threshold << " 🗡️  stats";
+            cout << "You do not have " << threshold << " 🗡️";
             success=false;
         }
     } else if(stat==3) {
         if(p->totalCritChance() >= threshold) {
-            cout << "You passed the " << threshold << " 💥 requirements!";
+            cout << "You passed! - " << threshold << " 💥";
         } else {
-            cout << "You did not have " << threshold << " 💥 stats";
+            cout << "You do not have " << threshold << " 💥";
             success=false;
         }
     } else if(stat==4) {
         if(p->totalCritDmg() >= threshold) {
-            cout << "You passed the " << threshold << " 🔥 requirements!";
+            cout << "You passed! - " << threshold << " 🔥";
         } else {
-            cout << "You did not have " << threshold << " 🔥 stats";
+            cout << "You do not have " << threshold << " 🔥";
             success=false;
         }
     } else if(stat==5) {
         if(p->recoveryRate() >= threshold) {
-            cout << "You passed the " << threshold << " 🌿 requirements!";
+            cout << "You passed! - " << threshold << " 🌿";
         } else {
-            cout << "You did not have " << threshold << " 🌿 stats";
+            cout << "You do not have " << threshold << " 🌿";
             success=false;
         }
     }
+    cout << endl << endl;
     return success;
 }
 
@@ -60,6 +61,7 @@ void Event::execute_event(Player *p) {
     string choice;
     ClearScreen();
     cout << descript << "\n\n";
+    SleepMs(1000);
     switch(type) {
         case event_type::currency: {
             // args, 0==branch(0==none,1==decision,2==test),
@@ -72,10 +74,12 @@ void Event::execute_event(Player *p) {
                     p->gain(exp,gold);
                     break;
                 case 1:
-                    "Do you take it?(y/n)";
+                    cout << "Do you take it? (y/n)\n";
                     cin >> choice;lower(choice);
                     if(choice=="y" || choice=="yes") {
                         p->gain(exp,gold);
+                    } else {
+                        cout << "\nWhat a kind individual you are!\n";
                     }
                     break;
                 case 2:
@@ -83,16 +87,54 @@ void Event::execute_event(Player *p) {
                     // 4==threshold
                     int stat = any_cast<int>(args[3]);
                     int threshold = any_cast<int>(args[4]);
-                    pass(p,stat,threshold);
+                    if(pass(p,stat,threshold)) {
+                        SleepMs(SLEEP);
+                        p->gain(exp,gold);
+                    }
+                    break;
             }
             break;
         }
         case event_type::encounter:
             break;
-        case event_type::hp:
+        case event_type::hp: {
+            // args, 0==branch(0==none,1==decision,2==test),
+            // 1==hp_change
+            int branch = any_cast<int>(args[0]);
+            int hp_change = any_cast<int>(args[1]);
+            switch(branch) {
+                case 0:
+                    p->event_hp_change(hp_change);
+                    SleepMs(1000);
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    // 3==stat(hp,armor,dmg,critc,cdmg,restoration)
+                    // 4==threshold
+                    int stat = any_cast<int>(args[2]);
+                    int threshold = any_cast<int>(args[3]);
+                    if(pass(p,stat,threshold)) {
+                    } else {
+                        p->event_hp_change(hp_change);
+                    }
+                    SleepMs(SLEEP);
+                    break;
+            }
             break;
-        case event_type::item:
+        }
             break;
+        case event_type::item: {
+            Item* gear = any_cast<Item*>(args[0]);
+            if(gear->owned) {
+                cout << "Unfortunately you already have this item\n";
+            } else {
+                gear->owned=true;
+                owned_items.push_back(gear);
+                cout << "You gained a " << gear->name << "!\n";
+            }
+            break;
+        }
         case event_type::stat:
             break;
     }
@@ -444,12 +486,30 @@ void Player::take_damage(Enemy *e) {
     }
     playerStats.health-=effective_damage;
 
-    cout << "\n\n" << e->name << " hit you for " <<
+    cout << e->name << " hit you for " <<
     effective_damage << " damage!\n";
     SleepMs(SLEEP);
     if(playerStats.health <=0) {
         death_screen();
     }
+}
+
+void Player::event_hp_change(int c) {
+    playerStats.health+=c;
+    if(playerStats.health>playerStats.maxHealth) {
+        playerStats.health=playerStats.maxHealth;
+    }
+    if(c<0) {
+        cout << "You lost " <<
+        -c << " health!\n";
+    } else if(c>0) {
+        cout << "You gained " << c << " health!\n";
+    }
+    if(playerStats.health <=0) {
+        SleepMs(SLEEP);
+        death_screen();
+    }
+
 }
 
 int Player::damage() {
@@ -574,7 +634,7 @@ void Enemy::display_stats() {
 }
 
 Area::Area(string n, vector<enemy_template> enemies,
-vector<Item*> shop_items, string d, vector<Event*> e_list, bool unlcked, int i) {
+vector<Item*> shop_items, string d, vector<Event*> e_list, bool unlcked, int i, Color c) {
     name = n;
     enemy_list = enemies;
     shop_list = shop_items;
@@ -582,6 +642,7 @@ vector<Item*> shop_items, string d, vector<Event*> e_list, bool unlcked, int i) 
     unlocked=unlcked;
     index = i;
     event_list=e_list;
+    color = c;
 }
 
 void Area::print_description() {

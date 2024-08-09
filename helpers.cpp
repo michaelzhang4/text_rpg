@@ -10,9 +10,28 @@ void death_screen() {
 
 void HUD(Player* p) {
     ClearScreen();
-    cout << "Area - " << current_area->name << endl;
+    string floor_color = "🟧";
+    if(current_area->color==Color::Green) {
+        floor_color = "🟩";
+    } else if (current_area->color==Color::Red) {
+        floor_color = "🟥";
+    } else if (current_area->color==Color::Black) {
+        floor_color = "⬛";
+    } else if (current_area->color==Color::White) {
+        floor_color = "⬜";
+    }
+    cout << "Floor "<< current_area->index+1 << " - " << current_area->name << " " << floor_color << endl;
     p->display_stats();
     choices(p);
+}
+
+void slow_print(string s) {
+    int time=20;
+    for(char c: s) {
+        cout << c;
+        FLUSH();
+        SleepMs(time);
+    }
 }
 
 void combatHUD(Enemy *enemy, Player *player) {
@@ -49,7 +68,7 @@ int player_turn(Player *p, Enemy *enemy) {
                     if(rng<=pair.first) {
                         string choice;
                         cout << endl << enemy->name << " dropped a " << item->name << "!\n";
-                        cout << "\n\nEnter any key to continue...\n";
+                        cout << "\nEnter any key to continue...\n";
                         item->owned=true;
                         owned_items.push_back(item);
                         cin >> choice;
@@ -153,7 +172,7 @@ int start() {
     cout << fixed << setprecision(2);
     while(1) {
         ClearScreen();
-        cout << "Welcome to my text-based RPG\n\n";
+        cout << "Welcome to the Tower of God\n\n";
         cout << "1. New Game\n2. Load Save\n";
         string choice; cin >> choice;lower(choice);
         if(choice == "1" | choice == "new" | choice == "new game") {
@@ -204,7 +223,7 @@ void explore(Player *p) {
         SleepMs(SLEEP);
         ClearScreen();
         combat(p,NULL);
-    } else if (temp>=20) {
+    } else if (temp>=10) {
         event(p);
     } else {
         cout << "\nNothing of interest happened\n";
@@ -232,7 +251,7 @@ void __rest(Player *p) {
     } else {
         cout << "\nYou may rest again after the next combat\n";
     }
-    SleepMs(SLEEP);
+    SleepMs(1000);
 }
 
 void items(Player *p) {
@@ -280,6 +299,19 @@ void items(Player *p) {
         }
     }
 }
+
+void intro() {
+    ClearScreen();
+    slow_print("You find yourself transported into a strange tower.\n\n");
+    slow_print("Looking up you see a vast number of floors to the top.\n\n");
+    slow_print("You hear a laugh and a glimpse of many eyes observing you in the distance.\n\n");
+    if(areas[1]->unlocked) {
+        slow_print("A lone figure ponders life on the peak of a mountain.\n\n");
+    }
+    slow_print("Will you find an escape on the highest floor?\n\n\n");
+    cout << "Enter any key to continue...";
+    string choice;cin >> choice;
+};
 
 void choices(Player *p) {
     cout << "\n1. Explore 2. Shop   3. Rest\n4. Items   5. Save";
@@ -432,7 +464,7 @@ void arena(Player *p) {
 void travel(Player* p) {
     while(1) {
         ClearScreen();
-        cout << "Areas to travel: \n" << endl;
+        cout << "Floors to travel to: \n" << endl;
         int i;
         for(i=0;i<areas.size();++i) {
             if (areas[i]->unlocked) {
@@ -458,6 +490,7 @@ void travel(Player* p) {
                         } else {
                             current_area = areas[stoi(choice)-1];
                             cout << "\nYou travelled to " << current_area->name << endl;
+                            current_area->print_description();
                         }
                     } else {
                         cout << "\nArea not unlocked yet!" << endl;
@@ -657,7 +690,7 @@ void save_game(Player *p, bool force) {
 
         outFile.close();
         if(!force) {
-            cout << "Game saved successfully\n";
+            cout << "Game saved successfully!\n";
         }
         SleepMs(SLEEP);
     }
