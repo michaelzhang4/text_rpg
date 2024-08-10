@@ -214,7 +214,7 @@ void Event::execute_event(Player *p) {
             int change = any_cast<int>(args[2]);
             if(branch==0) {
 
-            } else if(branch==1) {
+            } else if(branch==2) {
                 stat = rand()%3;
                 if(stat == 0) {
                     change = rand()%4+1;

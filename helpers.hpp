@@ -16,7 +16,7 @@
 #include <cstdio>
 
 #define MOBS 3
-#define AREAS 4
+#define AREAS 7
 #define SLEEP 1800
 
 #ifdef _WIN32
@@ -114,6 +114,13 @@ enum Color {
     Red,
     Black,
     White,
+};
+
+enum Branch {
+    None,
+    Decision,
+    Test,
+    Trade,
 };
 
 class Event {

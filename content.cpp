@@ -46,9 +46,10 @@ void create_items() {
     add_item(5,1,0,10,0.15,0.04,0,100,{15,1,1,8},"Elven Cloth","elven_cloth",1,false);
 
     //Rocky Mountains items
-    add_item(0,0,5,0,0.0,0,250,210,{15,0,0,15},"Steel Pickaxe","steel_pickaxe",0,false);
-    add_item(0,0,6,0,0.0,0,300,280,{20,0,0,15},"Emerald Pickaxe","emerald_pickaxe",0,false);
-    add_item(0,0,7,0,0.0,0,400,350,{25,0,0,15},"Diamond Pickaxe","diamond_pickaxe",0,false);
+    add_item(0,0,5,0,0.0,0,250,210,{25,0,0,15},"Steel Pickaxe","steel_pickaxe",0,false);
+    add_item(0,1,7,0,0.0,0,400,280,{30,0,0,15},"Emerald Pickaxe","emerald_pickaxe",0,false);
+    add_item(0,2,9,0,0.0,0,600,420,{30,0,0,15},"Ruby Pickaxe","ruby_pickaxe",0,false);
+    add_item(0,3,13,0,0.0,0,1000,420,{30,0,0,15},"Diamond Pickaxe","diamond_pickaxe",0,false);
     add_item(0,0,3,20,0.0,0,0,150,{0,3,0,15},"Steel Dagger","steel_dagger",0,false);
     add_item(0,0,4,0,0.30,0,0,150,{0,4,0,15},"Gold Dagger","gold_dagger",0,false);
     add_item(-5,-1,9,0,0.0,0,0,150,{0,0,3,15},"Rock Spell","rock_spell",0,false);
@@ -65,13 +66,25 @@ void create_items() {
     add_item(0,3,0,15,0.20,0,0,200,{0,6,0,20},"Sun Amulet","sun_amulet",0,false);
     add_item(5,2,0,15,0.30,0.09,0,200,{0,7,0,20},"Mirage Cloak","mirage_cloak",1,false);
     add_item(5,8,2,-10,0.0,0,0,200,{35,0,0,20},"Desert Armor","desert_armor",1,false);
+
+    // Frozen Tundra items
+    add_item(0,0,10,0,0.0,0,0,250,{35,0,0,25},"Ice Claw","ice_claw",0,false);
+    add_item(0,0,12,0,0.0,0,0,300,{40,0,0,25},"Frozen Club","frozen_club",0,false);
+    add_item(0,0,8,20,0.50,0,0,350,{0,0,0,25},"Ice Shield","ice_shield",0,false);
+    add_item(5,3,0,10,0.20,0.05,0,250,{0,0,0,25},"Frozen Amulet","frozen_amulet",0,false);
+    add_item(15,10,5,-20,0.0,0,0,500,{60,0,0,35},"Frost Hammer","frost_hammer",0,false);
+    add_item(10,3,0,15,0.30,0.09,0,300,{0,0,0,25},"Frost Cloak","frost_cloak",1,false);
+    add_item(5,10,3,-10,0.0,0,0,400,{50,0,0,30},"Dragon Scale Armor","dragon_scale_armor",1,false);
+    add_item(5,5,2,10,0.0,0,0,300,{40,0,0,25},"Giant Boots","giant_boots",1,false);
+    add_item(0,0,15,0,0.30,0,0,400,{0,0,0,25},"Frozen Armor","frozen_armor",1,false);
+
 }
 
 
 void create_areas() {
     string area_names[AREAS] = {"Goblin Village",
     "Magical Forest", "Rocky Mountain",
-    "Searing Desert"};
+    "Searing Desert", "Frozen Tundra", "Underwater Kingdom", "Hell"};
     vector<enemy_template> enemies[AREAS] = {
         {
             // base hp, var hp, base armor, var armor, base damage, var damage;
@@ -101,12 +114,23 @@ void create_areas() {
         },
         {
             {stat_roll{50,0,10,0,10,0},30,80,150,"Desert Bandit",{{8,all_items["water"]},{5,all_items["scimitar"]}}},
-            {stat_roll{100,0,10,0,12,0},30,160,300,"Desert Bandits",{{16,all_items["water"]},{8,all_items["scimitar"]}}},
+            {stat_roll{100,0,10,0,12,0},30,160,300,"Desert Rogues",{{16,all_items["water"]},{8,all_items["scimitar"]}}},
             {stat_roll{100,0,4,0,15,0},33,100,200,"Sand Golem",{{5,all_items["sum_amulet"]}, {5,all_items["sand_sheathe"]}}},
             {stat_roll{70,0,9,0,20,0},37,100,200,"Poisonous Scorpion",{{5,all_items["poisoned_dagger"]},{3,all_items["sandstorm_spell"]}}},
             {stat_roll{100,0,2,0,22,0},40,150,300,"Desert Wyrm",{{5,all_items["sandstorm_spell"]},{5,all_items["sun_amulet"]}}},
-            {stat_roll{150,0,8,0,25,0},50,300,500,"Sand Elemental",{{5,all_items["mirage_cloak"]},{5,all_items["desert_armor"]}}},
-        }
+            {stat_roll{150,0,8,0,25,0},50,300,500,"Sand Elemental",{{5,all_items["mirage_cloak"]},{3,all_items["desert_armor"]}}},
+        },
+        {
+            {stat_roll{60,0,12,0,10,0},35,150,200,"Frost Wolf",{{8,all_items["ice_claw"]},{5,all_items["wolf_pelt"]}}},
+            {stat_roll{60,0,12,0,10,0},35,150,200,"Frost Wolves",{{8,all_items["ice_claw"]},{5,all_items["wolf_pelt"]}}},
+            {stat_roll{80,0,15,0,15,0},40,200,250,"Yeti",{{10,all_items["frozen_club"]},{5,all_items["yeti_fur"]}}},
+            {stat_roll{100,0,8,0,20,0},45,250,300,"Ice Elemental",{{5,all_items["ice_crystal"]},{5,all_items["frozen_amulet"]}}},
+            {stat_roll{90,0,20,0,18,0},48,275,320,"Snow Golem",{{5,all_items["ice_shield"]},{5,all_items["frozen_armor"]}}},
+            {stat_roll{120,0,10,0,25,0},50,300,350,"Frost Giant",{{10,all_items["frost_hammer"]},{10,all_items["giant_boots"]}}},
+            {stat_roll{150,0,18,0,30,0},60,500,600,"Ice Dragon",{{100,all_items["dragon_scale_armor"]}}},
+        },
+        {},
+        {},
     };
     vector<enemy_template> floor2encounters;
     floor2encounters.push_back(enemies[1][0]);
@@ -116,6 +140,9 @@ void create_areas() {
 
     vector<enemy_template> floor4encounters;
     floor4encounters.push_back(enemies[3][1]);
+
+    vector<enemy_template> floor5encounters;
+    floor4encounters.push_back(enemies[4][0]);
 
 
 
@@ -134,12 +161,13 @@ void create_areas() {
         {
             all_items["steel_pickaxe"],
             all_items["emerald_pickaxe"],
+            all_items["ruby_pickaxe"],
             all_items["diamond_pickaxe"]
         },
-        {
-            all_items["scimitar"],
-            all_items["sand_shield"],
-        }
+        {},
+        {},
+        {},
+        {},
     };
 
     gamba.push_back(all_items["steel_sword"]);
@@ -158,8 +186,15 @@ void create_areas() {
         "A variety of rare ores are unique to this location.\n"
         "So despite the many creatures who roam the floor, tower climbing parties gather here in hopes of striking it rich.\n",
         "The 4th floor is the first red floor and an endless expanse of scorching sand dunes and ancient ruins.\n"
+        "Red floors are uninhabitable by tower climbers and are the most difficult floors to clear.\n"
         "The sun beats down relentlessly, and only the strongest can survive here.\n"
         "Dying on a red floor results in permadeath overwriting your save file! Move cautiously through the desert.\n",
+        "The 5th floor is a cold land of ice that has formed over a vast ocean.\n"
+        "There is a small tribe of tower climbers who have forgone continuing and are hiding from the tower's aura that lures many upward.\n"
+        "After narrowly escaping death on the first red floor, they have made the decision to run away from the fight.\n"
+        "Despite their camp, the floor is still much in control of the cold monsters who have adapted to this harsh environment.\n",
+        "",
+        "",
     };
 
     vector<pair<string,regex>> Riddles = {
@@ -174,108 +209,147 @@ void create_areas() {
     };
 
     vector<Event*> area_events[AREAS] = {
-        // branch(0==none,1==decision,2==test)
         // curr(branch,exp,gold,stat(hp,ar,d,crit,cdmg,rest),threshhold)
         // hp(branch,change,stat(hp,ar,d,crit,cdmg,rest),threshold)
         {
             new Event(event_type::currency,
             "You almost fall into a Goblin trap, that was a close one!",
-            {0,4,0}),
+            {Branch::None,4,0}),
             new Event(event_type::currency,
             "You discover a Goblin's loot!",
-            {1,0,20}),
+            {Branch::Decision,0,20}),
             new Event(event_type::currency,
             "You find a locked chest... are you strong enough to open it?",
-            {2,0,50,0,20}),
+            {Branch::Test,0,50,0,20}),
             new Event(event_type::item,
             "You find a dark artifact that is enshrined in a protective curse... what is it doing here?",
-            {2,all_items["dark_grimoire"],2,20}),
+            {Branch::Test,all_items["dark_grimoire"],2,20}),
             new Event(event_type::hp,
             "You get caught in a landslide near the village!"
             "\nIs your armor strong enough to shield you?",
-            {2,-2,1,3}),
+            {Branch::Test,-2,1,3}),
             new Event(event_type::hp,
             "You find a friendly Goblin Sage who heals your wounds.",
-            {0,4}),
+            {Branch::None,4}),
             new Event(event_type::hp,
             "You find a health potion by the side of the road.",
-            {0,3}),
+            {Branch::None,3}),
             new Event(event_type::item,
             "You find an old fishing rod by the lake!",
-            {0,all_items["fishing_rod"]}),
+            {Branch::None,all_items["fishing_rod"]}),
         },
         {
             new Event(event_type::currency,
             "While walking through the city you stop a thief from stealing from an elf.\n"
             "The elf is grateful and wants to pay you back as a reward.",
-            {1,0,25}),
+            {Branch::Decision,0,25}),
             new Event(event_type::encounter,
             "While queuing at the city entrance you see an armed figure attacking civilians.",
-            {0,floor2encounters}),
+            {Branch::None,floor2encounters}),
             new Event(event_type::currency,
             "You hang out with friends you made in the city.",
-            {0,10,-25}),
+            {Branch::None,10,-25}),
             new Event(event_type::hp,
             "You visit the local healer who heals your wounds.",
-            {0,100}),
+            {Branch::None,100}),
             new Event(event_type::item,
             "A friendly elven blacksmith offers you elven cloth.",
-            {1,all_items["elven_cloth"]}),
+            {Branch::Decision,all_items["elven_cloth"]}),
         },
         {
             new Event(event_type::hp,
             "A slime cannonballs into a pool of fire.\n"
             "You were splashed by the lava.",
-            {2,-8,0,30}),
+            {Branch::Test,-8,0,30}),
             new Event(event_type::currency,
             "You meet another tower climber.\n"
             "They want to trade you 30 exp for 50 gold.",
-            {3,30,-50}),
+            {Branch::Trade,30,-50}),
             new Event(event_type::stat,
-            "The devil appears from the depths of a nearby volcano and asks you the following riddle.",
-            {1,0,0,Riddles}),
+            "The devil appears to test you with the following riddle.",
+            {Branch::Test,0,0,Riddles}),
         },
-        
         {
             new Event(event_type::hp,
-            "A sudden sandstorm hits you, reducing your visibility and causing damage.",
-            {2,-5,1,9}),
-            new Event(event_type::currency,
-            "You discover a hidden oasis. You find some valuables left by previous travelers.",
-            {0,0,50}),
-            new Event(event_type::encounter,
-            "You encounter a group of Desert Bandits trying to rob you.",
-            {0,floor4encounters}),
+            "While wandering around you were poisoned by sand scorpions.",
+            {Branch::None,-10}),
             new Event(event_type::hp,
-            "You find a merchant at the oasis who offers to heal you for a price.",
-            {1,100,-50}),
+            "A sudden sandstorm hits you, reducing your visibility and causing damage.",
+            {Branch::Test,-5,1,7}),
+            new Event(event_type::currency,
+            "You discover a hidden oasis. You find some valuables left by previous climbers.",
+            {Branch::None,0,100}),
+            new Event(event_type::encounter,
+            "You encounter a group of evil Tower Climbers who attack you.",
+            {Branch::None,floor4encounters}),
+            new Event(event_type::hp,
+            "You find an unused health potion nearby a skeleton.",
+            {Branch::None,20}),
             new Event(event_type::item,
             "You find a buried chest in the sand containing a powerful artifact.",
-            {1,all_items["sun_amulet"]}),
-        }
+            {Branch::Decision,all_items["sun_amulet"]}),
+        },
+        {
+            new Event(event_type::currency,
+            "While exploring on the tundra, thin ice cracks beneath you."
+            "However, you manage to sprint to safety and make it to hard ice again.",
+            {Branch::None,30,0}),
+            new Event(event_type::currency,
+            "You discover a returner's notes - \'Through Hell and back\'.",
+            {Branch::Decision,50,0}),
+            new Event(event_type::encounter,
+            "You are ambushed by a pack of Frost Wolves.",
+            {Branch::None,floor5encounters}),
+            new Event(event_type::hp,
+            "A sudden blizzard hits, draining your strength as you push forward.",
+            {Branch::None,-20}),
+            new Event(event_type::item,
+            "You find an abandoned yellow relic, no doubt from the previous floor.",
+            {Branch::None,all_items["desert_armor"]}),
+            new Event(event_type::hp,
+            "You find a hidden cave and take shelter from the storm, recovering some health.",
+            {Branch::None,15}),
+            new Event(event_type::hp,
+            "You have a successful hunt and bring back food to the outpost.\n"
+            "The settlers are happy to pay you for the provisions.\n",
+            {Branch::Decision,0,100}),
+        },
+        {},
+        {},
     };
 
     string shop_ds[AREAS] {
         "",
-        "",
+        "A starter item for every class!\n",
         "They think people only want pickaxes here...\n",
+        "No one has been able to set up shop here...\n",
+        "",
+        "",
         "",
     };
 
     bool locks[AREAS] {
-        true,false,false,false,
+        true,false,false,
+        false,false,false,
+        false,
     };
 
     Color colours[AREAS] {
-        Color::Amber, Color::Green, Color::Amber, Color::Red,
+        Color::Amber, Color::Green, Color::Amber,
+        Color::Red, Color::Amber, Color::Amber,
+        Color::Amber,
     };
 
     int encounters[AREAS] {
-        50,100,40,60,
+        50,100,40,
+        60,60,60,
+        60
     };
 
     int events[AREAS] {
-        10,20,10,30,
+        10,20,10,
+        30,30,30,
+        30
     };
 
     for(int i=0;i<AREAS;++i) {
