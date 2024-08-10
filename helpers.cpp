@@ -204,17 +204,17 @@ void unlock_stages(Enemy* e) {
         areas[2]->unlocked=true;
         unlocked=true;
     } else if(e->name=="Dragon <BOSS>" && areas[3]->unlocked==false) {
-        cout << "\nYou have slain the strongest foe in Rocky Mountains\n\n";
+        cout << "\nYou have slain the strongest foe in the Rocky Mountain\n\n";
         cout << areas[3]->name << " has been unlocked for travel!\n";
         areas[3]->unlocked=true;
         unlocked=true;
     } else if(e->name=="Sand Elemental <BOSS>" && areas[4]->unlocked==false) {
-        cout << "\nYou have slain the strongest foe in Rocky Mountains\n\n";
+        cout << "\nYou have slain the strongest foe in the Searing Desert\n\n";
         cout << areas[4]->name << " has been unlocked for travel!\n";
         areas[4]->unlocked=true;
         unlocked=true;
-    } else if(e->name=="Ice Dragon <BOSS>" && areas[5]->unlocked==false) {
-        cout << "\nYou have slain the strongest foe in Frozen Tundra\n\n";
+    } else if(e->name=="Ice Queen <BOSS>" && areas[5]->unlocked==false) {
+        cout << "\nYou have slain the strongest foe in the Frozen Tundra\n\n";
         cout << areas[5]->name << " has been unlocked for travel!\n";
         areas[5]->unlocked=true;
         unlocked=true;
