@@ -437,7 +437,7 @@ void choices(Player *p) {
 }
 
 void chance(Player *p) {
-    int cost = 500 * p->level;
+    int cost = 200 * p->level;
     cout << "Pay " << cost << " to try your luck? (y/n)"
     " <Careful this overwrites your save>\n";
     string choice;cin >> choice;lower(choice);

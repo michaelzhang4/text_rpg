@@ -100,10 +100,27 @@ void create_items() {
     add_item(40,0,50,0,0.0,0,1200,800,{70,0,0,45},"Balrog Whip","balrog_whip",0,false);
     add_item(50,0,60,0,0.0,0,1500,1000,{80,0,0,50},"Archdemon Helm","archdemon_helm",1,false);
     add_item(100,0,100,0,0.0,0,2000,1500,{100,0,0,60},"Satanic Blade","satanic_blade",0,false);
+
+    // Chance items
+    add_item(0,0,0,0,0.0,0.35,0,1000,{1,1,1,5},"Healing Ring","healing_ring",0,false);
+    add_item(0,0,0,30,0.0,0,0,1000,{0,0,6,7},"Stun Spell","stun_spell",0,false);
+    add_item(0,9,-2,0,0.0,0,0,1000,{40,0,0,7},"Night Shield","night_shield",0,false);
+    add_item(0,0,7,35,-15.0,0,0,1000,{0,6,0,7},"Night Bow","night_bow",0,false);
+    add_item(0,0,14,35,-20.0,0,0,1000,{0,12,0,14},"Bow of Darkness","bow_of_darkness",0,false);
+    add_item(0,18,-3,0,0,0,0,1000,{80,0,0,14},"Shield of Darkness","shield_of_darkness",0,false);
+    add_item(0,0,28,20,0,0,0,1000,{0,0,14,14},"Umbral Spell","umbral_spell",0,false);
 }
 
 
 void create_areas() {
+    gamba.push_back(all_items["healing_ring"]);
+    gamba.push_back(all_items["stun_spell"]);
+    gamba.push_back(all_items["night_shield"]);
+    gamba.push_back(all_items["night_bow"]);
+    gamba.push_back(all_items["bow_of_darkness"]);
+    gamba.push_back(all_items["shield_of_darkness"]);
+    gamba.push_back(all_items["umbral_spell"]);
+
     string area_names[AREAS] = {"Goblin Village",
     "Magical Forest", "Rocky Mountain",
     "Searing Desert", "Frozen Tundra", "Underwater Kingdom", "Tartarus"};
@@ -205,10 +222,6 @@ void create_areas() {
         {},
         {},
     };
-
-    gamba.push_back(all_items["steel_sword"]);
-    gamba.push_back(all_items["emerald_sword"]);
-    gamba.push_back(all_items["diamond_sword"]);
 
     string descriptions[AREAS] = {
         "You find the 1st floor is home to goblins.\n"
