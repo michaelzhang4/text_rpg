@@ -206,7 +206,7 @@ void unlock_stages(Enemy* e);
 
 void cleared(Player *p, Enemy* e);
 
-bool pattern_match(std::string &input, std::string &answer);
+bool pattern_match(std::string &input, std::regex &pattern);
 
 void delete_save();
 

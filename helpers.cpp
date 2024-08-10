@@ -155,16 +155,15 @@ int combat(Player *p, Enemy *arena_enemy) {
     return 0;
 }
 
-bool pattern_match(string& input, string& answer) {
-    regex pattern(answer);
+bool pattern_match(string& input, regex& pattern) {
     return regex_search(input, pattern);
 }
 
 void cleared(Player *p, Enemy *e) {
     if(e->name == "Dungeon Keeper" && arena_bosses[0].second==false) {
         arena_bosses[0].second=true;
-        p->gold+=1000;
-        arena_bosses[0].first->gold=0;
+        p->gold+=1000*p->level;
+        cout << "Dungeon Keeper dropped " << 1000*p->level << " 🪙\n";
     }
 }
 
@@ -370,7 +369,7 @@ void choices(Player *p) {
 }
 
 void chance(Player *p) {
-    int cost = 1000; //* p->level;
+    int cost = 500 * p->level;
     cout << "Pay " << cost << " to try your luck? (y/n)"
     " <Careful this overwrites your save>\n";
     string choice;cin >> choice;lower(choice);

@@ -5,7 +5,7 @@ using namespace std;
 int rest=0;
 vector<string> item_hashes;
 vector<pair<Enemy*,bool>> arena_bosses = {
-    {new Enemy({stat_roll{10,0,50,0,15,0},25,0,10000,"Dungeon Keeper",{{}}}),false},
+    {new Enemy({stat_roll{10,0,50,0,15,0},25,0,0,"Dungeon Keeper",{{}}}),false},
 };
 vector<Item*> owned_items;
 unordered_map<string,Item*> all_items;
@@ -26,45 +26,45 @@ void create_items() {
     // Goblin Village items
     add_item(0,0,1,0,0.20,0,50,35,{0,0,0,1},"Dagger","dagger",0,false);
     add_item(0,0,3,0,0.0,0,100,70,{0,0,0,1},"Short Sword","short_sword",0,false);
-    add_item(0,0,4,0,0.0,0,200,140,{0,0,0,1},"Sword","sword",0,false);
+    add_item(0,0,4,0,0.0,0,200,140,{15,0,0,1},"Sword","sword",0,false);
     add_item(0,0,1,10,0.0,0,0,10,{0,0,0,1},"Knife","knife",0,false);
     add_item(1,1,1,0,0.0,0,0,50,{0,0,0,1},"Goblin Spear","goblin_spear",0,false);
     add_item(3,0,2,0,0.0,0,0,40,{0,0,0,1},"Bow","bow",0,false);
-    add_item(-3,-1,5,0,0.0,0,0,50,{0,0,0,1},"Staff","staff",0,false);
+    add_item(-3,-1,5,0,0.0,0,0,50,{0,0,3,1},"Staff","staff",0,false);
     add_item(0,2,0,0,0,0,0,35,{0,0,0,1},"Fishing Rod","fishing_rod",0,false);
     add_item(5,1,0,0,0.0,0,0,50,{0,0,0,1},"Cloth Armor","cloth_armor",1,false);
 
     // Magical Forest items
-    add_item(5,0,4,10,0.0,0,300,210,{0,3,0,5},"Elven Bow","elven_bow",0,false);
-    add_item(-5,-1,7,0,0.0,0,300,210,{0,0,3,5},"Leaf Spell","leaf_spell",0,false);
-    add_item(0,1,6,0,0.0,0,300,210,{25,0,0,5},"Elven Blade","elven_blade",0,false);
-    add_item(10,0,4,0,0.0,0,0,100,{20,2,0,5},"Troll Club","troll_club",0,false);
-    add_item(2,2,2,0,0,0,0,100,{15,1,1,5},"Orc Spear","orc_spear",0,false);
-    add_item(0,0,4,10,0.30,0,0,100,{0,4,0,5},"Ogre Horn","ogre_horn",0,false);
-    add_item(0,3,0,0,0,0.05,0,100,{0,0,0,5},"Magical Ring","magical_ring",0,false);
-    add_item(-10,-2,9,10,0.15,0,0,100,{0,0,5,5},"Dark Grimoire","dark_grimoire",0,false);
-    add_item(5,1,0,10,0.15,0.04,0,100,{15,1,1,5},"Elven Cloth","elven_cloth",1,false);
+    add_item(5,0,4,10,0.0,0,300,210,{0,3,0,8},"Elven Bow","elven_bow",0,false);
+    add_item(-5,-1,7,0,0.0,0,300,210,{0,0,3,8},"Leaf Spell","leaf_spell",0,false);
+    add_item(0,1,6,0,0.0,0,300,210,{25,0,0,8},"Elven Blade","elven_blade",0,false);
+    add_item(10,0,4,0,0.0,0,0,100,{20,2,0,8},"Troll Club","troll_club",0,false);
+    add_item(2,2,2,0,0,0,0,100,{15,1,1,8},"Orc Spear","orc_spear",0,false);
+    add_item(0,0,4,10,0.30,0,0,100,{0,4,0,8},"Ogre Horn","ogre_horn",0,false);
+    add_item(0,3,0,0,0,0.05,0,100,{0,0,0,8},"Magical Ring","magical_ring",0,false);
+    add_item(-10,-2,9,10,0.15,0,0,100,{0,0,5,8},"Dark Grimoire","dark_grimoire",0,false);
+    add_item(5,1,0,10,0.15,0.04,0,100,{15,1,1,8},"Elven Cloth","elven_cloth",1,false);
 
     //Rocky Mountains items
-    add_item(0,0,5,0,0.0,0,250,210,{15,0,0,8},"Steel Pickaxe","steel_pickaxe",0,false);
-    add_item(0,0,6,0,0.0,0,300,280,{20,0,0,8},"Emerald Pickaxe","emerald_pickaxe",0,false);
-    add_item(0,0,7,0,0.0,0,400,350,{25,0,0,8},"Diamond Pickaxe","diamond_pickaxe",0,false);
-    add_item(0,0,3,20,0.0,0,0,150,{0,3,0,8},"Molten Dagger","molten_dagger",0,false);
-    add_item(0,0,4,0,0.30,0,0,150,{0,4,0,8},"Obsidian Dagger","obsidian_dagger",0,false);
-    add_item(-5,-1,9,0,0.0,0,0,150,{0,0,3,8},"Lava Spell","fire_spell",0,false);
-    add_item(-5,-2,10,0,0.0,0,0,150,{0,0,4,8},"Fire Staff","fire_staff",0,false);
-    add_item(10,3,0,10,0.0,0,0,150,{0,0,0,10},"Sunfire Cape","sunfire_cape",1,false);
+    add_item(0,0,5,0,0.0,0,250,210,{15,0,0,15},"Steel Pickaxe","steel_pickaxe",0,false);
+    add_item(0,0,6,0,0.0,0,300,280,{20,0,0,15},"Emerald Pickaxe","emerald_pickaxe",0,false);
+    add_item(0,0,7,0,0.0,0,400,350,{25,0,0,15},"Diamond Pickaxe","diamond_pickaxe",0,false);
+    add_item(0,0,3,20,0.0,0,0,150,{0,3,0,15},"Molten Dagger","molten_dagger",0,false);
+    add_item(0,0,4,0,0.30,0,0,150,{0,4,0,15},"Obsidian Dagger","obsidian_dagger",0,false);
+    add_item(-5,-1,9,0,0.0,0,0,150,{0,0,3,15},"Lava Spell","fire_spell",0,false);
+    add_item(-5,-2,10,0,0.0,0,0,150,{0,0,4,15},"Fire Staff","fire_staff",0,false);
+    add_item(10,3,0,10,0.0,0,0,150,{0,0,0,15},"Sunfire Cape","sunfire_cape",1,false);
 
     //Searing Desert items
-    add_item(0,0,9,0,0.0,0,0,200,{30,0,0,12},"Scimitar","scimitar",0,false);
-    add_item(0,6,0,0,0.0,0,0,200,{30,0,0,12},"Sand Shield","sand_shield",0,false);
-    add_item(0,0,0,0,0.0,0.25,0,200,{0,0,0,12},"Water","water",0,false);
-    add_item(0,0,-4,20,0.50,0.0,0,200,{0,0,0,12},"Sand Sheathe","sand_sheathe",0,false);
-    add_item(-5,-2,6,0,0.50,0,0,200,{0,6,0,12},"Poisoned Dagger","poisoned_dagger",0,false);
-    add_item(-10,-2,10,0,0.0,0,0,200,{0,0,9,12},"Sandstorm Spell","sandstorm_spell",0,false);
-    add_item(0,3,0,15,0.20,0,0,200,{0,6,0,12},"Sun Amulet","sun_amulet",0,false);
-    add_item(5,2,0,15,0.30,0.09,0,200,{0,7,0,15},"Mirage Cloak","mirage_cloak",1,false);
-    add_item(5,8,2,-10,0.0,0,0,200,{35,0,0,15},"Desert Armor","desert_armor",1,false);
+    add_item(0,0,9,0,0.0,0,0,200,{30,0,0,20},"Scimitar","scimitar",0,false);
+    add_item(0,6,0,0,0.0,0,0,200,{30,0,0,20},"Sand Shield","sand_shield",0,false);
+    add_item(0,0,0,0,0.0,0.25,0,200,{0,0,0,20},"Water","water",0,false);
+    add_item(0,0,-4,20,0.50,0.0,0,200,{0,0,0,20},"Sand Sheathe","sand_sheathe",0,false);
+    add_item(-5,-2,6,0,0.50,0,0,200,{0,6,0,20},"Poisoned Dagger","poisoned_dagger",0,false);
+    add_item(-10,-2,10,0,0.0,0,0,200,{0,0,9,20},"Sandstorm Spell","sandstorm_spell",0,false);
+    add_item(0,3,0,15,0.20,0,0,200,{0,6,0,20},"Sun Amulet","sun_amulet",0,false);
+    add_item(5,2,0,15,0.30,0.09,0,200,{0,7,0,20},"Mirage Cloak","mirage_cloak",1,false);
+    add_item(5,8,2,-10,0.0,0,0,200,{35,0,0,20},"Desert Armor","desert_armor",1,false);
 }
 
 
@@ -91,8 +91,8 @@ void create_areas() {
             {stat_roll{3,0,30,0,10,0},30,50,70,"Dark Elf",{{5,all_items["dark_grimoire"]},{2,all_items["magical_ring"]}}},
         },
         {
-            {stat_roll{15,0,3,0,7,2},9,10,25,"Lava Slime",{{5,all_items["molten_dagger"]},{5,all_items["obsidian_dagger"]}}},
-            {stat_roll{15,0,4,0,8,2},12,15,30,"Lava Bat",{{{5,all_items["molten_dagger"]},{5,all_items["obsidian_dagger"]}}}},
+            {stat_roll{15,0,3,0,7,2},12,10,25,"Lava Slime",{{5,all_items["molten_dagger"]},{5,all_items["obsidian_dagger"]}}},
+            {stat_roll{15,0,4,0,8,2},14,15,30,"Lava Bat",{{{5,all_items["molten_dagger"]},{5,all_items["obsidian_dagger"]}}}},
             {stat_roll{20,0,5,0,10,2},15,20,40,"Lava Wolf",{{8,all_items["molten_dagger"]},{8,all_items["obsidian_dagger"]}}},
             {stat_roll{22,0,6,0,11,2},18,30,40,"Lava Snake",{{8,all_items["fire_spell"]},{8,all_items["fire_staff"]}}},
             {stat_roll{30,0,7,0,12,2},21,30,50,"Lava Demon",{{{10,all_items["fire_spell"]},{10,all_items["fire_staff"]}}}},
@@ -161,15 +161,15 @@ void create_areas() {
         "Dying on a red floor results in permadeath overwriting your save file! Move cautiously through the desert.\n",
     };
 
-    vector<pair<string,string>> Riddles = {
-        {"To keep this you must first give it to another?","word"},
-        {"The more I eat the larger I grow, but if I should ever drink I will die.\nWhat am I?", "fire"},
-        {"Two bodies have I, though together we are one. The more I stand still the faster I run.\nWhat am I?", "hourglass"},
-        {"There are two sisters, the first gave birth to the second and the second gave birth to the first.\n Who are they?", "sun and moon"},
-        {"What walks on 4 legs in the morning, 2 legs in the evening, and 3 legs at night?", "man"},
-        {"I exist in the past, I am made in the present, but the future will never taint me.\nWhat am I?", "memories"},
-        {"I appear once in the beginning, twice in a lifetime, and once at the end.\nWhat am I?", "e"},
-        {"What can run but never walks, has a mouth but never talks, has a head but never weeps, has a bed but never sleeps?", "river"},
+    vector<pair<string,regex>> Riddles = {
+        {"To keep this you must first give it to another?\n", regex("word")},
+        {"The more I eat the larger I grow, but if I should ever drink I will die.\nWhat am I?\n", regex("fire")},
+        {"Two bodies have I, though together we are one. The more I stand still the faster I run.\nWhat am I?\n", regex("hourglass")},
+        {"There are two sisters, the first gave birth to the second and the second gave birth to the first.\nWho are they?\n", regex("sun.*moon|moon.*sun")},
+        {"What walks on 4 legs in the morning, 2 legs in the evening, and 3 legs at night?\n", regex("man|human|us")},
+        {"I exist in the past, I am made in the present, but the future will never taint me.\nWhat am I?\n", regex("memories")},
+        {"I appear once in the beginning, twice in a lifetime, and once at the end.\nWhat am I?\n", regex("e")},
+        {"What can run but never walks, has a mouth but never talks, has a head but never weeps, has a bed but never sleeps?\n", regex("river")},
     };
 
     vector<Event*> area_events[AREAS] = {
@@ -182,7 +182,7 @@ void create_areas() {
             {0,4,0}),
             new Event(event_type::currency,
             "You discover a Goblin's loot!",
-            {1,0,10}),
+            {1,0,20}),
             new Event(event_type::currency,
             "You find a locked chest... are you strong enough to open it?",
             {2,0,50,0,20}),
@@ -192,10 +192,13 @@ void create_areas() {
             new Event(event_type::hp,
             "You get caught in a landslide near the village!"
             "\nIs your armor strong enough to shield you?",
-            {2,-3,1,3}),
+            {2,-2,1,3}),
             new Event(event_type::hp,
             "You find a friendly Goblin Sage who heals your wounds.",
             {0,4}),
+            new Event(event_type::hp,
+            "You find a health potion by the side of the road.",
+            {0,3}),
             new Event(event_type::item,
             "You find an old fishing rod by the lake!",
             {0,all_items["fishing_rod"]}),
@@ -227,8 +230,8 @@ void create_areas() {
             "You meet another tower climber.\n"
             "They want to trade you 30 exp for 50 gold.",
             {1,30,-50}),
-            new Event(event_type::currency,
-            "The devil appears from below and asks you the following riddle.\n",
+            new Event(event_type::stat,
+            "The devil appears from the depths of a nearby volcano and asks you the following riddle.",
             {1,0,0,Riddles}),
         },
         

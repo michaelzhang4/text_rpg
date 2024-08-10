@@ -199,17 +199,23 @@ void Event::execute_event(Player *p) {
             } else if(branch==1) {
                 stat = rand()%3;
                 if(stat == 0) {
-                    change = rand()%7;
+                    change = rand()%4+1;
                 } else {
-                    change = rand()%3;
+                    change = rand()%2+1;
                 }
-                vector<pair<string,string>> riddles= any_cast<vector<pair<string,string>>>(args[3]);
+                vector<pair<string,regex>> riddles= any_cast<vector<pair<string,regex>>>(args[3]);
+                string answer;
                 int rng=rand()%riddles.size();
                 cout << riddles[rng].first;
-                cin >> choice;lower(choice);
-                if(pattern_match(choice,riddles[rng].second)) {
+                cout << "\nYour response: ";
+                cin.ignore();
+                getline(cin, answer);
+                lower(answer);
+                if(pattern_match(answer,riddles[rng].second)) {
+                    cout << endl;
                     if(stat==0) {
                         p->playerStats.maxHealth+=change;
+                        p->playerStats.health+=change;
                         cout << "You gained " << change << "❤️  as a reward for answering his riddle correctly.\n";
                     } else if(stat==1) {
                         p->playerStats.damage+=change;
@@ -221,6 +227,9 @@ void Event::execute_event(Player *p) {
                 } else {
                     if(stat==0) {
                         p->playerStats.maxHealth-=change;
+                        if (p->playerStats.health > p->playerStats.maxHealth) {
+                            p->playerStats.health=p->playerStats.maxHealth;
+                        }
                         cout << "You lost " << change << "❤️  for failing to answer his riddle correctly.\n";
                     } else if(stat==1) {
                         p->playerStats.damage-=change;
@@ -231,7 +240,6 @@ void Event::execute_event(Player *p) {
                     }
                 }
             }
-
             break;
         }
     }
@@ -472,7 +480,7 @@ Player::Player(string s,int hp,int arm, int dmg, int lvl, int g) {
     playerStats.critDamage=1.50;
     playerStats.recoveryRate=0.06;
     exp=0;
-    expLevel=10;
+    expLevel=7;
     level=lvl;
     gold=g;
     none = new Item(0,0,0,0,0,0,0,0
@@ -678,9 +686,10 @@ void Player::gain(int e, int g) {
         level+=1;
         cout << 
         "\nYou have leveled up!\nYou are now level "
-        << level;
+        << level << endl;
         exp -=expLevel;
         expLevel+=(5+expLevel/4);
+        SleepMs(SLEEP);
         ClearScreen();
         display_stats();
 
