@@ -5,6 +5,7 @@ using namespace std;
 void death_screen() {
     ClearScreen();
     cout << "You died!\n\nGame over - reload from previous save or start a new game\n";
+    cleanup_memory();
     exit(0);
 }
 
@@ -152,6 +153,9 @@ int combat(Player *p, Enemy *arena_enemy) {
     } else {
         rest=0;
     }
+    if(arena_enemy==nullptr) { 
+        delete enemy;
+    }
     return 0;
 }
 
@@ -224,6 +228,7 @@ void unlock_stages(Enemy* e) {
         cout << "A portal to the outside world opens...\n";
         cout << "You have ascended from the tower!\n";
         cout << "Check back for new updates in the future!\n";
+        cleanup_memory();
         exit(0);
     }
     if(unlocked) {
@@ -432,12 +437,29 @@ void choices(Player *p) {
     } else if(choice=="8" || choice=="chance") {
         chance(p);
     } else if(choice=="9" || choice=="exit") {
+        cleanup_memory();
         exit(0);
     } 
 }
 
+void cleanup_memory() {
+    for (auto& area : areas) {
+        delete area;
+    }
+
+
+    for (auto& pair : arena_bosses) {
+        delete pair.first;
+    }
+
+    for (auto& item : all_items) {
+        delete item.second; 
+    }
+}
+
+
 void chance(Player *p) {
-    int cost = 200 * p->level;
+    int cost = 100 * p->level;
     cout << "Pay " << cost << " to try your luck? (y/n)"
     " <Careful this overwrites your save>\n";
     string choice;cin >> choice;lower(choice);

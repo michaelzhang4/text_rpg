@@ -203,6 +203,8 @@ void chance(Player *p);
 
 void print_chance();
 
+void cleanup_memory();
+
 void add_item(int hp, int arm, int dmg, int c,
             double cdmg, double rr, int price, int sell_price, req_stats h,
             std::string name,std::string hash, int type, bool owned);

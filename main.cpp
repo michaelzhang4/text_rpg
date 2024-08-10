@@ -11,9 +11,7 @@ int main() {
 
     // Clean up dynamically allocated memory
     delete player;
-    for (auto item : item_hashes) {
-        delete all_items[item];
-    }
+    cleanup_memory();
     
     return 0;
 }
