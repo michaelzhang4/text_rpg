@@ -26,7 +26,7 @@ void HUD(Player* p) {
 }
 
 void slow_print(string s) {
-    int time=20;
+    int time=15;
     for(char c: s) {
         cout << c;
         FLUSH();
@@ -628,7 +628,7 @@ void shop(Player *p) {
 }
 
 void load_game(Player *p) {
-    ifstream inFile("save.txt");
+    ifstream inFile("save.txt", ios::binary);
     if(inFile.fail()) {
         string name;
         while(1) {
@@ -642,11 +642,11 @@ void load_game(Player *p) {
         p->name = name;
     } else {
         string key = "a8b65fbd5d6b4d2be18be1d55f5b0b73ff7b578a0e8727d79c8f9bb6e227fbdb";
-        string encrypted_data((istreambuf_iterator<char>(inFile)),
+        vector<char> encrypted_data((istreambuf_iterator<char>(inFile)),
                                    istreambuf_iterator<char>());
         inFile.close();
 
-        string data = xor_encrypt_decrypt(encrypted_data, key);
+        string data = xor_encrypt_decrypt(string(encrypted_data.begin(),encrypted_data.end()), key);
         istringstream dataStream(data);
 
         dataStream >> p->name;
@@ -712,7 +712,7 @@ void save_game(Player *p, bool force) {
         choice="y";
     }
     if (choice=="y" | choice=="yes") {
-        ofstream outFile("save.txt");
+        ofstream outFile("save.txt",ios::binary);
         
         string key = "a8b65fbd5d6b4d2be18be1d55f5b0b73ff7b578a0e8727d79c8f9bb6e227fbdb";
 
@@ -752,7 +752,7 @@ void save_game(Player *p, bool force) {
             }
         }
 
-        data += to_string(encoding);
+        data += to_string(encoding) + " ";
 
         for(string item:item_hashes) {
             if (all_items[item]->owned) {
@@ -776,9 +776,10 @@ string xor_encrypt_decrypt(const string &data, const string &key) {
     if (key.empty()) {
         return data;
     }
+    int size = key.size();
     string result = data;
     for (size_t i = 0; i < data.size(); ++i) {
-        result[i] ^= key[i % key.size()];
+        result[i] ^= key[i % size];
     }
     return result;
 }
