@@ -15,23 +15,23 @@ bool Event::pass(Player *p, int stat, int threshold) {
     bool success = true;
     if(stat==0) {
         if(p->totalHealth() >= threshold) {
-            cout << "You passed! - " << threshold << "base ❤️";
+            cout << "You passed! - " << threshold << "❤️  (base) ";
         } else {
-            cout << "You do not have " << threshold << "base ❤️";
+            cout << "You do not have " << threshold << "❤️  (base) ";
             success=false;
         }
     } else if(stat==1) {
         if(p->totalArmor() >= threshold) {
-            cout << "You passed! - " << threshold << "base 🛡️";
+            cout << "You passed! - " << threshold << "🛡️  (base) ";
         } else {
-            cout << "You do not have " << threshold << "base 🛡️";
+            cout << "You do not have " << threshold << "🛡️  (base) ";
             success=false;
         }
     } else if(stat==2) {
         if(p->damage() >= threshold) {
-            cout << "You passed! - " << threshold << "base 🗡️";
+            cout << "You passed! - " << threshold << "🗡️  (base) ";
         } else {
-            cout << "You do not have " << threshold << "base 🗡️";
+            cout << "You do not have " << threshold << "🗡️  (base) ";
             success=false;
         }
     } else if(stat==3) {
@@ -264,54 +264,54 @@ void Event::execute_event(Player *p) {
                 if(ore==Ores::Iron) {
                     mining();
                     if(big==1) {
-                        cout << "You get lucky and there's a lot of iron ore!.\n";
+                        cout << "\nYou get lucky and there's a lot of iron ore!.\n";
                         p->gain(10,50);
                     } else {
-                        cout << "You mined the iron ore for a nice profit.\n";
+                        cout << "\nYou mined the iron ore for a nice profit.\n";
                         p->gain(10,25);
                     }
                 } else if(ore==Ores::Emerald) {
                     if(pattern_match(p->primary_equipped->name,regex("Emerald|Ruby|Diamond")) || pattern_match(p->secondary_equipped->name,regex("Emerald|Ruby|Diamond"))) {
                         mining();
                         if(big==1) {
-                            cout << "You get lucky and there's a lot of emerald ore!.\n";
+                            cout << "\nYou get lucky and there's a lot of emerald ore!.\n";
                             p->gain(20,100);
                         } else {
-                            cout << "You mined the emerald ore for a nice profit.\n";
+                            cout << "\nYou mined the emerald ore for a nice profit.\n";
                             p->gain(20,50);
                         }
                     } else {
-                        cout << "You try to mine the emerald ore but your steel pickaxe won't make a dent!\n";
+                        cout << "\nYou try to mine the emerald ore but your steel pickaxe won't make a dent!\n";
                     }
                 } else if(ore==Ores::Ruby) {
                     if(pattern_match(p->primary_equipped->name,regex("Ruby|Diamond")) || pattern_match(p->secondary_equipped->name,regex("Ruby|Diamond"))) {
                         mining();
                         if(big==1) {
-                            cout << "You get lucky and there's a lot of ruby ore!.\n";
+                            cout << "\nYou get lucky and there's a lot of ruby ore!.\n";
                             p->gain(30,200);
                         } else {
-                            cout << "You mined the ruby ore for a nice profit.\n";
+                            cout << "\nYou mined the ruby ore for a nice profit.\n";
                             p->gain(30,100);
                         }
                     } else {
-                        cout << "You try to mine the ruby ore but your pickaxe won't make a dent!\n";
+                        cout << "\nYou try to mine the ruby ore but your pickaxe won't make a dent!\n";
                     }
                 } else if(ore==Ores::Diamond) {
                     if(pattern_match(p->primary_equipped->name,regex("Diamond")) || pattern_match(p->secondary_equipped->name,regex("Diamond"))) {
                         mining();
                         if(big==1) {
-                            cout << "You get lucky and there's a lot of diamond ore!.\n";
+                            cout << "\nYou get lucky and there's a lot of diamond ore!.\n";
                             p->gain(20,400);
                         } else {
-                            cout << "You mined the diamond ore for a nice profit.\n";
+                            cout << "\nYou mined the diamond ore for a nice profit.\n";
                             p->gain(20,200);
                         }
                     } else {
-                        cout << "You try to mine the diamond ore but your pickaxe won't make a dent!\n";
+                        cout << "\nYou try to mine the diamond ore but your pickaxe won't make a dent!\n";
                     }
                 }
             } else {
-                cout << "You don't have the suitable equipment to mine this ore.\n";
+                cout << "\nYou don't have the suitable equipment to mine this ore.\n";
             }
         }
     }
@@ -372,13 +372,13 @@ void Item::inspect_item(Player *p, int from_shop) {
         }
         cout << "\nRequirements:\n";
         if(req.dmg>0) {
-            cout << req.dmg <<"base 🗡️  ";
+            cout << req.dmg <<"🗡️  (base) ";
         }
         if(req.arm>0) {
-            cout << req.arm <<"base 🛡️  ";
+            cout << req.arm <<"🛡️  (base) ";
         }
         if(req.hp>0) {
-            cout << req.hp <<" base ❤️  ";
+            cout << req.hp <<"❤️  (base) ";
         }
         if(req.lvl>0) {
             cout << "level "<< req.lvl << endl;

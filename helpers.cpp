@@ -382,7 +382,7 @@ void intro() {
     } else if(areas[2]->unlocked) {
         slow_print("A lone silhouette gazes at you from the deepest of caverns.\n\n");
     }
-    slow_print("Will you find an escape on the highest floor?\n\n\n");
+    slow_print("Will you find an escape on the highest floor?\n\n");
     cout << "Enter any key to continue...\n";
     string choice;cin >> choice;
 };

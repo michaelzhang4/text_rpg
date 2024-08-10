@@ -43,7 +43,7 @@ void create_items() {
     add_item(0,0,4,10,0.30,0,0,100,{0,4,0,8},"Ogre Horn","ogre_horn",0,false);
     add_item(0,3,0,0,0,0.05,0,100,{0,0,0,8},"Magical Ring","magical_ring",0,false);
     add_item(-10,-2,9,10,0.15,0,0,100,{0,0,5,8},"Dark Grimoire","dark_grimoire",0,false);
-    add_item(5,1,0,10,0.15,0.04,0,100,{15,1,1,8},"Elven Cloth","elven_cloth",1,false);
+    add_item(5,1,0,10,0.15,0.04,0,25,{15,1,1,8},"Elven Cloth","elven_cloth",1,false);
 
     //Rocky Mountains items
     add_item(0,0,5,0,0.0,0,250,210,{25,0,0,4},"Steel Pickaxe","steel_pickaxe",0,false);
@@ -54,7 +54,7 @@ void create_items() {
     add_item(0,0,4,0,0.30,0,0,150,{0,4,0,10},"Gold Dagger","gold_dagger",0,false);
     add_item(-5,-1,9,0,0.0,0,0,150,{0,0,3,10},"Rock Spell","rock_spell",0,false);
     add_item(-5,-2,10,0,0.0,0,0,150,{0,0,4,10},"Earth Staff","earth_staff",0,false);
-    add_item(10,3,0,10,0.0,0,0,150,{0,0,0,10},"Earthen Cover","earthern_cover",1,false);
+    add_item(10,3,0,0,0.0,0,0,150,{0,0,0,10},"Earthen Cover","earthern_cover",1,false);
 
     //Searing Desert items
     add_item(0,0,9,0,0.0,0,0,200,{30,0,0,20},"Scimitar","scimitar",0,false);
@@ -63,7 +63,7 @@ void create_items() {
     add_item(0,0,-4,20,0.50,0.0,0,200,{0,0,0,20},"Sand Sheathe","sand_sheathe",0,false);
     add_item(-5,-2,6,0,0.50,0,0,200,{0,6,0,20},"Poisoned Dagger","poisoned_dagger",0,false);
     add_item(-10,-2,10,0,0.0,0,0,200,{0,0,9,20},"Sandstorm Spell","sandstorm_spell",0,false);
-    add_item(0,3,0,15,0.20,0,0,200,{0,6,0,20},"Sun Amulet","sun_amulet",0,false);
+    add_item(0,3,0,15,0.20,0,0,50,{0,6,0,20},"Sun Amulet","sun_amulet",0,false);
     add_item(5,2,0,15,0.30,0.09,0,200,{0,7,0,20},"Mirage Cloak","mirage_cloak",1,false);
     add_item(5,8,2,-10,0.0,0,0,200,{35,0,0,20},"Desert Armor","desert_armor",1,false);
 
@@ -114,18 +114,18 @@ void create_areas() {
             {stat_roll{15,0,3,0,4,0},5,20,50,"Goblin Chieftain <BOSS>",{{100,all_items["cloth_armor"]}}},
         },
         {
-            {stat_roll{11,11,2,0,5,0},7,20,30,"Orc",{{10,all_items["orc_spear"]},{2,all_items["magical_ring"]}}},
-            {stat_roll{25,5,5,0,4,0},15,30,40,"Troll",{{10,all_items["troll_club"]},{2,all_items["magical_ring"]}}},
-            {stat_roll{40,10,5,0,5,0},20,40,50,"Ogre",{{7,all_items["ogre_horn"]},{2,all_items["magical_ring"]}}},
-            {stat_roll{3,0,30,0,10,0},30,50,70,"Dark Elf",{{5,all_items["dark_grimoire"]},{2,all_items["magical_ring"]}}},
+            {stat_roll{11,11,2,0,5,0},6,20,30,"Orc",{{10,all_items["orc_spear"]},{2,all_items["magical_ring"]}}},
+            {stat_roll{25,5,5,0,4,0},7,30,40,"Troll",{{10,all_items["troll_club"]},{2,all_items["magical_ring"]}}},
+            {stat_roll{40,10,5,0,5,0},8,40,50,"Ogre",{{7,all_items["ogre_horn"]},{2,all_items["magical_ring"]}}},
+            {stat_roll{3,0,30,0,10,0},9,50,70,"Dark Elf",{{5,all_items["dark_grimoire"]},{2,all_items["magical_ring"]}}},
         },
         {
-            {stat_roll{15,0,3,2,7,2},12,10,25,"Kobold Gang",{{5,all_items["steel_dagger"]},{5,all_items["gold_dagger"]}}},
-            {stat_roll{15,0,4,2,8,2},14,15,30,"Mining Party",{{{5,all_items["steel_dagger"]},{5,all_items["gold_dagger"]}}}},
-            {stat_roll{20,0,5,2,10,2},15,20,40,"Large Serpent",{{8,all_items["steel_dagger"]},{8,all_items["gold_dagger"]}}},
-            {stat_roll{22,0,6,2,11,2},18,30,40,"Rock Golem",{{8,all_items["rock_spell"]},{8,all_items["earth_staff"]}}},
-            {stat_roll{30,0,7,2,12,2},21,30,50,"Giant",{{{10,all_items["rock_spell"]},{10,all_items["earth_staff"]}}}},
-            {stat_roll{50,0,10,0,15,0},25,100,100,"Dragon <BOSS>",{{100,all_items["earthern_cover"]}}},
+            {stat_roll{15,0,3,2,7,2},7,10,25,"Kobold Gang",{{5,all_items["steel_dagger"]},{5,all_items["gold_dagger"]}}},
+            {stat_roll{15,0,4,2,8,2},8,15,30,"Mining Party",{{{5,all_items["steel_dagger"]},{5,all_items["gold_dagger"]}}}},
+            {stat_roll{20,0,5,2,10,2},9,20,40,"Large Serpent",{{8,all_items["steel_dagger"]},{8,all_items["gold_dagger"]}}},
+            {stat_roll{22,0,6,2,11,2},10,30,40,"Rock Golem",{{8,all_items["rock_spell"]},{8,all_items["earth_staff"]}}},
+            {stat_roll{30,0,7,2,12,2},11,30,50,"Giant",{{{10,all_items["rock_spell"]},{10,all_items["earth_staff"]}}}},
+            {stat_roll{50,0,10,0,15,0},12,100,100,"Dragon <BOSS>",{{100,all_items["earthern_cover"]}}},
         },
         {
             {stat_roll{50,0,10,0,10,0},30,80,150,"Desert Bandit",{{8,all_items["water"]},{5,all_items["scimitar"]}}},
@@ -219,7 +219,7 @@ void create_areas() {
         "The 4th floor is the first red floor and an endless expanse of scorching sand dunes and ancient ruins.\n"
         "Red floors are uninhabitable by tower climbers and are the most difficult floors to clear.\n"
         "The sun beats down relentlessly, and only the strongest can survive here.\n"
-        "Dying on a red floor results in permadeath overwriting your save file! Move cautiously through the desert.\n",
+        "\n*Dying on a red floor results in permadeath overwriting your save file!*\nMove cautiously through the desert.\n",
         "The 5th floor is a cold land of ice that has formed over a vast ocean.\n"
         "There is a small tribe of tower climbers who have forgone continuing and are hiding from the tower's aura that lures many upward.\n"
         "After narrowly escaping death on the first red floor, they have made the decision to run away from the fight.\n"
@@ -420,13 +420,13 @@ void create_areas() {
     };
 
     int encounters[AREAS] {
-        50,100,40,
+        50,100,45,
         40,40,40,
         40
     };
 
     int events[AREAS] {
-        10,20,20,
+        10,20,10,
         20,20,20,
         20
     };
