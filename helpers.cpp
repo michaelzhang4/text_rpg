@@ -335,8 +335,12 @@ void intro() {
     slow_print("You find yourself transported to a strange tower.\n\n");
     slow_print("Looking up you see a vast number of floors to the top.\n\n");
     slow_print("You see a glimpse of many eyes observing you from above.\n\n");
-    if(areas[2]->unlocked) {
-        slow_print("A lone figure ponders life on the peak of a volcano.\n\n");
+    if(areas[6]->unlocked) {
+    } else if(areas[5]->unlocked) {
+    } else if(areas[4]->unlocked) {
+    } else if(areas[3]->unlocked) {
+    } else if(areas[2]->unlocked) {
+        slow_print("A lone silhouette ponders life on the peak of a volcano.\n\n");
     }
     slow_print("Will you find an escape on the highest floor?\n\n\n");
     cout << "Enter any key to continue...\n";
