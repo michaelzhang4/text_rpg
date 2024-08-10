@@ -33,6 +33,8 @@ CMD:
 ```sh
 chcp 65001
 ```
+It is recommended to put 1 point in each stat then max out health for your first run
+
 ![image](https://github.com/user-attachments/assets/7b9e073d-59d0-48c0-b530-ed1677b998c6)
 
 
