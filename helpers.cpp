@@ -160,10 +160,34 @@ bool pattern_match(string& input, regex pattern) {
 }
 
 void cleared(Player *p, Enemy *e) {
-    if(e->name == "Dungeon Keeper" && arena_bosses[0].second==false) {
+    if(e->name == "Eris" && arena_bosses[0].second==false) {
         arena_bosses[0].second=true;
         p->gold+=1000*p->level;
-        cout << "Dungeon Keeper dropped " << 1000*p->level << " 🪙\n";
+        cout << "Eris dropped " << 1000*p->level << " 🪙\n";
+    } else if(e->name == "Nemesis" && arena_bosses[0].second==false) {
+        arena_bosses[0].second=true;
+        p->gold+=1000*p->level;
+        cout << "Nemesis dropped " << 1000*p->level << " 🪙\n";
+    } else if(e->name == "Hecate" && arena_bosses[0].second==false) {
+        arena_bosses[0].second=true;
+        p->gold+=1000*p->level;
+        cout << "Hecate dropped " << 1000*p->level << " 🪙\n";
+    } else if(e->name == "Erebus" && arena_bosses[0].second==false) {
+        arena_bosses[0].second=true;
+        p->gold+=1000*p->level;
+        cout << "Erebus dropped " << 1000*p->level << " 🪙\n";
+    } else if(e->name == "Hypnos" && arena_bosses[0].second==false) {
+        arena_bosses[0].second=true;
+        p->gold+=1000*p->level;
+        cout << "Hypnos dropped " << 1000*p->level << " 🪙\n";
+    } else if(e->name == "Nyx" && arena_bosses[0].second==false) {
+        arena_bosses[0].second=true;
+        p->gold+=1000*p->level;
+        cout << "Nyx dropped " << 1000*p->level << " 🪙\n";
+    } else if(e->name == "Thanatos" && arena_bosses[0].second==false) {
+        arena_bosses[0].second=true;
+        p->gold+=1000*p->level;
+        cout << "Thanatos dropped " << 1000*p->level << " 🪙\n";
     }
 }
 

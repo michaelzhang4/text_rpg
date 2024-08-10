@@ -5,7 +5,13 @@ using namespace std;
 int rest=0;
 vector<string> item_hashes;
 vector<pair<Enemy*,bool>> arena_bosses = {
-    {new Enemy({stat_roll{10,0,50,0,15,0},25,0,0,"Dungeon Keeper",{{}}}),false},
+    {new Enemy({stat_roll{10,0,50,0,15,0},10,0,0,"Eris",{{}}}),false},
+    {new Enemy({stat_roll{50,0,30,0,20,0},20,0,0,"Nemesis",{{}}}),false},
+    {new Enemy({stat_roll{5,0,50,0,50,0},30,0,0,"Hecate",{{}}}),false},
+    {new Enemy({stat_roll{100,0,50,0,25,0},40,0,0,"Erebus",{{}}}),false},
+    {new Enemy({stat_roll{200,0,50,0,30,0},50,0,0,"Hypnos",{{}}}),false},
+    {new Enemy({stat_roll{400,0,50,0,35,0},60,0,0,"Nyx",{{}}}),false},
+    {new Enemy({stat_roll{800,0,50,0,40,0},70,0,0,"Thanatos",{{}}}),false},
 };
 vector<Item*> owned_items;
 unordered_map<string,Item*> all_items;
@@ -50,8 +56,8 @@ void create_items() {
     add_item(0,1,7,0,0.0,0,400,280,{30,0,0,5},"Emerald Pickaxe","emerald_pickaxe",0,false);
     add_item(0,2,9,0,0.0,0,600,420,{35,0,0,6},"Ruby Pickaxe","ruby_pickaxe",0,false);
     add_item(0,3,13,0,0.0,0,1000,420,{40,0,0,7},"Diamond Pickaxe","diamond_pickaxe",0,false);
-    add_item(0,0,3,20,0.0,0,0,150,{0,3,0,10},"Steel Dagger","steel_dagger",0,false);
-    add_item(0,0,4,0,0.30,0,0,150,{0,4,0,10},"Gold Dagger","gold_dagger",0,false);
+    add_item(0,0,3,20,0.0,0,0,150,{0,3,0,10},"Emerald Dagger","emerald_dagger",0,false);
+    add_item(0,0,4,0,0.30,0,0,150,{0,4,0,10},"Ruby Dagger","ruby_dagger",0,false);
     add_item(-5,-1,9,0,0.0,0,0,150,{0,0,3,10},"Rock Spell","rock_spell",0,false);
     add_item(-5,-2,10,0,0.0,0,0,150,{0,0,4,10},"Earth Staff","earth_staff",0,false);
     add_item(10,3,0,0,0.0,0,0,150,{0,0,0,10},"Earthen Cover","earthern_cover",1,false);
@@ -120,9 +126,9 @@ void create_areas() {
             {stat_roll{3,0,30,0,10,0},9,50,70,"Dark Elf",{{5,all_items["dark_grimoire"]},{2,all_items["magical_ring"]}}},
         },
         {
-            {stat_roll{15,0,3,2,7,2},7,10,25,"Kobold Gang",{{5,all_items["steel_dagger"]},{5,all_items["gold_dagger"]}}},
-            {stat_roll{15,0,4,2,8,2},8,15,30,"Mining Party",{{{5,all_items["steel_dagger"]},{5,all_items["gold_dagger"]}}}},
-            {stat_roll{20,0,5,2,10,2},9,20,40,"Large Serpent",{{8,all_items["steel_dagger"]},{8,all_items["gold_dagger"]}}},
+            {stat_roll{15,0,3,2,7,2},7,10,25,"Kobold Gang",{{5,all_items["emerald_dagger"]},{5,all_items["ruby_dagger"]}}},
+            {stat_roll{15,0,4,2,8,2},8,15,30,"Mining Party",{{{5,all_items["emerald_dagger"]},{5,all_items["ruby_dagger"]}}}},
+            {stat_roll{20,0,5,2,10,2},9,20,40,"Large Serpent",{{8,all_items["emerald_dagger"]},{8,all_items["ruby_dagger"]}}},
             {stat_roll{22,0,6,2,11,2},10,30,40,"Rock Golem",{{8,all_items["rock_spell"]},{8,all_items["earth_staff"]}}},
             {stat_roll{30,0,7,2,12,2},11,30,50,"Giant",{{{10,all_items["rock_spell"]},{10,all_items["earth_staff"]}}}},
             {stat_roll{50,0,10,0,15,0},12,100,100,"Dragon <BOSS>",{{100,all_items["earthern_cover"]}}},
