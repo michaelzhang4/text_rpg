@@ -184,7 +184,8 @@ void create_areas() {
         "In the future you are welcome to return at any point.\n",
         "The 3rd floor mountains contain deep caverns and many secrets.\n"
         "A variety of rare ores are unique to this location.\n"
-        "So despite the many creatures who roam the floor, tower climbing parties gather here in hopes of striking it rich.\n",
+        "So despite the many creatures who roam the floor, tower climbing parties gather here in hopes of striking it rich.\n"
+        "This floor may feel like a jump in difficulty due to the 2nd floor being cleared by the elves\n",
         "The 4th floor is the first red floor and an endless expanse of scorching sand dunes and ancient ruins.\n"
         "Red floors are uninhabitable by tower climbers and are the most difficult floors to clear.\n"
         "The sun beats down relentlessly, and only the strongest can survive here.\n"
@@ -320,7 +321,7 @@ void create_areas() {
 
     string shop_ds[AREAS] {
         "",
-        "A starter item for every class!\n",
+        "A starter item for every class! - Elf Merchant\n",
         "They think people only want pickaxes here...\n",
         "No one has been able to set up shop here...\n",
         "",
