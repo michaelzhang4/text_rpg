@@ -410,7 +410,7 @@ void create_areas() {
             "Satan appears from the depths to test you with the following riddle.",
             {Branch::Test,0,0,Riddles}),
             new Event(event_type::hp,
-            "A river of lava suddenly erupts beneath you, burning your flesh and soul.",
+            "A river of lava suddenly erupts beneath you, burning your soul.",
             {2,-30,0,50}),
             new Event(event_type::currency,
             "You discover a pile of cursed gold, but its touch drains your life force.",
