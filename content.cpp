@@ -49,11 +49,11 @@ void create_items() {
     add_item(0,0,5,0,0.0,0,250,210,{15,0,0,15},"Steel Pickaxe","steel_pickaxe",0,false);
     add_item(0,0,6,0,0.0,0,300,280,{20,0,0,15},"Emerald Pickaxe","emerald_pickaxe",0,false);
     add_item(0,0,7,0,0.0,0,400,350,{25,0,0,15},"Diamond Pickaxe","diamond_pickaxe",0,false);
-    add_item(0,0,3,20,0.0,0,0,150,{0,3,0,15},"Molten Dagger","molten_dagger",0,false);
-    add_item(0,0,4,0,0.30,0,0,150,{0,4,0,15},"Obsidian Dagger","obsidian_dagger",0,false);
-    add_item(-5,-1,9,0,0.0,0,0,150,{0,0,3,15},"Lava Spell","fire_spell",0,false);
-    add_item(-5,-2,10,0,0.0,0,0,150,{0,0,4,15},"Fire Staff","fire_staff",0,false);
-    add_item(10,3,0,10,0.0,0,0,150,{0,0,0,15},"Sunfire Cape","sunfire_cape",1,false);
+    add_item(0,0,3,20,0.0,0,0,150,{0,3,0,15},"Steel Dagger","steel_dagger",0,false);
+    add_item(0,0,4,0,0.30,0,0,150,{0,4,0,15},"Gold Dagger","gold_dagger",0,false);
+    add_item(-5,-1,9,0,0.0,0,0,150,{0,0,3,15},"Rock Spell","rock_spell",0,false);
+    add_item(-5,-2,10,0,0.0,0,0,150,{0,0,4,15},"Earth Staff","earth_staff",0,false);
+    add_item(10,3,0,10,0.0,0,0,150,{0,0,0,15},"Earthen Cover","earthern_cover",1,false);
 
     //Searing Desert items
     add_item(0,0,9,0,0.0,0,0,200,{30,0,0,20},"Scimitar","scimitar",0,false);
@@ -91,12 +91,13 @@ void create_areas() {
             {stat_roll{3,0,30,0,10,0},30,50,70,"Dark Elf",{{5,all_items["dark_grimoire"]},{2,all_items["magical_ring"]}}},
         },
         {
-            {stat_roll{15,0,3,0,7,2},12,10,25,"Lava Slime",{{5,all_items["molten_dagger"]},{5,all_items["obsidian_dagger"]}}},
-            {stat_roll{15,0,4,0,8,2},14,15,30,"Lava Bat",{{{5,all_items["molten_dagger"]},{5,all_items["obsidian_dagger"]}}}},
-            {stat_roll{20,0,5,0,10,2},15,20,40,"Lava Wolf",{{8,all_items["molten_dagger"]},{8,all_items["obsidian_dagger"]}}},
-            {stat_roll{22,0,6,0,11,2},18,30,40,"Lava Snake",{{8,all_items["fire_spell"]},{8,all_items["fire_staff"]}}},
-            {stat_roll{30,0,7,0,12,2},21,30,50,"Lava Demon",{{{10,all_items["fire_spell"]},{10,all_items["fire_staff"]}}}},
-            {stat_roll{50,0,10,0,15,0},25,100,100,"Isolated Frost Demon",{{100,all_items["sunfire_cape"]}}},
+
+            {stat_roll{15,0,3,0,7,2},12,10,25,"Bats",{{5,all_items["steel_dagger"]},{5,all_items["gold_dagger"]}}},
+            {stat_roll{15,0,4,0,8,2},14,15,30,"Slime",{{{5,all_items["steel_dagger"]},{5,all_items["gold_dagger"]}}}},
+            {stat_roll{20,0,5,0,10,2},15,20,40,"Serpant",{{8,all_items["steel_dagger"]},{8,all_items["gold_dagger"]}}},
+            {stat_roll{22,0,6,0,11,2},18,30,40,"Rock Golem",{{8,all_items["rock_spell"]},{8,all_items["earth_staff"]}}},
+            {stat_roll{30,0,7,0,12,2},21,30,50,"Giant",{{{10,all_items["rock_spell"]},{10,all_items["earth_staff"]}}}},
+            {stat_roll{50,0,10,0,15,0},25,100,100,"Dragon",{{100,all_items["earthern_cover"]}}},
         },
         {
             {stat_roll{50,0,10,0,10,0},30,80,150,"Desert Bandit",{{8,all_items["water"]},{5,all_items["scimitar"]}}},
@@ -114,7 +115,7 @@ void create_areas() {
     floor2encounters.push_back(enemies[1][3]);
 
     vector<enemy_template> floor4encounters;
-    floor2encounters.push_back(enemies[3][1]);
+    floor4encounters.push_back(enemies[3][1]);
 
 
 
@@ -153,9 +154,9 @@ void create_areas() {
         "This enchanted forest is inhabited by elves, a race which are amiable to you otherworldly tower climbers.\n"
         "The elves have already cleared this floor and are happy to let you pass to the next.\n"
         "In the future you are welcome to return at any point.\n",
-        "These 3rd floor mountains have been heating up for over a century and are close to eruption.\n"
-        "Lava creatures roam the floor and many rare ores can be found within the caverns.\n"
-        "Many tower climbing parties gather here in hopes of striking it rich.\n",
+        "The 3rd floor mountains contain deep caverns and many secrets.\n"
+        "A variety of rare ores are unique to this location.\n"
+        "So despite the many creatures who roam the floor, tower climbing parties gather here in hopes of striking it rich.\n",
         "The 4th floor is the first red floor and an endless expanse of scorching sand dunes and ancient ruins.\n"
         "The sun beats down relentlessly, and only the strongest can survive here.\n"
         "Dying on a red floor results in permadeath overwriting your save file! Move cautiously through the desert.\n",
@@ -163,11 +164,11 @@ void create_areas() {
 
     vector<pair<string,regex>> Riddles = {
         {"To keep this you must first give it to another?\n", regex("word")},
-        {"The more I eat the larger I grow, but if I should ever drink I will die.\nWhat am I?\n", regex("fire")},
+        {"The more I eat the larger I grow, but if I should ever drink I will die.\nWhat am I?\n", regex("fire|fires")},
         {"Two bodies have I, though together we are one. The more I stand still the faster I run.\nWhat am I?\n", regex("hourglass")},
         {"There are two sisters, the first gave birth to the second and the second gave birth to the first.\nWho are they?\n", regex("sun.*moon|moon.*sun")},
         {"What walks on 4 legs in the morning, 2 legs in the evening, and 3 legs at night?\n", regex("man|human|us")},
-        {"I exist in the past, I am made in the present, but the future will never taint me.\nWhat am I?\n", regex("memories")},
+        {"I exist in the past, I am made in the present, but the future will never taint me.\nWhat am I?\n", regex("memories|memory")},
         {"I appear once in the beginning, twice in a lifetime, and once at the end.\nWhat am I?\n", regex("e")},
         {"What can run but never walks, has a mouth but never talks, has a head but never weeps, has a bed but never sleeps?\n", regex("river")},
     };
@@ -222,14 +223,14 @@ void create_areas() {
             {1,all_items["elven_cloth"]}),
         },
         {
-            // new Event(event_type::hp,
-            // "A lava slime cannonballs into a pool of fire.\n"
-            // "You were splashed by the lava.",
-            // {2,-10,0,30}),
+            new Event(event_type::hp,
+            "A slime cannonballs into a pool of fire.\n"
+            "You were splashed by the lava.",
+            {2,-8,0,30}),
             new Event(event_type::currency,
             "You meet another tower climber.\n"
             "They want to trade you 30 exp for 50 gold.",
-            {1,30,-50}),
+            {3,30,-50}),
             new Event(event_type::stat,
             "The devil appears from the depths of a nearby volcano and asks you the following riddle.",
             {1,0,0,Riddles}),
@@ -254,6 +255,13 @@ void create_areas() {
         }
     };
 
+    string shop_ds[AREAS] {
+        "",
+        "",
+        "They think people only want pickaxes here...\n",
+        "",
+    };
+
     bool locks[AREAS] {
         true,false,false,false,
     };
@@ -263,7 +271,7 @@ void create_areas() {
     };
 
     int encounters[AREAS] {
-        50,100,/*50*/100,60,
+        50,100,40,60,
     };
 
     int events[AREAS] {
@@ -271,7 +279,7 @@ void create_areas() {
     };
 
     for(int i=0;i<AREAS;++i) {
-        areas[i] = new Area(area_names[i],enemies[i],shop_items[i],descriptions[i],area_events[i],locks[i],i,colours[i],encounters[i],events[i]);
+        areas[i] = new Area(area_names[i],enemies[i],shop_items[i],descriptions[i],area_events[i],locks[i],i,colours[i],encounters[i],events[i],shop_ds[i]);
     }
     current_area=areas[0];
     previous_event = areas[0]->event_list[5];

@@ -175,7 +175,7 @@ void unlock_stages(Enemy* e) {
         areas[1]->unlocked=true;
         areas[2]->unlocked=true;
         unlocked=true;
-    } else if(e->name=="Isolated Frost Demon" && areas[3]->unlocked==false) {
+    } else if(e->name=="Dragon" && areas[3]->unlocked==false) {
         cout << "\nYou have slain the strongest foe in Rocky Mountains\n\n";
         cout << areas[3]->name << " has been unlocked for travel!\n";
         areas[3]->unlocked=true;
@@ -558,6 +558,7 @@ void shop(Player *p) {
     while(1) {
         ClearScreen();
         cout << "Shop 🛒\n";
+        cout << current_area->shop_descript;
         cout << "🪙  : " << p->gold << "g\n\n";
         int i;
         for(i=0;i<current_area->shop_list.size();++i) {

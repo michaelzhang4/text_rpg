@@ -80,12 +80,16 @@ void Event::execute_event(Player *p) {
                     cout << "Do you take it? (y/n)\n";
                     cin >> choice;lower(choice);
                     if(choice=="y" || choice=="yes") {
-                        p->gain(exp,gold);
+                        if (-gold > p->gold) {
+                            cout << "\nYou don't have enough gold!\n";
+                        } else {
+                            p->gain(exp,gold);
+                        }
                     } else {
                         cout << "\nWhat a kind individual you are!\n";
                     }
                     break;
-                case 2:
+                case 2: {
                     // 3==stat(hp,armor,dmg,critc,cdmg,restoration)
                     // 4==threshold
                     int stat = any_cast<int>(args[3]);
@@ -94,6 +98,20 @@ void Event::execute_event(Player *p) {
                         SleepMs(SLEEP);
                         cout << endl;
                         p->gain(exp,gold);
+                    }
+                    break;
+                }
+                case 3:
+                    cout << "Do you accept the deal? (y/n)\n";
+                    cin >> choice;lower(choice);
+                    if(choice=="y" || choice=="yes") {
+                        if (-gold > p->gold) {
+                            cout << "\nYou don't have enough gold!\n";
+                        } else {
+                            p->gain(exp,gold);
+                        }
+                    } else {
+                        cout << "\nThey shrug and leave\n";
                     }
                     break;
             }
@@ -678,8 +696,13 @@ void Player::gain(int e, int g) {
         SleepMs(SLEEP);
     }
     if(g<0) {
-        cout << "You spent " << -g << " gold!" << endl;
-        gold+=g;
+        if(-g > gold) {
+            cout << "You spent " << gold << " gold!" << endl;
+            gold=0;
+        } else {
+            cout << "You spent " << -g << " gold!" << endl;
+            gold+=g;
+        }
         SleepMs(SLEEP);
     }
     while (exp >= expLevel) {
@@ -753,7 +776,7 @@ void Enemy::display_stats() {
 }
 
 Area::Area(string n, vector<enemy_template> enemies,
-vector<Item*> shop_items, string d, vector<Event*> e_list, bool unlcked, int i, Color c,int encounterc, int eventc) {
+vector<Item*> shop_items, string d, vector<Event*> e_list, bool unlcked, int i, Color c,int encounterc, int eventc,string shop_d) {
     name = n;
     enemy_list = enemies;
     shop_list = shop_items;
@@ -764,6 +787,7 @@ vector<Item*> shop_items, string d, vector<Event*> e_list, bool unlcked, int i, 
     color = c;
     chance_split[0]=encounterc;
     chance_split[1]=eventc;
+    shop_descript=shop_d;
 }
 
 void Area::print_description() {

@@ -141,8 +141,8 @@ private:
 class Area {
 public:
     Area(std::string n, std::vector<enemy_template> enemies,
-std::vector<Item*> shop_items, std::string description, std::vector<Event*> event_list, bool unlocked, int index, Color color, int encounter, int event);
-    std::string name,description;
+std::vector<Item*> shop_items, std::string description, std::vector<Event*> event_list, bool unlocked, int index, Color color, int encounter, int event,std::string shop_d);
+    std::string name,description,shop_descript;
     std::vector<enemy_template> enemy_list;
     std::vector<Item*> shop_list;
     std::vector<Event*> event_list;
