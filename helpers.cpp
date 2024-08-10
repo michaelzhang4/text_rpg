@@ -130,8 +130,10 @@ int combat(Player *p, Enemy *arena_enemy) {
         start_combat:
         decision = player_turn(p,enemy);
         if(decision==1) {
-            if(current_area->index==0){
+            if(current_area->index==0 && !areas[1]->unlocked){
                 rest=-1;
+            } else if(current_area->index==1){
+                rest=0;
             } else {
                 rest=1;
             }
@@ -143,12 +145,19 @@ int combat(Player *p, Enemy *arena_enemy) {
         }
         enemy_turn(p,enemy,0);
     }
-    if(current_area->index==0){
+    if(current_area->index==0 && !areas[1]->unlocked){
+        rest=-1;
+    } else if(current_area->index==1){
         rest=-1;
     } else {
         rest=0;
     }
     return 0;
+}
+
+bool pattern_match(string& input, string& answer) {
+    regex pattern(answer);
+    return regex_search(input, pattern);
 }
 
 void cleared(Player *p, Enemy *e) {
@@ -167,7 +176,7 @@ void unlock_stages(Enemy* e) {
         areas[1]->unlocked=true;
         areas[2]->unlocked=true;
         unlocked=true;
-    } else if(e->name=="Isolated Frost Demon" && areas[2]->unlocked==false) {
+    } else if(e->name=="Isolated Frost Demon" && areas[3]->unlocked==false) {
         cout << "\nYou have slain the strongest foe in Rocky Mountains\n\n";
         cout << areas[3]->name << " has been unlocked for travel!\n";
         areas[3]->unlocked=true;
@@ -315,6 +324,11 @@ void items(Player *p) {
             SleepMs(SLEEP);
         }
     }
+}
+
+void delete_save() {
+    const char* filename = "save.txt";
+    remove(filename);
 }
 
 void intro() {

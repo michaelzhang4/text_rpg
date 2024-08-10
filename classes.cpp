@@ -2,11 +2,14 @@
 
 using namespace std;
 
+// 🗡️🛡️❤️💥🔥🌿
+
 Event::Event(event_type t, string d, vector<any> v) {
     type=t;
     args=v;
     descript=d;
 }
+
 
 bool Event::pass(Player *p, int stat, int threshold) {
     bool success = true;
@@ -97,8 +100,15 @@ void Event::execute_event(Player *p) {
             break;
         }
         case event_type::encounter: {
-            enemy_template e = any_cast<enemy_template>(args[0]);
-            Enemy* encounter_enemy = new Enemy(e);
+            int branch = any_cast<int>(args[0]);
+            cout << branch << endl;
+            vector<enemy_template> e = any_cast<vector<enemy_template>>(args[1]);
+            int rng = rand() % e.size();
+            while (e[rng].name==previous_encounter) {
+                rng = rand() % e.size();
+            }
+            Enemy* encounter_enemy = new Enemy(e[rng]);
+            previous_encounter=e[rng].name;
             int dec = combat(p,encounter_enemy);
             if(dec!=1 && current_area->index==1) {
                 cout << "\nThe people of the city praise your efforts in protecting the peace!\n";
@@ -115,8 +125,17 @@ void Event::execute_event(Player *p) {
                     p->event_hp_change(hp_change);
                     SleepMs(1000);
                     break;
-                case 1:
+                case 1: {
+                    int cost = any_cast<int>(args[2]);
+                    cout << "Do you accept? (y/n)\n";
+                    cin >> choice;lower(choice);
+                    if(choice=="y" || choice=="yes") {
+                        p->gain(0,cost);
+                        p->event_hp_change(hp_change);
+                    }
+                    SleepMs(SLEEP);
                     break;
+                }
                 case 2:
                     // 3==stat(hp,armor,dmg,critc,cdmg,restoration)
                     // 4==threshold
@@ -156,11 +175,65 @@ void Event::execute_event(Player *p) {
                         cout << "You gained a " << gear->name << "!\n";
                     }
                 }
+            } else if (type==2) {
+                int stat = any_cast<int>(args[2]);
+                int threshold = any_cast<int>(args[3]);
+                if(pass(p,stat,threshold)) {
+                    if(gear->owned) {
+                        cout << "Unfortunately you already have this item\n";
+                    } else {
+                        gear->owned=true;
+                        owned_items.push_back(gear);
+                        cout << "You gained a " << gear->name << "!\n";
+                    }
+                }
             }
             break;
         }
-        case event_type::stat:
+        case event_type::stat: {
+            int branch = any_cast<int>(args[0]);
+            int stat = any_cast<int>(args[1]);
+            int change = any_cast<int>(args[2]);
+            if(branch==0) {
+
+            } else if(branch==1) {
+                stat = rand()%3;
+                if(stat == 0) {
+                    change = rand()%7;
+                } else {
+                    change = rand()%3;
+                }
+                vector<pair<string,string>> riddles= any_cast<vector<pair<string,string>>>(args[3]);
+                int rng=rand()%riddles.size();
+                cout << riddles[rng].first;
+                cin >> choice;lower(choice);
+                if(pattern_match(choice,riddles[rng].second)) {
+                    if(stat==0) {
+                        p->playerStats.maxHealth+=change;
+                        cout << "You gained " << change << "❤️  as a reward for answering his riddle correctly.\n";
+                    } else if(stat==1) {
+                        p->playerStats.damage+=change;
+                        cout << "You gained " << change << "🗡️  as a reward for answering his riddle correctly.\n";
+                    } else if(stat==2) {
+                        p->playerStats.armor+=change;
+                        cout << "You gained " << change << "🛡️  as a reward for answering his riddle correctly.\n";
+                    }
+                } else {
+                    if(stat==0) {
+                        p->playerStats.maxHealth-=change;
+                        cout << "You lost " << change << "❤️  for failing to answer his riddle correctly.\n";
+                    } else if(stat==1) {
+                        p->playerStats.damage-=change;
+                        cout << "You lost " << change << "🗡️  for failing to answer his riddle correctly.\n";
+                    } else if(stat==2) {
+                        p->playerStats.armor-=change;
+                        cout << "You lost " << change << "🛡️  for failing to answer his riddle correctly.\n";
+                    }
+                }
+            }
+
             break;
+        }
     }
     cout << "\nEnter any key to continue..." << endl;
     cin>>choice;
@@ -516,6 +589,9 @@ void Player::take_damage(Enemy *e) {
     effective_damage << " damage!\n";
     SleepMs(SLEEP);
     if(playerStats.health <=0) {
+        if(current_area->color==Color::Red) {
+            delete_save();
+        }
         death_screen();
     }
 }
@@ -533,6 +609,9 @@ void Player::event_hp_change(int c) {
     }
     if(playerStats.health <=0) {
         SleepMs(SLEEP);
+        if(current_area->color==Color::Red) {
+            delete_save();
+        }
         death_screen();
     }
 

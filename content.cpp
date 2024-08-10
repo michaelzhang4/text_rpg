@@ -5,7 +5,7 @@ using namespace std;
 int rest=0;
 vector<string> item_hashes;
 vector<pair<Enemy*,bool>> arena_bosses = {
-    {new Enemy({stat_roll{50,0,10,0,10,0},50,0,1000,"Dungeon Keeper",{{}}}),false},
+    {new Enemy({stat_roll{10,0,50,0,15,0},25,0,10000,"Dungeon Keeper",{{}}}),false},
 };
 vector<Item*> owned_items;
 unordered_map<string,Item*> all_items;
@@ -38,17 +38,33 @@ void create_items() {
     add_item(5,0,4,10,0.0,0,300,210,{0,3,0,5},"Elven Bow","elven_bow",0,false);
     add_item(-5,-1,7,0,0.0,0,300,210,{0,0,3,5},"Leaf Spell","leaf_spell",0,false);
     add_item(0,1,6,0,0.0,0,300,210,{25,0,0,5},"Elven Blade","elven_blade",0,false);
+    add_item(10,0,4,0,0.0,0,0,100,{20,2,0,5},"Troll Club","troll_club",0,false);
+    add_item(2,2,2,0,0,0,0,100,{15,1,1,5},"Orc Spear","orc_spear",0,false);
+    add_item(0,0,4,10,0.30,0,0,100,{0,4,0,5},"Ogre Horn","ogre_horn",0,false);
+    add_item(0,3,0,0,0,0.05,0,100,{0,0,0,5},"Magical Ring","magical_ring",0,false);
+    add_item(-10,-2,9,10,0.15,0,0,100,{0,0,5,5},"Dark Grimoire","dark_grimoire",0,false);
     add_item(5,1,0,10,0.15,0.04,0,100,{15,1,1,5},"Elven Cloth","elven_cloth",1,false);
 
     //Rocky Mountains items
-    add_item(0,0,5,0,0.0,0,250,210,{15,0,0,1},"Steel Pickaxe","steel_pickaxe",0,false);
-    add_item(0,0,6,0,0.0,0,300,280,{20,0,0,1},"Emerald Pickaxe","emerald_pickaxe",0,false);
-    add_item(0,0,7,0,0.0,0,400,350,{25,0,0,1},"Diamond Pickaxe","diamond_pickaxe",0,false);
-    add_item(0,0,3,20,0.0,0,0,150,{0,3,0,1},"Molten Dagger","molten_dagger",0,false);
-    add_item(0,0,4,0,0.30,0,0,150,{0,4,0,1},"Obsidian Dagger","obsidian_dagger",0,false);
-    add_item(-5,-1,9,0,0.0,0,0,150,{0,0,3,1},"Lava Spell","fire_spell",0,false);
-    add_item(-5,-2,10,0,0.0,0,0,150,{0,0,4,1},"Fire Staff","fire_staff",0,false);
-    add_item(15,5,0,10,0.0,0,0,150,{0,0,0,1},"Sunfire Cape","sunfire_cape",1,false);
+    add_item(0,0,5,0,0.0,0,250,210,{15,0,0,8},"Steel Pickaxe","steel_pickaxe",0,false);
+    add_item(0,0,6,0,0.0,0,300,280,{20,0,0,8},"Emerald Pickaxe","emerald_pickaxe",0,false);
+    add_item(0,0,7,0,0.0,0,400,350,{25,0,0,8},"Diamond Pickaxe","diamond_pickaxe",0,false);
+    add_item(0,0,3,20,0.0,0,0,150,{0,3,0,8},"Molten Dagger","molten_dagger",0,false);
+    add_item(0,0,4,0,0.30,0,0,150,{0,4,0,8},"Obsidian Dagger","obsidian_dagger",0,false);
+    add_item(-5,-1,9,0,0.0,0,0,150,{0,0,3,8},"Lava Spell","fire_spell",0,false);
+    add_item(-5,-2,10,0,0.0,0,0,150,{0,0,4,8},"Fire Staff","fire_staff",0,false);
+    add_item(10,3,0,10,0.0,0,0,150,{0,0,0,10},"Sunfire Cape","sunfire_cape",1,false);
+
+    //Searing Desert items
+    add_item(0,0,9,0,0.0,0,0,200,{30,0,0,12},"Scimitar","scimitar",0,false);
+    add_item(0,6,0,0,0.0,0,0,200,{30,0,0,12},"Sand Shield","sand_shield",0,false);
+    add_item(0,0,0,0,0.0,0.25,0,200,{0,0,0,12},"Water","water",0,false);
+    add_item(0,0,-4,20,0.50,0.0,0,200,{0,0,0,12},"Sand Sheathe","sand_sheathe",0,false);
+    add_item(-5,-2,6,0,0.50,0,0,200,{0,6,0,12},"Poisoned Dagger","poisoned_dagger",0,false);
+    add_item(-10,-2,10,0,0.0,0,0,200,{0,0,9,12},"Sandstorm Spell","sandstorm_spell",0,false);
+    add_item(0,3,0,15,0.20,0,0,200,{0,6,0,12},"Sun Amulet","sun_amulet",0,false);
+    add_item(5,2,0,15,0.30,0.09,0,200,{0,7,0,15},"Mirage Cloak","mirage_cloak",1,false);
+    add_item(5,8,2,-10,0.0,0,0,200,{35,0,0,15},"Desert Armor","desert_armor",1,false);
 }
 
 
@@ -69,18 +85,39 @@ void create_areas() {
             {stat_roll{15,0,3,0,4,0},5,20,50,"Goblin Chieftain",{{100,all_items["cloth_armor"]}}},
         },
         {
-            {stat_roll{25,0,2,0,4,0},7,10,25,"Troll",{{}}},
+            {stat_roll{11,11,2,0,5,0},7,20,30,"Orc",{{10,all_items["orc_spear"]},{2,all_items["magical_ring"]}}},
+            {stat_roll{25,5,3,0,4,0},15,30,40,"Troll",{{10,all_items["troll_club"]},{2,all_items["magical_ring"]}}},
+            {stat_roll{40,10,4,0,5,0},20,40,50,"Ogre",{{7,all_items["ogre_horn"]},{2,all_items["magical_ring"]}}},
+            {stat_roll{3,0,30,0,10,0},30,50,70,"Dark Elf",{{5,all_items["dark_grimoire"]},{2,all_items["magical_ring"]}}},
         },
         {
-            {stat_roll{15,0,1,0,3,2},6,10,25,"Lava Slime",{{5,all_items["molten_dagger"]},{5,all_items["obsidian_dagger"]}}},
-            {stat_roll{15,0,1,0,4,2},7,15,30,"Lava Bat",{{{5,all_items["molten_dagger"]},{5,all_items["obsidian_dagger"]}}}},
-            {stat_roll{20,0,2,0,5,2},8,20,40,"Lava Wolf",{{8,all_items["molten_dagger"]},{8,all_items["obsidian_dagger"]}}},
-            {stat_roll{22,0,1,0,6,2},8,30,40,"Lava Snake",{{8,all_items["fire_spell"]},{8,all_items["fire_staff"]}}},
-            {stat_roll{30,0,2,0,7,2},9,30,50,"Lava Demon",{{{10,all_items["fire_spell"]},{10,all_items["fire_staff"]}}}},
-            {stat_roll{50,0,3,0,9,0},10,100,100,"Isolated Frost Demon",{{100,all_items["sunfire_cape"]}}},
+            {stat_roll{15,0,3,0,7,2},9,10,25,"Lava Slime",{{5,all_items["molten_dagger"]},{5,all_items["obsidian_dagger"]}}},
+            {stat_roll{15,0,4,0,8,2},12,15,30,"Lava Bat",{{{5,all_items["molten_dagger"]},{5,all_items["obsidian_dagger"]}}}},
+            {stat_roll{20,0,5,0,10,2},15,20,40,"Lava Wolf",{{8,all_items["molten_dagger"]},{8,all_items["obsidian_dagger"]}}},
+            {stat_roll{22,0,6,0,11,2},18,30,40,"Lava Snake",{{8,all_items["fire_spell"]},{8,all_items["fire_staff"]}}},
+            {stat_roll{30,0,7,0,12,2},21,30,50,"Lava Demon",{{{10,all_items["fire_spell"]},{10,all_items["fire_staff"]}}}},
+            {stat_roll{50,0,10,0,15,0},25,100,100,"Isolated Frost Demon",{{100,all_items["sunfire_cape"]}}},
         },
-        {}
+        {
+            {stat_roll{50,0,10,0,10,0},30,80,150,"Desert Bandit",{{8,all_items["water"]},{5,all_items["scimitar"]}}},
+            {stat_roll{100,0,10,0,12,0},30,160,300,"Desert Bandits",{{16,all_items["water"]},{8,all_items["scimitar"]}}},
+            {stat_roll{100,0,4,0,15,0},33,100,200,"Sand Golem",{{5,all_items["sum_amulet"]}, {5,all_items["sand_sheathe"]}}},
+            {stat_roll{70,0,9,0,20,0},37,100,200,"Poisonous Scorpion",{{5,all_items["poisoned_dagger"]},{3,all_items["sandstorm_spell"]}}},
+            {stat_roll{100,0,2,0,22,0},40,150,300,"Desert Wyrm",{{5,all_items["sandstorm_spell"]},{5,all_items["sun_amulet"]}}},
+            {stat_roll{150,0,8,0,25,0},50,300,500,"Sand Elemental",{{5,all_items["mirage_cloak"]},{5,all_items["desert_armor"]}}},
+        }
     };
+    vector<enemy_template> floor2encounters;
+    floor2encounters.push_back(enemies[1][0]);
+    floor2encounters.push_back(enemies[1][1]);
+    floor2encounters.push_back(enemies[1][2]);
+    floor2encounters.push_back(enemies[1][3]);
+
+    vector<enemy_template> floor4encounters;
+    floor2encounters.push_back(enemies[3][1]);
+
+
+
 
     vector<Item*> shop_items[AREAS] = {
         {
@@ -98,7 +135,10 @@ void create_areas() {
             all_items["emerald_pickaxe"],
             all_items["diamond_pickaxe"]
         },
-        {}
+        {
+            all_items["scimitar"],
+            all_items["sand_shield"],
+        }
     };
 
     gamba.push_back(all_items["steel_sword"]);
@@ -114,8 +154,22 @@ void create_areas() {
         "The elves have already cleared this floor and are happy to let you pass to the next.\n"
         "In the future you are welcome to return at any point.\n",
         "These 3rd floor mountains have been heating up for over a century and are close to eruption.\n"
-        "Lava creatures roam the floor and many rare ores can be found within the caverns.\n",
-        "",
+        "Lava creatures roam the floor and many rare ores can be found within the caverns.\n"
+        "Many tower climbing parties gather here in hopes of striking it rich.\n",
+        "The 4th floor is the first red floor and an endless expanse of scorching sand dunes and ancient ruins.\n"
+        "The sun beats down relentlessly, and only the strongest can survive here.\n"
+        "Dying on a red floor results in permadeath overwriting your save file! Move cautiously through the desert.\n",
+    };
+
+    vector<pair<string,string>> Riddles = {
+        {"To keep this you must first give it to another?","word"},
+        {"The more I eat the larger I grow, but if I should ever drink I will die.\nWhat am I?", "fire"},
+        {"Two bodies have I, though together we are one. The more I stand still the faster I run.\nWhat am I?", "hourglass"},
+        {"There are two sisters, the first gave birth to the second and the second gave birth to the first.\n Who are they?", "sun and moon"},
+        {"What walks on 4 legs in the morning, 2 legs in the evening, and 3 legs at night?", "man"},
+        {"I exist in the past, I am made in the present, but the future will never taint me.\nWhat am I?", "memories"},
+        {"I appear once in the beginning, twice in a lifetime, and once at the end.\nWhat am I?", "e"},
+        {"What can run but never walks, has a mouth but never talks, has a head but never weeps, has a bed but never sleeps?", "river"},
     };
 
     vector<Event*> area_events[AREAS] = {
@@ -132,6 +186,9 @@ void create_areas() {
             new Event(event_type::currency,
             "You find a locked chest... are you strong enough to open it?",
             {2,0,50,0,20}),
+            new Event(event_type::item,
+            "You find a dark artifact that is enshrined in a protective curse... what is it doing here?",
+            {2,all_items["dark_grimoire"],2,20}),
             new Event(event_type::hp,
             "You get caught in a landslide near the village!"
             "\nIs your armor strong enough to shield you?",
@@ -149,8 +206,8 @@ void create_areas() {
             "The elf is grateful and wants to pay you back as a reward.",
             {1,0,25}),
             new Event(event_type::encounter,
-            "While queuing at the city entrance you see an armed troll attacking civilians.",
-            {enemies[1][0]}),
+            "While queuing at the city entrance you see an armed figure attacking civilians.",
+            {0,floor2encounters}),
             new Event(event_type::currency,
             "You hang out with friends you made in the city.",
             {0,10,-25}),
@@ -162,17 +219,36 @@ void create_areas() {
             {1,all_items["elven_cloth"]}),
         },
         {
-            new Event(event_type::hp,
-            "A lava slime cannonballs into a pool of fire.\n"
-            "You were splashed by the lava.",
-            {2,-3,0,30}),
+            // new Event(event_type::hp,
+            // "A lava slime cannonballs into a pool of fire.\n"
+            // "You were splashed by the lava.",
+            // {2,-10,0,30}),
             new Event(event_type::currency,
             "You meet another tower climber.\n"
             "They want to trade you 30 exp for 50 gold.",
             {1,30,-50}),
+            new Event(event_type::currency,
+            "The devil appears from below and asks you the following riddle.\n",
+            {1,0,0,Riddles}),
         },
         
-        {}
+        {
+            new Event(event_type::hp,
+            "A sudden sandstorm hits you, reducing your visibility and causing damage.",
+            {2,-5,1,9}),
+            new Event(event_type::currency,
+            "You discover a hidden oasis. You find some valuables left by previous travelers.",
+            {0,0,50}),
+            new Event(event_type::encounter,
+            "You encounter a group of Desert Bandits trying to rob you.",
+            {0,floor4encounters}),
+            new Event(event_type::hp,
+            "You find a merchant at the oasis who offers to heal you for a price.",
+            {1,100,-50}),
+            new Event(event_type::item,
+            "You find a buried chest in the sand containing a powerful artifact.",
+            {1,all_items["sun_amulet"]}),
+        }
     };
 
     bool locks[AREAS] {
@@ -180,15 +256,15 @@ void create_areas() {
     };
 
     Color colours[AREAS] {
-        Color::Amber, Color::Green, Color::Amber, Color::Amber
+        Color::Amber, Color::Green, Color::Amber, Color::Red,
     };
 
     int encounters[AREAS] {
-        50,100,50,60,
+        50,100,/*50*/100,60,
     };
 
     int events[AREAS] {
-        10,30,10,30,
+        10,20,10,30,
     };
 
     for(int i=0;i<AREAS;++i) {

@@ -12,6 +12,8 @@
 #include <cmath>
 #include <sstream>
 #include <any>
+#include <regex>
+#include <cstdio>
 
 #define MOBS 3
 #define AREAS 4
@@ -203,6 +205,10 @@ void travel(Player* p);
 void unlock_stages(Enemy* e);
 
 void cleared(Player *p, Enemy* e);
+
+bool pattern_match(std::string &input, std::string &answer);
+
+void delete_save();
 
 void shop(Player *p);
 
