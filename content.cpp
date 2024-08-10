@@ -35,9 +35,9 @@ void create_items() {
     add_item(5,1,0,0,0.0,0,0,50,{0,0,0,1},"Cloth Armor","cloth_armor",1,false);
 
     // Magical Forest items
-    add_item(5,0,4,10,0.0,0,300,210,{0,3,0,8},"Elven Bow","elven_bow",0,false);
-    add_item(-5,-1,7,0,0.0,0,300,210,{0,0,3,8},"Leaf Spell","leaf_spell",0,false);
-    add_item(0,1,6,0,0.0,0,300,210,{25,0,0,8},"Elven Blade","elven_blade",0,false);
+    add_item(5,0,4,10,0.0,0,300,210,{0,3,0,5},"Elven Bow","elven_bow",0,false);
+    add_item(-5,-1,7,0,0.0,0,300,210,{0,0,3,5},"Leaf Spell","leaf_spell",0,false);
+    add_item(0,1,6,0,0.0,0,300,210,{25,0,0,5},"Elven Blade","elven_blade",0,false);
     add_item(10,0,4,0,0.0,0,0,100,{20,2,0,8},"Troll Club","troll_club",0,false);
     add_item(2,2,2,0,0,0,0,100,{15,1,1,8},"Orc Spear","orc_spear",0,false);
     add_item(0,0,4,10,0.30,0,0,100,{0,4,0,8},"Ogre Horn","ogre_horn",0,false);
@@ -46,15 +46,15 @@ void create_items() {
     add_item(5,1,0,10,0.15,0.04,0,100,{15,1,1,8},"Elven Cloth","elven_cloth",1,false);
 
     //Rocky Mountains items
-    add_item(0,0,5,0,0.0,0,250,210,{25,0,0,15},"Steel Pickaxe","steel_pickaxe",0,false);
-    add_item(0,1,7,0,0.0,0,400,280,{30,0,0,15},"Emerald Pickaxe","emerald_pickaxe",0,false);
-    add_item(0,2,9,0,0.0,0,600,420,{30,0,0,15},"Ruby Pickaxe","ruby_pickaxe",0,false);
-    add_item(0,3,13,0,0.0,0,1000,420,{30,0,0,15},"Diamond Pickaxe","diamond_pickaxe",0,false);
-    add_item(0,0,3,20,0.0,0,0,150,{0,3,0,15},"Steel Dagger","steel_dagger",0,false);
-    add_item(0,0,4,0,0.30,0,0,150,{0,4,0,15},"Gold Dagger","gold_dagger",0,false);
-    add_item(-5,-1,9,0,0.0,0,0,150,{0,0,3,15},"Rock Spell","rock_spell",0,false);
-    add_item(-5,-2,10,0,0.0,0,0,150,{0,0,4,15},"Earth Staff","earth_staff",0,false);
-    add_item(10,3,0,10,0.0,0,0,150,{0,0,0,15},"Earthen Cover","earthern_cover",1,false);
+    add_item(0,0,5,0,0.0,0,250,210,{25,0,0,4},"Steel Pickaxe","steel_pickaxe",0,false);
+    add_item(0,1,7,0,0.0,0,400,280,{30,0,0,5},"Emerald Pickaxe","emerald_pickaxe",0,false);
+    add_item(0,2,9,0,0.0,0,600,420,{35,0,0,6},"Ruby Pickaxe","ruby_pickaxe",0,false);
+    add_item(0,3,13,0,0.0,0,1000,420,{40,0,0,7},"Diamond Pickaxe","diamond_pickaxe",0,false);
+    add_item(0,0,3,20,0.0,0,0,150,{0,3,0,10},"Steel Dagger","steel_dagger",0,false);
+    add_item(0,0,4,0,0.30,0,0,150,{0,4,0,10},"Gold Dagger","gold_dagger",0,false);
+    add_item(-5,-1,9,0,0.0,0,0,150,{0,0,3,10},"Rock Spell","rock_spell",0,false);
+    add_item(-5,-2,10,0,0.0,0,0,150,{0,0,4,10},"Earth Staff","earth_staff",0,false);
+    add_item(10,3,0,10,0.0,0,0,150,{0,0,0,10},"Earthen Cover","earthern_cover",1,false);
 
     //Searing Desert items
     add_item(0,0,9,0,0.0,0,0,200,{30,0,0,20},"Scimitar","scimitar",0,false);
@@ -78,13 +78,29 @@ void create_items() {
     add_item(5,5,2,10,0.0,0,0,300,{40,0,0,25},"Giant Boots","giant_boots",1,false);
     add_item(0,0,15,0,0.30,0,0,400,{0,0,0,25},"Frozen Armor","frozen_armor",1,false);
 
+    // Underwater Kingdom items
+    add_item(0,0,-5,0,0.0,0.1,0,400,{0,0,0,25},"Magic Bubble","magic_bubble",0,false);
+    add_item(0,2,5,0,0.0,0,150,100,{10,0,0,25},"Trident","trident",0,false);
+    add_item(0,0,3,10,0.0,0,200,150,{0,0,10,25},"Serpent Fang","serpent_fang",0,false);
+    add_item(0,3,0,0,0,0.05,0,250,{0,0,0,25},"Kraken Ink","kraken_ink",0,false);
+    add_item(5,1,0,10,0.15,0.04,0,300,{10,0,0,25},"Shark Tooth Necklace","shark_tooth",1,false);
+    add_item(10,3,0,10,0.20,0,0,400,{15,0,0,25},"Leviathan Scale Shield","leviathan_scale",1,false);
+    add_item(15,5,0,20,0.30,0,0,500,{20,0,0,25},"Sea Guardian Armor","sea_guardian_armor",1,false);
+
+    // Hell items
+    add_item(10,0,20,0,0.0,0,500,350,{40,0,0,30},"Hellhound Fang","hellhound_fang",0,false);
+    add_item(20,0,30,0,0.0,0,700,500,{50,0,0,35},"Demon Sword","demon_sword",0,false);
+    add_item(30,0,40,0,0.0,0,900,600,{60,0,0,40},"Pit Fiend Armor","pit_fiend_armor",1,false);
+    add_item(40,0,50,0,0.0,0,1200,800,{70,0,0,45},"Balrog Whip","balrog_whip",0,false);
+    add_item(50,0,60,0,0.0,0,1500,1000,{80,0,0,50},"Archdemon Helm","archdemon_helm",1,false);
+    add_item(100,0,100,0,0.0,0,2000,1500,{100,0,0,60},"Satanic Blade","satanic_blade",0,false);
 }
 
 
 void create_areas() {
     string area_names[AREAS] = {"Goblin Village",
     "Magical Forest", "Rocky Mountain",
-    "Searing Desert", "Frozen Tundra", "Underwater Kingdom", "Hell"};
+    "Searing Desert", "Frozen Tundra", "Underwater Kingdom", "Tartarus"};
     vector<enemy_template> enemies[AREAS] = {
         {
             // base hp, var hp, base armor, var armor, base damage, var damage;
@@ -95,22 +111,21 @@ void create_areas() {
             {stat_roll{8,0,1,0,2,0},3,5,15,"Goblin Hunter",{{12.5,all_items["bow"]}}},
             {stat_roll{8,0,0,0,3,0},3,5,15,"Goblin Mage",{{12.5,all_items["staff"]}}},
             {stat_roll{12,0,2,0,2,0},4,7,20,"Goblin Warrior",{{12.5,all_items["sword"]}}},
-            {stat_roll{15,0,3,0,4,0},5,20,50,"Goblin Chieftain",{{100,all_items["cloth_armor"]}}},
+            {stat_roll{15,0,3,0,4,0},5,20,50,"Goblin Chieftain <BOSS>",{{100,all_items["cloth_armor"]}}},
         },
         {
             {stat_roll{11,11,2,0,5,0},7,20,30,"Orc",{{10,all_items["orc_spear"]},{2,all_items["magical_ring"]}}},
-            {stat_roll{25,5,3,0,4,0},15,30,40,"Troll",{{10,all_items["troll_club"]},{2,all_items["magical_ring"]}}},
-            {stat_roll{40,10,4,0,5,0},20,40,50,"Ogre",{{7,all_items["ogre_horn"]},{2,all_items["magical_ring"]}}},
+            {stat_roll{25,5,5,0,4,0},15,30,40,"Troll",{{10,all_items["troll_club"]},{2,all_items["magical_ring"]}}},
+            {stat_roll{40,10,5,0,5,0},20,40,50,"Ogre",{{7,all_items["ogre_horn"]},{2,all_items["magical_ring"]}}},
             {stat_roll{3,0,30,0,10,0},30,50,70,"Dark Elf",{{5,all_items["dark_grimoire"]},{2,all_items["magical_ring"]}}},
         },
         {
-
-            {stat_roll{15,0,3,0,7,2},12,10,25,"Bats",{{5,all_items["steel_dagger"]},{5,all_items["gold_dagger"]}}},
-            {stat_roll{15,0,4,0,8,2},14,15,30,"Slime",{{{5,all_items["steel_dagger"]},{5,all_items["gold_dagger"]}}}},
-            {stat_roll{20,0,5,0,10,2},15,20,40,"Serpant",{{8,all_items["steel_dagger"]},{8,all_items["gold_dagger"]}}},
-            {stat_roll{22,0,6,0,11,2},18,30,40,"Rock Golem",{{8,all_items["rock_spell"]},{8,all_items["earth_staff"]}}},
-            {stat_roll{30,0,7,0,12,2},21,30,50,"Giant",{{{10,all_items["rock_spell"]},{10,all_items["earth_staff"]}}}},
-            {stat_roll{50,0,10,0,15,0},25,100,100,"Dragon",{{100,all_items["earthern_cover"]}}},
+            {stat_roll{15,0,3,2,7,2},12,10,25,"Kobold Gang",{{5,all_items["steel_dagger"]},{5,all_items["gold_dagger"]}}},
+            {stat_roll{15,0,4,2,8,2},14,15,30,"Mining Party",{{{5,all_items["steel_dagger"]},{5,all_items["gold_dagger"]}}}},
+            {stat_roll{20,0,5,2,10,2},15,20,40,"Large Serpent",{{8,all_items["steel_dagger"]},{8,all_items["gold_dagger"]}}},
+            {stat_roll{22,0,6,2,11,2},18,30,40,"Rock Golem",{{8,all_items["rock_spell"]},{8,all_items["earth_staff"]}}},
+            {stat_roll{30,0,7,2,12,2},21,30,50,"Giant",{{{10,all_items["rock_spell"]},{10,all_items["earth_staff"]}}}},
+            {stat_roll{50,0,10,0,15,0},25,100,100,"Dragon <BOSS>",{{100,all_items["earthern_cover"]}}},
         },
         {
             {stat_roll{50,0,10,0,10,0},30,80,150,"Desert Bandit",{{8,all_items["water"]},{5,all_items["scimitar"]}}},
@@ -118,7 +133,7 @@ void create_areas() {
             {stat_roll{100,0,4,0,15,0},33,100,200,"Sand Golem",{{5,all_items["sum_amulet"]}, {5,all_items["sand_sheathe"]}}},
             {stat_roll{70,0,9,0,20,0},37,100,200,"Poisonous Scorpion",{{5,all_items["poisoned_dagger"]},{3,all_items["sandstorm_spell"]}}},
             {stat_roll{100,0,2,0,22,0},40,150,300,"Desert Wyrm",{{5,all_items["sandstorm_spell"]},{5,all_items["sun_amulet"]}}},
-            {stat_roll{150,0,8,0,25,0},50,300,500,"Sand Elemental",{{5,all_items["mirage_cloak"]},{3,all_items["desert_armor"]}}},
+            {stat_roll{150,0,8,0,25,0},50,300,500,"Sand Elemental <BOSS>",{{5,all_items["mirage_cloak"]},{3,all_items["desert_armor"]}}},
         },
         {
             {stat_roll{60,0,12,0,10,0},35,150,200,"Frost Wolf",{{8,all_items["ice_claw"]},{5,all_items["wolf_pelt"]}}},
@@ -127,10 +142,25 @@ void create_areas() {
             {stat_roll{100,0,8,0,20,0},45,250,300,"Ice Elemental",{{5,all_items["ice_crystal"]},{5,all_items["frozen_amulet"]}}},
             {stat_roll{90,0,20,0,18,0},48,275,320,"Snow Golem",{{5,all_items["ice_shield"]},{5,all_items["frozen_armor"]}}},
             {stat_roll{120,0,10,0,25,0},50,300,350,"Frost Giant",{{10,all_items["frost_hammer"]},{10,all_items["giant_boots"]}}},
-            {stat_roll{150,0,18,0,30,0},60,500,600,"Ice Dragon",{{100,all_items["dragon_scale_armor"]}}},
+            {stat_roll{150,0,18,0,30,0},60,500,600,"Ice Dragon <BOSS>",{{100,all_items["dragon_scale_armor"]}}},
         },
-        {},
-        {},
+        {
+            {stat_roll{20,0,2,0,6,0},12,15,30,"Merman Warrior",{{10,all_items["trident"]}}},
+            {stat_roll{15,0,4,0,8,0},15,20,40,"Sea Serpent",{{5,all_items["serpent_fang"]}}},
+            {stat_roll{30,0,5,0,10,0},20,30,50,"Kraken Tentacle",{{7,all_items["kraken_ink"]}}},
+            {stat_roll{25,0,3,0,12,0},18,25,45,"Sharkman",{{10,all_items["shark_tooth"]}}},
+            {stat_roll{35,0,6,0,15,0},25,40,70,"Leviathan Spawn",{{15,all_items["leviathan_scale"]}}},
+            {stat_roll{50,0,8,0,20,0},30,100,100,"Ancient Sea Guardian",{{100,all_items["sea_guardian_armor"]}}},
+            {stat_roll{150,0,18,0,30,0},60,500,600,"Poseidon <BOSS>",{{100,all_items["dragon_scale_armor"]}}},  
+        },
+        {
+              {stat_roll{50,0,10,0,20,0},40,200,300,"Hellhound",{{10,all_items["hellhound_fang"]}}},
+            {stat_roll{60,0,15,0,25,0},50,300,400,"Demon",{{15,all_items["demon_sword"]}}},
+            {stat_roll{70,0,20,0,30,0},60,400,500,"Pit Fiend",{{20,all_items["pit_fiend_armor"]}}},
+            {stat_roll{80,0,25,0,35,0},70,500,600,"Balrog",{{25,all_items["balrog_whip"]}}},
+            {stat_roll{100,0,30,0,40,0},80,700,800,"Archdemon",{{50,all_items["archdemon_helm"]}}},
+            {stat_roll{150,0,40,0,50,0},100,1000,1000,"Satan Lord of Hell <BOSS>",{{100,all_items["satanic_blade"]}}}
+        },
     };
     vector<enemy_template> floor2encounters;
     floor2encounters.push_back(enemies[1][0]);
@@ -194,8 +224,13 @@ void create_areas() {
         "There is a small tribe of tower climbers who have forgone continuing and are hiding from the tower's aura that lures many upward.\n"
         "After narrowly escaping death on the first red floor, they have made the decision to run away from the fight.\n"
         "Despite their camp, the floor is still much in control of the cold monsters who have adapted to this harsh environment.\n",
-        "",
-        "",
+        "The 6th floor is completely underwater except for the entrance.\n"
+        "The kingdom here is ruled by Poseidon the god of the sea.\n"
+        "This floor will be difficult for those who cannot swim or breathe underwater...\n",
+        "The 7th and final floor is Hell itself, a nightmarish realm of eternal fire and brimstone.\n"
+        "The air is thick with the stench of sulfur, and the ground beneath your feet feels as if it could give way to a molten abyss at any moment.\n"
+        "Demons of unimaginable power roam these lands, and the very environment seems to be alive, intent on dragging you into the depths.\n"
+        "This is the ultimate test of your strength, courage, and willpower. Only those who conquer this inferno can escape the tower.\n",
     };
 
     vector<pair<string,regex>> Riddles = {
@@ -224,7 +259,7 @@ void create_areas() {
             {Branch::Test,0,50,0,20}),
             new Event(event_type::item,
             "You find a dark artifact that is enshrined in a protective curse... what is it doing here?",
-            {Branch::Test,all_items["dark_grimoire"],2,20}),
+            {Branch::Test,all_items["dark_grimoire"],2,15}),
             new Event(event_type::hp,
             "You get caught in a landslide near the village!"
             "\nIs your armor strong enough to shield you?",
@@ -245,7 +280,8 @@ void create_areas() {
             "The elf is grateful and wants to pay you back as a reward.",
             {Branch::Decision,0,25}),
             new Event(event_type::encounter,
-            "While queuing at the city entrance you see an armed figure attacking civilians.",
+            "While queuing at the city entrance you see an armed figure attacking civilians.\n"
+            "You go to confront them.\n",
             {Branch::None,floor2encounters}),
             new Event(event_type::currency,
             "You hang out with friends you made in the city.",
@@ -259,16 +295,20 @@ void create_areas() {
         },
         {
             new Event(event_type::hp,
-            "A slime cannonballs into a pool of fire.\n"
-            "You were splashed by the lava.",
+            "Rocks fall on you from above.",
             {Branch::Test,-8,0,30}),
-            new Event(event_type::currency,
-            "You meet another tower climber.\n"
-            "They want to trade you 30 exp for 50 gold.",
-            {Branch::Trade,30,-50}),
-            new Event(event_type::stat,
-            "The devil appears to test you with the following riddle.",
-            {Branch::Test,0,0,Riddles}),
+            new Event(event_type::mine,
+            "You see a sliver of shiny metal in the darkness.",
+            {Branch::None,Ores::Iron}),
+            new Event(event_type::mine,
+            "You see a faint sparkle of green in the darkness.",
+            {Branch::None,Ores::Emerald}),
+            new Event(event_type::mine,
+            "You see a red glow in the darkness!",
+            {Branch::None,Ores::Ruby}),
+            new Event(event_type::mine,
+            "You see a blue aura radiate in the darkness!",
+            {Branch::None,Ores::Diamond}),
         },
         {
             new Event(event_type::hp,
@@ -312,11 +352,49 @@ void create_areas() {
             {Branch::None,15}),
             new Event(event_type::hp,
             "You have a successful hunt and bring back food to the outpost.\n"
-            "The settlers are happy to pay you for the provisions.\n",
+            "The settlers are happy to pay you for the provisions.",
             {Branch::Decision,0,100}),
         },
-        {},
-        {},
+        {
+            new Event(event_type::hp,
+            "A sudden strong current sweeps you off your feet, injuring you as you're tossed against the rocks.",
+            {2,-10,0,20}),
+            new Event(event_type::currency,
+            "You discover a sunken treasure chest filled with gold coins.",
+            {0,0,100}),
+            new Event(event_type::encounter,
+            "A group of Merman Warriors ambushes you from behind a coral reef.",
+            {0,enemies[5]}),
+            new Event(event_type::item,
+            "You find a rare pearl inside a giant clam.",
+            {0,all_items["pearl"]}),
+            new Event(event_type::hp,
+            "You encounter a friendly dolphin who heals your wounds and guides you to safety.",
+            {0,20}),
+        },
+        {
+            new Event(event_type::stat,
+            "Satan appears from the depths to test you with the following riddle.",
+            {Branch::Test,0,0,Riddles}),
+            new Event(event_type::hp,
+            "A river of lava suddenly erupts beneath you, burning your flesh and soul.",
+            {2,-30,0,50}),
+            new Event(event_type::currency,
+            "You discover a pile of cursed gold, but its touch drains your life force.",
+            {1,100,-50}),
+            new Event(event_type::encounter,
+            "You are ambushed by a horde of demons led by a Hellhound.",
+            {0,enemies[6]}),
+            new Event(event_type::stat,
+            "A demon offers you a deal: power in exchange for a piece of your soul.",
+            {1,50,-25}),
+            new Event(event_type::item,
+            "You find a powerful artifact imbued with the essence of Hell.",
+            {0,all_items["archdemon_helm"]}),
+            new Event(event_type::hp,
+            "You stumble upon a hidden spring of unholy water that heals your wounds, but at a cost.",
+            {0,50,-20}),
+        },
     };
 
     string shop_ds[AREAS] {
@@ -325,7 +403,7 @@ void create_areas() {
         "They think people only want pickaxes here...\n",
         "No one has been able to set up shop here...\n",
         "",
-        "",
+        "You probably need something to breathe with",
         "",
     };
 
@@ -338,19 +416,19 @@ void create_areas() {
     Color colours[AREAS] {
         Color::Amber, Color::Green, Color::Amber,
         Color::Red, Color::Amber, Color::Amber,
-        Color::Amber,
+        Color::Red,
     };
 
     int encounters[AREAS] {
         50,100,40,
-        60,60,60,
-        60
+        40,40,40,
+        40
     };
 
     int events[AREAS] {
-        10,20,10,
-        30,30,30,
-        30
+        10,20,20,
+        20,20,20,
+        20
     };
 
     for(int i=0;i<AREAS;++i) {

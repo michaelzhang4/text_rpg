@@ -155,7 +155,7 @@ int combat(Player *p, Enemy *arena_enemy) {
     return 0;
 }
 
-bool pattern_match(string& input, regex& pattern) {
+bool pattern_match(string& input, regex pattern) {
     return regex_search(input, pattern);
 }
 
@@ -169,17 +169,38 @@ void cleared(Player *p, Enemy *e) {
 
 void unlock_stages(Enemy* e) {
     bool unlocked=false;
-    if(e->name=="Goblin Chieftain" && areas[1]->unlocked==false) {
+    if(e->name=="Goblin Chieftain <BOSS>" && areas[1]->unlocked==false) {
         cout << "\nYou have slain the strongest foe in Goblin Village\n\n";
         cout << areas[1]->name << " has been unlocked for travel!\n";
         areas[1]->unlocked=true;
         areas[2]->unlocked=true;
         unlocked=true;
-    } else if(e->name=="Dragon" && areas[3]->unlocked==false) {
+    } else if(e->name=="Dragon <BOSS>" && areas[3]->unlocked==false) {
         cout << "\nYou have slain the strongest foe in Rocky Mountains\n\n";
         cout << areas[3]->name << " has been unlocked for travel!\n";
         areas[3]->unlocked=true;
         unlocked=true;
+    } else if(e->name=="Sand Elemental <BOSS>" && areas[4]->unlocked==false) {
+        cout << "\nYou have slain the strongest foe in Rocky Mountains\n\n";
+        cout << areas[4]->name << " has been unlocked for travel!\n";
+        areas[4]->unlocked=true;
+        unlocked=true;
+    } else if(e->name=="Ice Dragon <BOSS>" && areas[5]->unlocked==false) {
+        cout << "\nYou have slain the strongest foe in Frozen Tundra\n\n";
+        cout << areas[5]->name << " has been unlocked for travel!\n";
+        areas[5]->unlocked=true;
+        unlocked=true;
+    } else if(e->name=="Poseidon <BOSS>" && areas[6]->unlocked==false) {
+        cout << "\nYou have slain the ruler of Underwater Kingdom\n\n";
+        cout << areas[6]->name << " has been unlocked for travel!\n";
+        areas[6]->unlocked=true;
+        unlocked=true;
+    } else if(e->name=="Satan Lord of Hell <BOSS>") {
+        cout << "\nYou have slain Satan!\n\n";
+        cout << "A portal to the outside world opens...\n";
+        cout << "You have ascended from the tower!\n";
+        cout << "Check back for new updates in the future!\n";
+        exit(0);
     }
     if(unlocked) {
         cout << "\nEnter any key to continue...\n";
@@ -227,6 +248,25 @@ void print_explore() {
     cout << "Exploring...\n";
     SleepMs(sleep_time);
 }
+
+void mining() {
+    int sleep_time=250;
+    for(int i=0;i<3;++i) {
+        ClearScreen();
+        cout << "Mining\n";
+        SleepMs(sleep_time);
+        ClearScreen();
+        cout << "Mining.\n";
+        SleepMs(sleep_time);
+        ClearScreen();
+        cout << "Mining..\n";
+        SleepMs(sleep_time);
+        ClearScreen();
+        cout << "Mining...\n";
+        SleepMs(sleep_time);
+    }
+}
+
 
 void event(Player *p) {
     vector<Event*> e = current_area->event_list;
@@ -340,7 +380,7 @@ void intro() {
     } else if(areas[4]->unlocked) {
     } else if(areas[3]->unlocked) {
     } else if(areas[2]->unlocked) {
-        slow_print("A lone silhouette ponders life on the peak of a volcano.\n\n");
+        slow_print("A lone silhouette gazes at you from the deepest of caverns.\n\n");
     }
     slow_print("Will you find an escape on the highest floor?\n\n\n");
     cout << "Enter any key to continue...\n";

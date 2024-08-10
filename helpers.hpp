@@ -106,6 +106,14 @@ enum event_type {
     stat,
     hp,
     encounter,
+    mine,
+};
+
+enum Ores {
+    Iron,
+    Emerald,
+    Ruby,
+    Diamond,
 };
 
 enum Color {
@@ -211,9 +219,11 @@ void travel(Player* p);
 
 void unlock_stages(Enemy* e);
 
+void mining();
+
 void cleared(Player *p, Enemy* e);
 
-bool pattern_match(std::string &input, std::regex &pattern);
+bool pattern_match(std::string &input, std::regex pattern);
 
 void delete_save();
 

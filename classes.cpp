@@ -15,23 +15,23 @@ bool Event::pass(Player *p, int stat, int threshold) {
     bool success = true;
     if(stat==0) {
         if(p->totalHealth() >= threshold) {
-            cout << "You passed! - " << threshold << " ❤️";
+            cout << "You passed! - " << threshold << "base ❤️";
         } else {
-            cout << "You do not have " << threshold << " ❤️";
+            cout << "You do not have " << threshold << "base ❤️";
             success=false;
         }
     } else if(stat==1) {
         if(p->totalArmor() >= threshold) {
-            cout << "You passed! - " << threshold << " 🛡️";
+            cout << "You passed! - " << threshold << "base 🛡️";
         } else {
-            cout << "You do not have " << threshold << " 🛡️";
+            cout << "You do not have " << threshold << "base 🛡️";
             success=false;
         }
     } else if(stat==2) {
-        if(p->totalArmor() >= threshold) {
-            cout << "You passed! - " << threshold << " 🗡️";
+        if(p->damage() >= threshold) {
+            cout << "You passed! - " << threshold << "base 🗡️";
         } else {
-            cout << "You do not have " << threshold << " 🗡️";
+            cout << "You do not have " << threshold << "base 🗡️";
             success=false;
         }
     } else if(stat==3) {
@@ -65,11 +65,11 @@ void Event::execute_event(Player *p) {
     ClearScreen();
     cout << descript << "\n\n";
     SleepMs(SLEEP);
+    int branch = any_cast<Branch>(args[0]);
     switch(type) {
         case event_type::currency: {
             // args, 0==branch(0==none,1==decision,2==test),
             // 1==exp, 2==gold;
-            int branch = any_cast<int>(args[0]);
             int exp = any_cast<int>(args[1]);
             int gold = any_cast<int>(args[2]);
             switch(branch) {
@@ -118,7 +118,6 @@ void Event::execute_event(Player *p) {
             break;
         }
         case event_type::encounter: {
-            int branch = any_cast<int>(args[0]);
             cout << branch << endl;
             vector<enemy_template> e = any_cast<vector<enemy_template>>(args[1]);
             int rng = rand() % e.size();
@@ -136,7 +135,6 @@ void Event::execute_event(Player *p) {
         case event_type::hp: {
             // args, 0==branch(0==none,1==decision,2==test),
             // 1==hp_change
-            int branch = any_cast<int>(args[0]);
             int hp_change = any_cast<int>(args[1]);
             switch(branch) {
                 case 0:
@@ -170,9 +168,8 @@ void Event::execute_event(Player *p) {
         }
             break;
         case event_type::item: {
-            int type = any_cast<int>(args[0]);
             Item* gear = any_cast<Item*>(args[1]);
-            if(type==0) {
+            if(branch==0) {
                 if(gear->owned) {
                     cout << "Unfortunately you already have this item\n";
                     
@@ -181,7 +178,7 @@ void Event::execute_event(Player *p) {
                     owned_items.push_back(gear);
                     cout << "You gained a " << gear->name << "!\n";
                 }
-            } else if (type==1) {
+            } else if (branch==1) {
                 cout << "Do you take it? (y/n)\n";
                 cin >> choice;lower(choice);
                 if(choice=="y" || choice=="yes") {
@@ -193,7 +190,7 @@ void Event::execute_event(Player *p) {
                         cout << "You gained a " << gear->name << "!\n";
                     }
                 }
-            } else if (type==2) {
+            } else if (branch==2) {
                 int stat = any_cast<int>(args[2]);
                 int threshold = any_cast<int>(args[3]);
                 if(pass(p,stat,threshold)) {
@@ -209,7 +206,6 @@ void Event::execute_event(Player *p) {
             break;
         }
         case event_type::stat: {
-            int branch = any_cast<int>(args[0]);
             int stat = any_cast<int>(args[1]);
             int change = any_cast<int>(args[2]);
             if(branch==0) {
@@ -259,6 +255,64 @@ void Event::execute_event(Player *p) {
                 }
             }
             break;
+        }
+        case event_type::mine: {
+            int rng = rand() %100;
+            int ore = any_cast<Ores>(args[1]);
+            int big = rng>80 ? 1 : 0;
+            if(pattern_match(p->primary_equipped->name,regex("Pickaxe")) || pattern_match(p->secondary_equipped->name,regex("Pickaxe"))) {
+                if(ore==Ores::Iron) {
+                    mining();
+                    if(big==1) {
+                        cout << "You get lucky and there's a lot of iron ore!.\n";
+                        p->gain(10,50);
+                    } else {
+                        cout << "You mined the iron ore for a nice profit.\n";
+                        p->gain(10,25);
+                    }
+                } else if(ore==Ores::Emerald) {
+                    if(pattern_match(p->primary_equipped->name,regex("Emerald|Ruby|Diamond")) || pattern_match(p->secondary_equipped->name,regex("Emerald|Ruby|Diamond"))) {
+                        mining();
+                        if(big==1) {
+                            cout << "You get lucky and there's a lot of emerald ore!.\n";
+                            p->gain(20,100);
+                        } else {
+                            cout << "You mined the emerald ore for a nice profit.\n";
+                            p->gain(20,50);
+                        }
+                    } else {
+                        cout << "You try to mine the emerald ore but your steel pickaxe won't make a dent!\n";
+                    }
+                } else if(ore==Ores::Ruby) {
+                    if(pattern_match(p->primary_equipped->name,regex("Ruby|Diamond")) || pattern_match(p->secondary_equipped->name,regex("Ruby|Diamond"))) {
+                        mining();
+                        if(big==1) {
+                            cout << "You get lucky and there's a lot of ruby ore!.\n";
+                            p->gain(30,200);
+                        } else {
+                            cout << "You mined the ruby ore for a nice profit.\n";
+                            p->gain(30,100);
+                        }
+                    } else {
+                        cout << "You try to mine the ruby ore but your pickaxe won't make a dent!\n";
+                    }
+                } else if(ore==Ores::Diamond) {
+                    if(pattern_match(p->primary_equipped->name,regex("Diamond")) || pattern_match(p->secondary_equipped->name,regex("Diamond"))) {
+                        mining();
+                        if(big==1) {
+                            cout << "You get lucky and there's a lot of diamond ore!.\n";
+                            p->gain(20,400);
+                        } else {
+                            cout << "You mined the diamond ore for a nice profit.\n";
+                            p->gain(20,200);
+                        }
+                    } else {
+                        cout << "You try to mine the diamond ore but your pickaxe won't make a dent!\n";
+                    }
+                }
+            } else {
+                cout << "You don't have the suitable equipment to mine this ore.\n";
+            }
         }
     }
     cout << "\nEnter any key to continue..." << endl;
@@ -318,13 +372,13 @@ void Item::inspect_item(Player *p, int from_shop) {
         }
         cout << "\nRequirements:\n";
         if(req.dmg>0) {
-            cout << req.dmg <<"🗡️  ";
+            cout << req.dmg <<"base 🗡️  ";
         }
         if(req.arm>0) {
-            cout << req.arm <<"🛡️  ";
+            cout << req.arm <<"base 🛡️  ";
         }
         if(req.hp>0) {
-            cout << req.hp <<"❤️  ";
+            cout << req.hp <<" base ❤️  ";
         }
         if(req.lvl>0) {
             cout << "level "<< req.lvl << endl;
