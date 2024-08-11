@@ -17,10 +17,8 @@
     - 10% crit chance for player [DONE]
 
 3. Items []
-    - item rarity/Enchantments []
     - sell items [DONE]
     - gold show in shop [DONE]
-    - names/titles for stat boost etc. []
     - weapon next to name [DONE]
 
 4. Add equip slots e.g. armor [DONE]

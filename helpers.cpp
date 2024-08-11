@@ -405,9 +405,13 @@ void intro() {
     slow_print("Looking up you see a vast number of floors to the top.\n\n");
     slow_print("You see a glimpse of many eyes observing you from above.\n\n");
     if(areas[6]->unlocked) {
+        slow_print("The judge contemplates your existance in the tower\n\n");
     } else if(areas[5]->unlocked) {
+        slow_print("You hear sounds from the ocean, it sounds like a party?\n\n");
     } else if(areas[4]->unlocked) {
+        slow_print("Some believe braving the cold is better than rushing to an inevitable doom\n\n");
     } else if(areas[3]->unlocked) {
+        slow_print("The sand in the tower is restless, hungry to end another journey\n\n");
     } else if(areas[2]->unlocked) {
         slow_print("A lone silhouette gazes at you from the deepest of caverns.\n\n");
     }
