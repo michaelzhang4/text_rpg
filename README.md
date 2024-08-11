@@ -35,7 +35,8 @@ chcp 65001
 ```
 It is recommended to put 1 point in each stat then max out health for your first run
 
-![image](https://github.com/user-attachments/assets/ea9e6103-621f-4a59-baac-10965608a54a)
+![image](https://github.com/user-attachments/assets/33dea0c0-c626-4ef1-bd0c-6126a67c7674)
+
 
 
 
