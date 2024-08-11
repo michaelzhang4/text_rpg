@@ -223,8 +223,8 @@ void unlock_stages(Enemy* e) {
         cout << areas[6]->name << " has been unlocked for travel!\n";
         areas[6]->unlocked=true;
         unlocked=true;
-    } else if(e->name=="Satan Lord of Hell <BOSS>") {
-        cout << "\nYou have slain Satan!\n\n";
+    } else if(e->name=="Hades <BOSS>") {
+        cout << "\nYou have slain the Hades!\n\n";
         cout << "A portal to the outside world opens...\n";
         cout << "You have ascended from the tower!\n";
         cout << "Check back for new updates in the future!\n";

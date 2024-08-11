@@ -49,7 +49,7 @@ bool Event::pass(Player *p, int stat, int threshold) {
             success=false;
         }
     } else if(stat==5) {
-        if(p->recoveryRate() >= threshold) {
+        if((int)(p->recoveryRate()*100) >= threshold) {
             cout << "You passed! - " << threshold << " 🌿";
         } else {
             cout << "You do not have " << threshold << " 🌿";
@@ -210,6 +210,35 @@ void Event::execute_event(Player *p) {
             int change = any_cast<int>(args[2]);
             if(branch==0) {
 
+            } else if(branch==1) {
+                stat = rand()%3;
+                if(stat == 0) {
+                    change = rand()%4+1;
+                } else {
+                    change = rand()%2+1;
+                }
+                cout << "Do you accept? (y/n)\n";
+                cin >> choice;lower(choice);
+                if(choice=="y" || choice=="yes") {
+                    if (all_items["past_memories"]->owned) {
+                        all_items["past_memories"]->owned=false;
+                        cout << "You gave the demon part of your past life.\n";
+                        if(stat==0) {
+                            p->playerStats.maxHealth+=change;
+                            p->playerStats.health+=change;
+                            cout << "You gained " << change << "❤️  as a reward.\n";
+                        } else if(stat==1) {
+                            p->playerStats.damage+=change;
+                            cout << "You gained " << change << "🗡️  as a reward.\n";
+                        } else if(stat==2) {
+                            p->playerStats.armor+=change;
+                            cout << "You gained " << change << "🛡️  as a reward.\n";
+                        }
+                    } else {
+                        cout << "You do not own anything of worth to the demon.\n";
+                    }
+                }
+                SleepMs(SLEEP);
             } else if(branch==2) {
                 stat = rand()%3;
                 if(stat == 0) {

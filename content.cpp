@@ -79,34 +79,55 @@ void create_items() {
     add_item(10,6,6,0,0.0,0.06,0,200,{50,0,0,15},"Desert Armor","desert_armor",1,false);
 
     // Frozen Tundra items
-    add_item(0,0,22,0,0.0,0,0,300,{75,0,0,20},"Frozen Club","frozen_club",0,false);
-    add_item(0,0,25,0,0.0,0,0,500,{80,0,0,20},"Frost Sword","frost_sword",0,false);
-    add_item(0,0,10,25,0.40,0,0,250,{0,14,0,20},"Ice Claw","ice_claw",0,false);
-    add_item(0,0,7,20,0.70,0,0,250,{0,14,0,20},"Frost Dagger","frost_dagger",0,false);
-    add_item(0,18,0,0,0.0,0,0,350,{80,0,0,20},"Ice Shield","ice_shield",0,false);
-    add_item(-10,3,24,10,0.0,0.05,0,250,{0,0,14,20},"Frozen Amulet","frozen_amulet",0,false);
-    add_item(-10,-3,24,10,0.40,0,0,300,{0,0,14,20},"Ice Crystal","ice_crystal",0,false);
-    add_item(-10,-2,24,10,0.40,0,0,300,{0,0,14,20},"Avalanche Spell","avalanche_spell",0,false);
-    add_item(40,0,4,10,0.40,0.21,0,300,{0,0,14,20},"Frost Cloak","frost_cloak",1,false);
-    add_item(9,9,9,9,0.09,0.09,0,400,{75,0,0,20},"Dragon Scale Armor","dragon_scale_armor",1,false);
-    add_item(25,0,5,25,0.40,0,0,400,{0,14,0,20},"Ice Cloth","ice_cloth",1,false);
+    add_item(0,0,22,0,0.0,0,0,300,{75,0,0,18},"Frozen Club","frozen_club",0,false);
+    add_item(0,0,25,0,0.0,0,0,500,{80,0,0,18},"Frost Sword","frost_sword",0,false);
+    add_item(0,0,10,20,0.40,0,0,250,{0,14,0,18},"Ice Claw","ice_claw",0,false);
+    add_item(0,0,7,18,0.30,0,2500,1750,{0,14,0,18},"Ice Dagger","ice_dagger",0,false);
+    add_item(0,1,20,0,0.0,0,2500,1750,{75,0,0,18},"Ice Blade","ice_blade",0,false);
+    add_item(0,0,7,20,0.70,0,0,250,{0,14,0,18},"Frost Dagger","frost_dagger",0,false);
+    add_item(0,18,0,0,0.0,0,2700,1400,{80,0,0,18},"Ice Shield","ice_shield",0,false);
+    add_item(-10,3,23,10,0.0,0.05,0,250,{0,0,14,18},"Frozen Amulet","frozen_amulet",0,false);
+    add_item(-10,-3,24,10,0.20,0,3000,1400,{0,0,14,18},"Ice Crystal","ice_crystal",0,false);
+    add_item(-10,-2,25,10,0.20,0,0,300,{0,0,14,18},"Avalanche Spell","avalanche_spell",0,false);
+    add_item(40,0,4,10,0.20,0.09,0,300,{0,0,14,18},"Frost Cloak","frost_cloak",1,false);
+    add_item(9,9,9,9,0.09,0.09,0,400,{75,0,0,18},"Dragon Scale Armor","dragon_scale_armor",1,false);
+    add_item(25,0,5,20,0.40,0,0,400,{0,14,0,18},"Ice Cloth","ice_cloth",1,false);
 
     // Underwater Kingdom items
-    add_item(0,0,-5,0,0.0,0.1,0,400,{0,0,0,25},"Magic Bubble","magic_bubble",0,false);
-    add_item(0,2,5,0,0.0,0,150,100,{10,0,0,25},"Trident","trident",0,false);
-    add_item(0,0,3,10,0.0,0,200,150,{0,0,10,25},"Serpent Fang","serpent_fang",0,false);
-    add_item(0,3,0,0,0,0.05,0,250,{0,0,0,25},"Kraken Ink","kraken_ink",0,false);
-    add_item(5,1,0,10,0.15,0.04,0,300,{10,0,0,25},"Shark Tooth Necklace","shark_tooth",1,false);
-    add_item(10,3,0,10,0.20,0,0,400,{15,0,0,25},"Leviathan Scale Shield","leviathan_scale",1,false);
-    add_item(15,5,0,20,0.30,0,0,500,{20,0,0,25},"Sea Guardian Armor","sea_guardian_armor",1,false);
+    add_item(0,0,-5,0,0.0,0.12,4000,2800,{0,0,0,20},"Magic Bubble","magic_bubble",0,false);
+    add_item(0,0,-5,0,0.40,0.12,4000,2800,{0,0,0,20},"Fish Scales","fish_scales",0,false);
+    add_item(0,4,20,0,0.40,0.06,150,100,{80,0,0,20},"Trident","trident",0,false);
+    add_item(0,8,10,20,0.40,0.06,150,100,{80,0,0,20},"Net","net",0,false);
+    add_item(0,2,22,0,0.40,0.06,200,150,{80,0,0,20},"Depths Blade","depths_blade",0,false);
+    add_item(0,0,24,10,0.40,0.06,200,150,{80,0,0,22},"Abyssal Sword","abyssal_sword",0,false);
+    add_item(0,0,23,20,0.40,0.06,200,150,{0,18,0,22},"Abyssal Dagger","abyssal_dagger",0,false);
+    add_item(0,0,23,0,0.40,0.06,200,150,{0,0,18,22},"Abyssal Orb","abyssal_orb",0,false);
+    add_item(0,0,7,25,0.70,0.06,200,150,{0,16,0,20},"Serpent Fang","serpent_fang",0,false);
+    add_item(0,0,9,20,0.70,0.06,200,150,{0,16,0,20},"Depths Dagger","depths_dagger",0,false);
+    add_item(20,0,11,10,0.70,0.06,200,150,{0,16,0,20},"Depths Bow","depths_bow",0,false);
+    add_item(0,4,20,10,0.10,0.06,0,250,{0,0,16,20},"Whirlpool Spell","whirlpool_spell",0,false);
+    add_item(0,4,21,20,0,0.06,0,250,{0,0,16,20},"Tsunami Spell","tsunami_spell",0,false);
+    add_item(0,0,27,0,0,0.06,0,250,{0,0,16,20},"Water Staff","water_spell",0,false);
+    add_item(0,4,22,0,0,0.06,0,300,{0,0,16,20},"Shark Tooth Necklace","shark_tooth",0,false);
+    add_item(0,16,2,0,0,0.06,0,400,{80,0,0,20},"Leviathan Scale Shield","leviathan_scale",0,false);
+    add_item(15,8,2,10,0.40,0.24,0,500,{20,2,2,20},"Poseidon's Chariot","poseidons_chariot",1,false);
 
     // Hell items
-    add_item(10,0,20,0,0.0,0,500,350,{40,0,0,30},"Hellhound Fang","hellhound_fang",0,false);
-    add_item(20,0,30,0,0.0,0,700,500,{50,0,0,35},"Demon Sword","demon_sword",0,false);
-    add_item(30,0,40,0,0.0,0,900,600,{60,0,0,40},"Pit Fiend Armor","pit_fiend_armor",1,false);
-    add_item(40,0,50,0,0.0,0,1200,800,{70,0,0,45},"Balrog Whip","balrog_whip",0,false);
-    add_item(50,0,60,0,0.0,0,1500,1000,{80,0,0,50},"Archdemon Helm","archdemon_helm",1,false);
-    add_item(100,0,100,0,0.0,0,2000,1500,{100,0,0,60},"Satanic Blade","satanic_blade",0,false);
+    add_item(0,0,0,10,1.0,0.1,0,0,{30,14,4,25},"Past Memories","past_memories",0,false);
+    add_item(6,6,30,26,0.76,0.06,0,0,{30,14,4,25},"Stygian Dagger","stygian_dagger",0,false);
+    add_item(16,6,29,26,0.76,0.06,0,0,{30,14,4,25},"Soul Reaver","soul_reaver",0,false);
+    add_item(26,6,28,26,0.76,0.06,0,0,{30,14,4,25},"Demon Scythe","demon_scythe",0,false);
+    add_item(36,6,27,26,0.76,0.06,0,0,{30,14,4,25},"Cerberus Fang","cerberus_fang",0,false);
+    add_item(66,6,29,16,0.56,0.06,0,0,{75,4,4,25},"Demon Sword","demon_sword",0,false);
+    add_item(76,6,28,16,0.56,0.06,0,0,{75,4,4,25},"Molten Mace","molten_mace",0,false);
+    add_item(86,6,27,16,0.56,0.06,0,0,{75,4,4,25},"Inferno Blade","inferno_blade",0,false);
+    add_item(96,6,26,16,0.56,0.06,0,0,{75,4,4,25},"Hellfire Axe","hellfire_axe",0,false);
+    add_item(0,26,0,0,0.0,0.06,0,0,{75,4,4,25},"Infernal Shield","infernal_shield",0,false);
+    add_item(6,6,36,0,0.0,0.06,0,0,{30,4,14,25},"Netherworld Staff","netherworld_staff",0,false);
+    add_item(6,6,26,26,0.16,0.06,0,0,{30,4,14,25},"Eternal Flame","eternal_flame",0,false);
+    add_item(16,6,26,16,0.16,0.06,0,0,{30,4,14,25},"Fires of Tartarus","fires_of_tartarus",0,false);
+    add_item(26,6,26,6,0.16,0.06,0,0,{30,4,14,25},"Hellfire Spell","hellfire_spell",0,false);
+    add_item(66,6,6,6,0.66,0.06,0,0,{100,0,0,25},"Hades Crown","hades_crown",0,false);
 
     // Chance items
     add_item(0,0,0,0,0.0,0.35,0,1000,{1,1,1,5},"Healing Ring","healing_ring",0,false);
@@ -130,7 +151,7 @@ void create_areas() {
 
     string area_names[AREAS] = {"Goblin Village",
     "Magical Forest", "Rocky Mountain",
-    "Searing Desert", "Frozen Tundra", "Underwater Kingdom", "Tartarus"};
+    "Searing Desert", "Frozen Tundra", "Underwater Kingdom", "The Underworld"};
     vector<enemy_template> enemies[AREAS] = {
         {
             // base hp, var hp, base armor, var armor, base damage, var damage;
@@ -175,21 +196,23 @@ void create_areas() {
             {stat_roll{150,0,18,0,35,0},25,500,600,"Ice Queen <BOSS>",{{10,all_items["dragon_scale_armor"]},{10,all_items["ice_cloth"]},{10,all_items["frost_cloak"]}}},
         },
         {
-            {stat_roll{24,5,14,5,14,5},15,225,550,"Sea Serpent",{{5,all_items["serpent_fang"]}}},
-            {stat_roll{29,5,14,5,15,5},14,200,500,"Merman Warrior",{{10,all_items["trident"]}}},
-            {stat_roll{34,5,14,5,16,5},17,275,650,"Sharkman",{{10,all_items["shark_tooth"]}}},
-            {stat_roll{39,5,14,5,17,5},16,250,600,"Kraken Tentacle",{{7,all_items["kraken_ink"]}}},
-            {stat_roll{44,5,14,5,18,5},18,300,700,"Leviathan Spawn",{{15,all_items["leviathan_scale"]}}},
-            {stat_roll{49,5,14,5,19,5},19,325,750,"Ancient Sea Guardian",{{100,all_items["sea_guardian_armor"]}}},
-            {stat_roll{60,0,22,0,25,0},20,500,900,"Poseidon <BOSS>",{{5,all_items["dragon_scale_armor"]}}},  
+            {stat_roll{49,20,15,5,25,5},15,225,550,"Merman Warriors",{{4,all_items["abyssal_orb"]},{4,all_items["abyssal_sword"]},{4,all_items["abyssal_dagger"]}}},
+            {stat_roll{44,20,14,5,24,5},15,225,550,"Sea Serpent",{{4,all_items["trident"]},{4,all_items["serpent_fang"]},{4,all_items["whirlpool_spell"]}}},
+            {stat_roll{54,20,14,5,26,5},17,275,650,"Scylla",{{4,all_items["depths_bow"]},{4,all_items["water_staff"]},{4,all_items["net"]}}},
+            {stat_roll{49,20,14,5,25,5},14,325,500,"Cetus",{{4,all_items["depths_blade"]},{4,all_items["tsunami_spell"]},{4,all_items["depths_dagger"]}}},
+            {stat_roll{59,20,14,5,27,5},16,375,600,"Kraken",{{4,all_items["depths_bow"]},{4,all_items["water_staff"]},{4,all_items["trident"]}}},
+            {stat_roll{64,20,14,5,28,5},18,425,700,"Leviathan",{{4,all_items["depths_blade"]},{4,all_items["whirlpool_spell"]},{4,all_items["depths_dagger"]}}},
+            {stat_roll{69,20,14,5,29,5},19,475,750,"Ancient Sea Guardian",{{4,all_items["abyssal_orb"]},{4,all_items["abyssal_sword"]},{4,all_items["abyssal_dagger"]}}},
+            {stat_roll{80,0,22,0,34,0},20,500,900,"Poseidon <BOSS>",{{5,all_items["poseidons_chariot"]}}},  
         },
         {
-            {stat_roll{50,0,10,0,20,0},40,200,300,"Hellhound",{{10,all_items["hellhound_fang"]}}},
-            {stat_roll{60,0,15,0,25,0},50,300,400,"Demon",{{15,all_items["demon_sword"]}}},
-            {stat_roll{70,0,20,0,30,0},60,400,500,"Pit Fiend",{{20,all_items["pit_fiend_armor"]}}},
-            {stat_roll{80,0,25,0,35,0},70,500,600,"Balrog",{{25,all_items["balrog_whip"]}}},
-            {stat_roll{100,0,30,0,40,0},80,700,800,"Archdemon",{{50,all_items["archdemon_helm"]}}},
-            {stat_roll{150,0,40,0,50,0},100,1000,1000,"Satan Lord of Hell <BOSS>",{{5,all_items["satanic_blade"]}}}
+            {stat_roll{150,66,26,6,66,0},30,700,0,"Erinyes",{{3,all_items["stygian_dagger"]},{3,all_items["demon_sword"]},{3,all_items["netherworld_staff"]}}},
+            {stat_roll{100,66,26,6,66,0},26,500,0,"Hellhound",{{3,all_items["stygian_dagger"]},{3,all_items["demon_sword"]},{3,all_items["netherworld_staff"]}}},
+            {stat_roll{120,66,26,6,66,0},27,550,0,"Demon",{{3,all_items["soul_reaver"]},{3,all_items["molten_mace"]},{3,all_items["eternal_flame"]}}},
+            {stat_roll{140,66,26,6,66,0},28,600,0,"Soul Keeper",{{3,all_items["demon_scythe"]},{3,all_items["inferno_blade"]},{3,all_items["fires_of_tartarus"]}}},
+            {stat_roll{160,66,26,6,66,0},29,650,0,"Cerberus",{{3,all_items["cerberus_fang"]},{3,all_items["hellfire_axe"]},{3,all_items["hellfire_spell"]}}},
+            {stat_roll{180,66,26,6,66,0},30,750,0,"Archdemon",{{3,all_items["infernal_shield"]},{3,all_items["stygian_dagger"]},{3,all_items["eternal_flame"]}}},
+            {stat_roll{666,0,66,0,66,0},35,1000,0,"Hades <BOSS>",{{5,all_items["hades_crown"]}}}
         },
     };
     vector<enemy_template> floor2encounters;
@@ -203,6 +226,12 @@ void create_areas() {
 
     vector<enemy_template> floor5encounters;
     floor4encounters.push_back(enemies[4][1]);
+    
+    vector<enemy_template> floor6encounters;
+    floor4encounters.push_back(enemies[5][0]);
+
+    vector<enemy_template> floor7encounters;
+    floor4encounters.push_back(enemies[6][0]);
 
 
 
@@ -225,9 +254,19 @@ void create_areas() {
             all_items["diamond_pickaxe"]
         },
         {},
-        {},
-        {},
-        {},
+        {
+            all_items["ice_dagger"],
+            all_items["ice_blade"],
+            all_items["ice_shield"],
+            all_items["ice_crystal"],
+        },
+        {
+            all_items["magic_bubble"],
+            all_items["fish_scales"],
+        },
+        {
+            all_items["past_memories"],
+        },
     };
 
     string descriptions[AREAS] = {
@@ -370,7 +409,7 @@ void create_areas() {
             {Branch::None,140,0}),
             new Event(event_type::currency,
             "You discover a returner's notes - \'Through Hell and back\'.",
-            {Branch::Decision,400,0}),
+            {Branch::Decision,240,0}),
             new Event(event_type::encounter,
             "You are ambushed by a pack of Frost Wolves.",
             {Branch::None,floor5encounters}),
@@ -386,47 +425,52 @@ void create_areas() {
             new Event(event_type::currency,
             "You have a successful hunt and bring back food to the outpost.\n"
             "The settlers are happy to pay you for the provisions.",
-            {Branch::Decision,0,100}),
+            {Branch::Decision,0,300}),
         },
         {
             new Event(event_type::hp,
-            "A sudden strong current sweeps you off your feet, injuring you as you're tossed against the rocks.",
-            {2,-10,0,20}),
+            "You realise you can't hold your breath underwater forever!"
+            "Did you come prepared?\n",
+            {Branch::Test,-100,5,30}),
             new Event(event_type::currency,
-            "You discover a sunken treasure chest filled with gold coins.",
-            {0,0,100}),
+            "You discover an altar of Poseidon. Can you get the altar's blessing?.",
+            {Branch::Test,200,300,5,30}),
+            new Event(event_type::currency,
+            "You discover a rare pearl inside a giant clam. Can you remove it?",
+            {Branch::Test,0,800,5,30}),
+            new Event(event_type::currency,
+            "You discover a shipwreck. You try to explore it.",
+            {Branch::Test,0,800,5,30}),
+            new Event(event_type::hp,
+            "You get sucked into a whirlpool as you swim around.",
+            {Branch::Test,-150,5,30}),
             new Event(event_type::encounter,
-            "A group of Merman Warriors ambushes you from behind a coral reef.",
-            {0,enemies[5]}),
-            new Event(event_type::item,
-            "You find a rare pearl inside a giant clam.",
-            {0,all_items["pearl"]}),
+            "You are ambushed by a group of Merman Warriors.",
+            {Branch::Test,floor6encounters}),
             new Event(event_type::hp,
             "You encounter a friendly dolphin who heals your wounds and guides you to safety.",
             {0,80}),
         },
         {
             new Event(event_type::stat,
-            "Satan appears from the depths to test you with the following riddle.",
+            "Hades appears from the depths to test you with the following riddle.",
             {Branch::Test,0,0,Riddles}),
             new Event(event_type::hp,
-            "A river of lava suddenly erupts beneath you, burning your soul.",
-            {2,-30,0,50}),
+            "While Charon ferries you across the Styx, the water splashes dangerously around you.\n"
+            "You do not want to lose your memories in the underworld...",
+            {Branch::Test,-50,5,36}),
             new Event(event_type::currency,
             "You discover a pile of cursed gold, but its touch drains your life force.",
-            {1,100,-50}),
+            {Branch::None,-300,1000}),
             new Event(event_type::encounter,
-            "You are ambushed by a horde of demons led by a Hellhound.",
-            {0,enemies[6]}),
+            "You find that the Furies are on your tail.",
+            {Branch::None,floor7encounters}),
             new Event(event_type::stat,
             "A demon offers you a deal: power in exchange for a piece of your soul.",
-            {1,50,-25}),
-            new Event(event_type::item,
-            "You find a powerful artifact imbued with the essence of Hell.",
-            {0,all_items["archdemon_helm"]}),
+            {Branch::Decision,0,0,}),
             new Event(event_type::hp,
-            "You stumble upon a hidden spring of unholy water that heals your wounds, but at a cost.",
-            {0,50,-20}),
+            "The souls of the dead drain your life essence, they want you to become one of them.",
+            {Branch::None,-25}),
         },
     };
 
@@ -435,9 +479,10 @@ void create_areas() {
         "A starter item for every class! - Elf Merchant\n",
         "They think people only want pickaxes here...\n",
         "No one has been able to set up shop here...\n",
-        "",
-        "You probably need something to breathe with",
-        "",
+        "A hoard of items from the Tundra that have been collected over time.\n",
+        "A returner's shop set up so climbers can explore the underwater kingdom safely!\n",
+        "Gold is a worthless currency in the underworld.\n"
+        "Only a soul's memories of a past life are valued here.\n",
     };
 
     bool locks[AREAS] {
