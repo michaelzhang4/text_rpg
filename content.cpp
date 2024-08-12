@@ -93,7 +93,7 @@ void create_items() {
     add_item(9,9,9,9,0.09,0.09,0,400,{75,0,0,18},"Dragon Scale Armor","dragon_scale_armor",1,false);
     add_item(25,0,5,20,0.40,0,0,400,{0,14,0,18},"Ice Cloth","ice_cloth",1,false);
 
-    // Underwater Kingdom items
+    // Atlantis items
     add_item(0,0,-5,0,0.0,0.12,4000,2800,{0,0,0,20},"Magic Bubble","magic_bubble",0,false);
     add_item(0,0,-5,0,0.40,0.12,4000,2800,{0,0,0,20},"Fish Scales","fish_scales",0,false);
     add_item(0,4,20,0,0.40,0.06,150,100,{80,0,0,20},"Trident","trident",0,false);
@@ -151,7 +151,7 @@ void create_areas() {
 
     string area_names[AREAS] = {"Goblin Village",
     "Magical Forest", "Rocky Mountain",
-    "Searing Desert", "Frozen Tundra", "Underwater Kingdom", "The Underworld"};
+    "Searing Desert", "Frozen Tundra", "Atlantis", "The Underworld"};
     vector<enemy_template> enemies[AREAS] = {
         {
             // base hp, var hp, base armor, var armor, base damage, var damage;
@@ -480,7 +480,7 @@ void create_areas() {
         "They think people only want pickaxes here...\n",
         "No one has been able to set up shop here...\n",
         "A hoard of items from the Tundra that have been collected over time.\n",
-        "A returner's shop set up so climbers can explore the underwater kingdom safely!\n",
+        "A returner's shop set up so climbers can explore the Atlantis safely!\n",
         "Gold is a worthless currency in the underworld.\n"
         "Only a soul's memories of a past life are valued here.\n",
     };

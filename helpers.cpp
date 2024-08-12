@@ -219,7 +219,7 @@ void unlock_stages(Enemy* e) {
         areas[5]->unlocked=true;
         unlocked=true;
     } else if(e->name=="Poseidon <BOSS>" && areas[6]->unlocked==false) {
-        cout << "\nYou have slain the ruler of Underwater Kingdom\n\n";
+        cout << "\nYou have slain the ruler of Atlantis\n\n";
         cout << areas[6]->name << " has been unlocked for travel!\n";
         areas[6]->unlocked=true;
         unlocked=true;
