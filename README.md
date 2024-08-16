@@ -4,6 +4,8 @@ A game I created to help me learn C++
 
 ## Installation
 
+Either run the 'towerofgod.exe' executable or compile the program using make
+
 Requires C++17 or later to compile
 
 ```sh
