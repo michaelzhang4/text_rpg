@@ -74,7 +74,7 @@ void create_items() {
     add_item(0,0,16,5,0.20,0,0,200,{0,0,9,15},"Sandstorm Spell","sandstorm_spell",0,false);
     add_item(0,0,15,10,0.10,0,0,200,{0,0,9,15},"Sand Grimoire","sand_grimoire",0,false);
     add_item(0,0,14,5,0.30,0,0,200,{0,0,9,15},"Sand Staff","sand_staff",0,false);
-    add_item(20,0,0,15,0.60,0,0,50,{0,8,0,15},"Sun Amulet","sun_amulet",0,false);
+    add_item(20,0,2,15,0.60,0,0,50,{0,8,0,15},"Sun Amulet","sun_amulet",0,false);
     add_item(30,2,6,0,0,0.06,0,200,{0,0,9,15},"Mirage Cloak","mirage_cloak",1,false);
     add_item(10,6,6,0,0.0,0.06,0,200,{50,0,0,15},"Desert Armor","desert_armor",1,false);
 

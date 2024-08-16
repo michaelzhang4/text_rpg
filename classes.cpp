@@ -794,7 +794,7 @@ void Player::gain(int e, int g) {
         "\nYou have leveled up!\nYou are now level "
         << level << endl;
         exp -=expLevel;
-        expLevel+=(5+expLevel/4);
+        expLevel+=(4+expLevel/6);
         SleepMs(SLEEP);
         ClearScreen();
         display_stats();
