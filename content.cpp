@@ -36,19 +36,19 @@ void create_items() {
     add_item(0,0,1,10,0.0,0,0,10,{0,0,0,1},"Knife","knife",0,false);
     add_item(1,1,1,0,0.0,0,0,50,{0,0,0,1},"Goblin Spear","goblin_spear",0,false);
     add_item(3,0,2,0,0.0,0,0,40,{0,0,0,1},"Bow","bow",0,false);
-    add_item(-3,-1,5,0,0.0,0,0,50,{0,0,3,1},"Staff","staff",0,false);
+    add_item(0,0,5,0,0.0,0,0,50,{0,0,3,1},"Staff","staff",0,false);
     add_item(0,2,0,0,0,0,0,35,{0,0,0,1},"Fishing Rod","fishing_rod",0,false);
     add_item(5,1,0,0,0.0,0,0,50,{0,0,0,1},"Cloth Armor","cloth_armor",1,false);
 
     // Magical Forest items
     add_item(5,0,4,10,0.0,0,300,210,{0,3,0,5},"Elven Bow","elven_bow",0,false);
-    add_item(-5,-1,7,0,0.0,0,300,210,{0,0,3,5},"Leaf Spell","leaf_spell",0,false);
+    add_item(0,0,7,0,0.0,0,300,210,{0,0,3,5},"Leaf Spell","leaf_spell",0,false);
     add_item(0,1,6,0,0.0,0,300,210,{25,0,0,5},"Elven Blade","elven_blade",0,false);
     add_item(10,0,4,0,0.0,0,0,100,{20,2,0,8},"Troll Club","troll_club",0,false);
     add_item(2,2,2,0,0,0,0,100,{15,1,1,8},"Orc Spear","orc_spear",0,false);
     add_item(0,0,4,10,0.30,0,0,100,{0,4,0,8},"Ogre Horn","ogre_horn",0,false);
     add_item(0,3,0,0,0,0.05,0,100,{0,0,0,8},"Magical Ring","magical_ring",0,false);
-    add_item(-7,-2,9,10,0.15,0,0,100,{0,0,5,8},"Dark Grimoire","dark_grimoire",0,false);
+    add_item(-3,-1,9,10,0.15,0,0,100,{0,0,5,8},"Dark Grimoire","dark_grimoire",0,false);
     add_item(5,1,0,10,0.15,0.04,0,25,{15,1,1,8},"Elven Cloth","elven_cloth",1,false);
 
     //Rocky Mountains items
@@ -60,9 +60,9 @@ void create_items() {
     add_item(0,0,5,20,0.40,0,0,150,{0,5,0,10},"Emerald Dagger","emerald_dagger",0,false);
     add_item(0,0,6,20,0.40,0,0,150,{0,6,0,10},"Ruby Dagger","ruby_dagger",0,false);
     add_item(0,0,7,20,0.40,0,0,150,{0,7,0,10},"Diamond Dagger","diamond_dagger",0,false);
-    add_item(-3,0,10,5,0.10,0,0,150,{0,0,6,10},"Rock Spell","rock_spell",0,false);
-    add_item(-3,0,12,5,0.10,0,0,150,{0,0,7,10},"Earth Staff","earth_staff",0,false);
-    add_item(-1,-2,12,5,0.10,0,0,150,{0,0,6,10},"Gem Spell","gem_spell",0,false);
+    add_item(0,0,10,5,0.10,0,0,150,{0,0,6,10},"Rock Spell","rock_spell",0,false);
+    add_item(0,0,12,0,0.20,0,0,150,{0,0,7,10},"Earth Staff","earth_staff",0,false);
+    add_item(0,0,11,10,0,0,0,150,{0,0,6,10},"Gem Spell","gem_spell",0,false);
     add_item(10,3,0,0,0.0,0,0,150,{0,0,0,10},"Earthen Cover","earthern_cover",1,false);
 
     //Searing Desert items
@@ -70,10 +70,10 @@ void create_items() {
     add_item(0,10,0,0,0.0,0,0,200,{50,0,0,15},"Sand Shield","sand_shield",0,false);
     add_item(0,0,0,0,0.0,0.20,0,200,{0,0,0,15},"Water","water",0,false);
     add_item(10,0,0,15,0.60,0.0,0,200,{0,8,0,15},"Sand Sheathe","sand_sheathe",0,false);
-    add_item(-10,0,6,0,0.50,0,0,200,{0,8,0,15},"Poisoned Dagger","poisoned_dagger",0,false);
-    add_item(-5,-2,16,5,0.20,0,0,200,{0,0,9,15},"Sandstorm Spell","sandstorm_spell",0,false);
-    add_item(-5,-3,16,10,0.10,0,0,200,{0,0,9,15},"Sand Grimoire","sand_grimoire",0,false);
-    add_item(-5,-4,16,5,0.30,0,0,200,{0,0,9,15},"Sand Staff","sand_staff",0,false);
+    add_item(-5,0,6,0,0.50,0,0,200,{0,8,0,15},"Poisoned Dagger","poisoned_dagger",0,false);
+    add_item(0,0,16,5,0.20,0,0,200,{0,0,9,15},"Sandstorm Spell","sandstorm_spell",0,false);
+    add_item(0,0,15,10,0.10,0,0,200,{0,0,9,15},"Sand Grimoire","sand_grimoire",0,false);
+    add_item(0,0,14,5,0.30,0,0,200,{0,0,9,15},"Sand Staff","sand_staff",0,false);
     add_item(20,0,0,15,0.60,0,0,50,{0,8,0,15},"Sun Amulet","sun_amulet",0,false);
     add_item(30,2,6,0,0,0.06,0,200,{0,0,9,15},"Mirage Cloak","mirage_cloak",1,false);
     add_item(10,6,6,0,0.0,0.06,0,200,{50,0,0,15},"Desert Armor","desert_armor",1,false);
@@ -86,9 +86,9 @@ void create_items() {
     add_item(0,1,20,0,0.0,0,2500,1750,{75,0,0,18},"Ice Blade","ice_blade",0,false);
     add_item(0,0,7,20,0.70,0,0,250,{0,14,0,18},"Frost Dagger","frost_dagger",0,false);
     add_item(0,18,0,0,0.0,0,2700,1400,{80,0,0,18},"Ice Shield","ice_shield",0,false);
-    add_item(-10,3,23,10,0.0,0.05,0,250,{0,0,14,18},"Frozen Amulet","frozen_amulet",0,false);
-    add_item(-10,-3,24,10,0.20,0,3000,1400,{0,0,14,18},"Ice Crystal","ice_crystal",0,false);
-    add_item(-10,-2,25,10,0.20,0,0,300,{0,0,14,18},"Avalanche Spell","avalanche_spell",0,false);
+    add_item(0,3,23,10,0.0,0.05,0,250,{0,0,14,18},"Frozen Amulet","frozen_amulet",0,false);
+    add_item(0,0,24,20,0,0,3000,1400,{0,0,14,18},"Ice Crystal","ice_crystal",0,false);
+    add_item(0,0,25,0,0.40,0,0,300,{0,0,14,18},"Avalanche Spell","avalanche_spell",0,false);
     add_item(40,0,4,10,0.20,0.09,0,300,{0,0,14,18},"Frost Cloak","frost_cloak",1,false);
     add_item(9,9,9,9,0.09,0.09,0,400,{75,0,0,18},"Dragon Scale Armor","dragon_scale_armor",1,false);
     add_item(25,0,5,20,0.40,0,0,400,{0,14,0,18},"Ice Cloth","ice_cloth",1,false);
