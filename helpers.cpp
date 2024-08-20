@@ -21,13 +21,13 @@ void HUD(Player* p) {
     } else if (current_area->color==Color::White) {
         floor_color = "⬜";
     }
-    cout << "Floor "<< current_area->index+1 << " - " << current_area->name << " " << floor_color << endl;
+    cout << "Floor "<< current_area->index+1 << " - " << current_area->name << " " << floor_color << "\n\n";
     p->display_stats();
     choices(p);
 }
 
 void slow_print(string s) {
-    int time=15;
+    int time=10;
     for(char c: s) {
         cout << c;
         FLUSH();
@@ -401,6 +401,18 @@ void delete_save() {
 
 void intro() {
     ClearScreen();
+    cout << "🗡️  - Base hit damage\n"
+    "🛡️  - Incoming damage reduction (minimum hit is 1)\n"
+    "❤️  - Health (When this drops to 0 you die)\n"
+    "🎯 - Armor penetration (how much enemy armor ignored when attacking)\n"
+    "💥 - Critical strike chance (percentage chance to strike harder)\n"
+    "🔥 - Critical strike multiplier (when critically striking damage becomes 🔥 *🗡️  )\n"
+    "🌀 - Mana for casting skills\n"
+    "⚡ - Speed (being faster means you strike first and have a chance of dodging enemy attacks)\n"
+    "🌿 - Recovery amount when resting (🌿 *❤️  )\n\n";
+    cout << "Enter any key to continue...\n";
+    string choice;cin>>choice;
+    ClearScreen();
     slow_print("You find yourself transported to a strange tower.\n\n");
     slow_print("Looking up you see a vast number of floors to the top.\n\n");
     slow_print("You see a glimpse of many eyes observing you from above.\n\n");
@@ -417,7 +429,7 @@ void intro() {
     }
     slow_print("Will you find an escape on the highest floor?\n\n");
     cout << "Enter any key to continue...\n";
-    string choice;cin >> choice;
+    cin >> choice;
 };
 
 void choices(Player *p) {
@@ -704,6 +716,8 @@ void load_game(Player *p) {
         dataStream >> p->playerStats.maxHealth;
         dataStream >> p->playerStats.armor;
         dataStream >> p->playerStats.damage;
+        dataStream >> p->playerStats.mana;
+        dataStream >> p->playerStats.speed;
         dataStream >> p->exp;
         dataStream >> p->expLevel;
         dataStream >> p->level;
@@ -773,6 +787,8 @@ void save_game(Player *p, bool force) {
         data += std::to_string(p->playerStats.maxHealth) + " ";
         data += std::to_string(p->playerStats.armor) + " ";
         data += std::to_string(p->playerStats.damage) + " ";
+        data += std::to_string(p->playerStats.mana) + " ";
+        data += std::to_string(p->playerStats.speed) + " ";
         data += std::to_string(p->exp) + " ";
         data += std::to_string(p->expLevel) + " ";
         data += std::to_string(p->level) + " ";
@@ -835,7 +851,7 @@ string xor_encrypt_decrypt(const string &data, const string &key) {
 }
 
 Player *create_player(int option) {
-    Player *p = new Player("",10,0,1,1,0);
+    Player *p = new Player("",10,0,1,0,0,1,0);
     if(option==1) {
         string name;
         while(1) {

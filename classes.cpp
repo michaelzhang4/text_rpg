@@ -2,7 +2,7 @@
 
 using namespace std;
 
-// 🗡️🛡️❤️💥🔥🌿
+// 🗡️🛡️❤️🎯💥🔥🌀⚡🌿
 
 Event::Event(event_type t, string d, vector<any> v) {
     type=t;
@@ -14,7 +14,7 @@ Event::Event(event_type t, string d, vector<any> v) {
 bool Event::pass(Player *p, int stat, int threshold) {
     bool success = true;
     if(stat==0) {
-        if(p->totalHealth() >= threshold) {
+        if(p->baseHealth() >= threshold) {
             cout << "You passed! - " << threshold << "❤️  (base) ";
         } else {
             cout << "You do not have " << threshold << "❤️  (base) ";
@@ -22,37 +22,58 @@ bool Event::pass(Player *p, int stat, int threshold) {
         }
     } else if(stat==1) {
         if(p->totalArmor() >= threshold) {
-            cout << "You passed! - " << threshold << "🛡️  (base) ";
+            cout << "You passed! - " << threshold << "🛡️  (total) ";
         } else {
-            cout << "You do not have " << threshold << "🛡️  (base) ";
+            cout << "You do not have " << threshold << "🛡️  (total) ";
             success=false;
         }
     } else if(stat==2) {
         if(p->damage() >= threshold) {
-            cout << "You passed! - " << threshold << "🗡️  (base) ";
+            cout << "You passed! - " << threshold << "🗡️  (total) ";
         } else {
-            cout << "You do not have " << threshold << "🗡️  (base) ";
+            cout << "You do not have " << threshold << "🗡️  (total) ";
             success=false;
         }
     } else if(stat==3) {
-        if(p->totalCritChance() >= threshold) {
-            cout << "You passed! - " << threshold << " 💥";
+        if(p->totalPen() >= threshold) {
+            cout << "You passed! - " << threshold << "🎯  (total)";
         } else {
-            cout << "You do not have " << threshold << " 💥";
+            cout << "You do not have " << threshold << "🎯  (total)";
             success=false;
         }
     } else if(stat==4) {
-        if(p->totalCritDmg() >= threshold) {
-            cout << "You passed! - " << threshold << " 🔥";
+        if(p->totalCritChance() >= threshold) {
+            cout << "You passed! - " << threshold << "💥  (total)";
         } else {
-            cout << "You do not have " << threshold << " 🔥";
+            cout << "You do not have " << threshold << "💥  (total)";
             success=false;
         }
     } else if(stat==5) {
-        if((int)(p->recoveryRate()*100) >= threshold) {
-            cout << "You passed! - " << threshold << " 🌿";
+        if(p->totalCritDmg() >= threshold) {
+            cout << "You passed! - " << threshold << "🔥  (total)";
         } else {
-            cout << "You do not have " << threshold << " 🌿";
+            cout << "You do not have " << threshold << "🔥  (total)";
+            success=false;
+        }
+    } else if(stat==6) {
+        if((int)(p->totalMana()) >= threshold) {
+            cout << "You passed! - " << threshold << " 🌀  (total)";
+        } else {
+            cout << "You do not have " << threshold << " 🌀  (total)";
+            success=false;
+        }
+    } else if(stat==7) {
+        if((int)(p->totalSpeed()) >= threshold) {
+            cout << "You passed! - " << threshold << " ⚡  (total)";
+        } else {
+            cout << "You do not have " << threshold << " ⚡  (total)";
+            success=false;
+        }
+    } else if(stat==8) {
+        if((int)(p->recoveryRate()*100) >= threshold) {
+            cout << "You passed! - " << threshold << "🌿  (total)";
+        } else {
+            cout << "You do not have " << threshold << "🌿  (total)";
             success=false;
         }
     }
@@ -390,24 +411,39 @@ void Item::inspect_item(Player *p, int from_shop) {
         if(itemStats.health!=0) {
             cout << "❤️  : " << itemStats.health << " ";
         }
+        if(itemStats.pen!=0) {
+            cout << "🎯 : " << itemStats.pen << " ";
+        }
         if(itemStats.critChance!=0) {
             cout << "💥 : " << itemStats.critChance << "%  ";
         }
         if(itemStats.critDamage!=0) {
             cout << "🔥 : " << itemStats.critDamage << "x ";
         }
+        if(itemStats.mana!=0) {
+            cout << "🌀 : " << itemStats.mana << " ";
+        }
+        if(itemStats.speed!=0) {
+            cout << "⚡ : " << itemStats.speed << " ";
+        }
         if(itemStats.recoveryRate!=0) {
             cout << "🌿 : " << itemStats.recoveryRate << "x ";
         }
         cout << "\nRequirements:\n";
-        if(req.dmg>0) {
-            cout << req.dmg <<"🗡️  (base) ";
+        if(req.hp>0) {
+            cout << req.hp << "❤️  (base) ";
         }
         if(req.arm>0) {
-            cout << req.arm <<"🛡️  (base) ";
+            cout << req.arm << "🛡️  (base) ";
         }
-        if(req.hp>0) {
-            cout << req.hp <<"❤️  (base) ";
+        if(req.dmg>0) {
+            cout << req.dmg << "🗡️  (base) ";
+        }
+        if(req.mana>0) {
+            cout << req.mana << "🌀  (base) ";
+        }
+        if(req.speed>0) {
+            cout << req.speed << "⚡  (base) ";
         }
         if(req.lvl>0) {
             cout << "level "<< req.lvl << endl;
@@ -571,7 +607,7 @@ void Item::inspect_item(Player *p, int from_shop) {
     }
 }
 
-Player::Player(string s,int hp,int arm, int dmg, int lvl, int g) {
+Player::Player(string s,int hp,int arm, int dmg, int mna, int spd,int lvl, int g) {
     name=s;
     playerStats.maxHealth=hp;
     playerStats.health=hp;
@@ -580,6 +616,9 @@ Player::Player(string s,int hp,int arm, int dmg, int lvl, int g) {
     playerStats.critChance=10;
     playerStats.critDamage=1.50;
     playerStats.recoveryRate=0.06;
+    playerStats.mana=mna;
+    playerStats.pen=0;
+    playerStats.speed=spd;
     exp=0;
     expLevel=7;
     level=lvl;
@@ -663,22 +702,37 @@ void Player::unequip(Item* item, int slot) {
 
 void Player::display_stats() {
     print_name();
+    cout << "\nLevel: "<<level<< " - " << exp << "/"
+    << expLevel << " 🪙  : " << gold << "g";
     cout <<"\n❤️  : " << 
     playerStats.health << 
     "/" << totalHealth()
     << " (" << primary_equipped->itemStats.health+secondary_equipped->itemStats.health+armor_equipped->itemStats.health << ") "
+
     "🛡️  :" << totalArmor()
     << " (" << primary_equipped->itemStats.armor+secondary_equipped->itemStats.armor+armor_equipped->itemStats.armor << ") "
+
     "🗡️  :" << damage()
     << " (" << primary_equipped->itemStats.damage+secondary_equipped->itemStats.damage+armor_equipped->itemStats.damage << ") "
-    "\n💥 : " << totalCritChance()
+
+    "\n🎯 :" << totalPen()
+    << " (" << primary_equipped->itemStats.pen+secondary_equipped->itemStats.pen+armor_equipped->itemStats.pen << ") "
+
+    "💥 : " << totalCritChance()
     << "% (" << primary_equipped->itemStats.critChance+secondary_equipped->itemStats.critChance+armor_equipped->itemStats.critChance << ") "
+
     "🔥 : " << totalCritDmg()
     << "x (" << primary_equipped->itemStats.critDamage+secondary_equipped->itemStats.critDamage+armor_equipped->itemStats.critDamage << ") "
+    
+    "\n🌀 : " << (totalMana())
+    << "% (" << (primary_equipped->itemStats.mana+secondary_equipped->itemStats.mana+armor_equipped->itemStats.mana) << ") "
+
+    "⚡ : " << (totalSpeed())
+    << "% (" << (primary_equipped->itemStats.speed+secondary_equipped->itemStats.speed+armor_equipped->itemStats.speed) << ") "
+
     "🌿 : " << (int)(recoveryRate()*100.0)
-    << "% (" << (int)((primary_equipped->itemStats.recoveryRate+secondary_equipped->itemStats.recoveryRate+armor_equipped->itemStats.recoveryRate)*100.0) << ") "
-    << "\nLevel: "<<level<< " - " << exp << "/"
-    << expLevel << " 🪙  : " << gold << "g" << endl;
+    << "% (" << (int)((primary_equipped->itemStats.recoveryRate+
+    secondary_equipped->itemStats.recoveryRate+armor_equipped->itemStats.recoveryRate)*100.0) << ") " << endl;
 }
 
 void Player::print_name() {
@@ -758,6 +812,29 @@ double Player::totalCritDmg() {
 double Player::recoveryRate() {
     return playerStats.recoveryRate+primary_equipped->itemStats.recoveryRate
     +secondary_equipped->itemStats.recoveryRate+armor_equipped->itemStats.recoveryRate;
+}
+
+int Player::baseMana() {
+    return playerStats.mana;
+}
+
+int Player::totalMana() {
+    return playerStats.mana + primary_equipped->itemStats.mana
+    +secondary_equipped->itemStats.mana+armor_equipped->itemStats.mana;
+}
+
+int Player::totalPen() {
+    return playerStats.pen + primary_equipped->itemStats.pen
+    +secondary_equipped->itemStats.pen+armor_equipped->itemStats.pen;
+}
+
+int Player::baseSpeed() {
+    return playerStats.speed;
+}
+
+int Player::totalSpeed() {
+    return playerStats.speed + primary_equipped->itemStats.speed
+    +secondary_equipped->itemStats.speed+armor_equipped->itemStats.speed;
 }
 
 void Player::gain(int e, int g) {

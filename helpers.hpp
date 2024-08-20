@@ -39,6 +39,7 @@ class Enemy;
 struct stats {
     int health,maxHealth,armor,damage,critChance;
     double critDamage,recoveryRate;
+    int mana, pen, speed;
 };
 
 struct stat_roll {
@@ -46,7 +47,7 @@ struct stat_roll {
 };
 
 struct req_stats {
-    int hp,arm,dmg,lvl;
+    int hp,arm,dmg,mana,speed,lvl;
 };
 
 struct enemy_template {
@@ -75,7 +76,7 @@ class Player {
 public:
     stats playerStats;
     int exp,expLevel,level,gold;
-    Player(std::string s,int hp,int arm, int dmg, int lvl, int g);
+    Player(std::string s,int hp,int arm, int dmg, int mna,int spd, int lvl, int g);
     ~Player();
     void display_stats();
     void print_name();
@@ -92,6 +93,11 @@ public:
     int totalCritChance();
     double totalCritDmg();
     double recoveryRate();
+    int baseMana();
+    int totalMana();
+    int totalPen();
+    int baseSpeed();
+    int totalSpeed();
     Item* none;
     Item* none_armor;
     void equip(Item* e, int slot);

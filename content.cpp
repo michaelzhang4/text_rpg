@@ -317,8 +317,8 @@ void create_areas() {
     };
 
     vector<Event*> area_events[AREAS] = {
-        // curr(branch,exp,gold,stat(hp,ar,d,crit,cdmg,rest),threshhold)
-        // hp(branch,change,stat(hp,ar,d,crit,cdmg,rest),threshold)
+        // curr(branch,exp,gold,stat(hp,ar,d,pen,crit,cdmg,mana,speed,rest),threshhold)
+        // hp(branch,change,stat(hp,ar,d,pen,crit,cdmg,mana,speed,rest),threshold)
         {
             new Event(event_type::currency,
             "You almost fall into a Goblin trap, that was a close one!",
