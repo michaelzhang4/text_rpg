@@ -621,7 +621,7 @@ Player::Player(string s,int hp,int arm, int dmg, int mna, int spd,int lvl, int g
     playerStats.pen=0;
     playerStats.speed=spd;
     exp=0;
-    expLevel=7;
+    expLevel=5;
     level=lvl;
     gold=g;
     none = new Item(0,0,0,0,0,0,0,0
@@ -714,8 +714,8 @@ void Player::display_stats() {
     "\n🎯 : " << totalPen() << " "
     "    💥 : " << totalCritChance() << "% "
     " 🔥 : " << totalCritDmg() << "x "
-    "\n🌀 : " << (totalMana()) << " "
-    "    ⚡ : " << (totalSpeed()) << " "
+    "\n🌀 : " << totalMana() << " "
+    "    ⚡ : " << totalSpeed() << " "
     "   🌿 : " << (int)(recoveryRate()*100.0) << "% ";
     cout << "\nLevel "<< level << " - " << exp << "/"
     << expLevel << "✨  " << gold << "🪙" << endl;
@@ -863,7 +863,7 @@ void Player::gain(int e, int g) {
         display_stats();
 
         cout << "\nChoose a stat to increase:"
-        << "\n1. +5❤️   2. +1🛡️   3. +1🗡️\n";
+        << "\n1. +5❤️   2. +1🛡️   3. +1🗡️   \n4. +1🌀  5. +1⚡\n";
         int choice;
         cin >> choice;
         if (choice==1) {
@@ -872,6 +872,38 @@ void Player::gain(int e, int g) {
             playerStats.armor+=1;
         } else if (choice==3) {
             playerStats.damage+=1;
+        } else if (choice==4) {
+            playerStats.mana+=1;
+        } else if (choice==5) {
+            playerStats.speed+=1;
+        } else {
+            bool invalid = true;
+            while(invalid) {
+                ClearScreen();
+                display_stats();
+
+                cout << "\nInvalid input, try again.";
+                cout << "\nChoose a stat to increase:"
+                << "\n1. +5❤️   2. +1🛡️   3. +1🗡️   \n4. +1🌀  5. +1⚡\n";
+                int choice;
+                cin >> choice;
+                if (choice==1) {
+                    playerStats.maxHealth+=5;
+                    invalid = false;
+                } else if (choice==2) {
+                    playerStats.armor+=1;
+                    invalid = false;
+                } else if (choice==3) {
+                    playerStats.damage+=1;
+                    invalid = false;
+                } else if (choice==4) {
+                    playerStats.mana+=1;
+                    invalid = false;
+                } else if (choice==5) {
+                    playerStats.speed+=1;
+                    invalid = false;
+                }
+            }
         }
         playerStats.health=playerStats.maxHealth+
         primary_equipped->itemStats.health+
@@ -907,11 +939,11 @@ int Enemy::take_damage(int dmg) {
         effective_dmg = dmg-enemyStats.armor;
     }
     cout << "You hit " << name << 
-    " for " << effective_dmg << " damage!\n\n";
+    " for " << effective_dmg << " damage!\n";
     enemyStats.health-=effective_dmg;
-    SleepMs(SLEEP);
+    SleepMs(700);
     if(enemyStats.health <=0 ) {
-        cout << "You have slain " << name << endl;
+        cout << "\nYou have slain " << name << endl;
         return 1;
     }
     return 0;

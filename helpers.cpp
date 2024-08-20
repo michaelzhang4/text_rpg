@@ -121,11 +121,11 @@ int player_turn(Player *p, Enemy *enemy) {
         combatHUD(enemy,p);
         p->take_damage(enemy);
         cout << "\nYou ran away after taking a hit\n";
-        SleepMs(SLEEP);
+        SleepMs(1000);
         return 2;
     } else {
         cout << "Enter a valid action\n";
-        SleepMs(SLEEP);
+        SleepMs(1000);
         return 3;
     }
     if(effective_damage>0) {
@@ -163,10 +163,11 @@ void enemy_turn(Player *p, Enemy *enemy, int surprised) {
     ClearScreen();
     combatHUD(enemy,p);
     if(surprised==1) {
-        cout << "\nThe " << enemy->name << " caught you by surprise\n";
+        cout << "\nThe " << enemy->name << " caught you by surprise";
         SleepMs(1000);
     }
-    SleepMs(1000);
+    cout << endl;
+    SleepMs(700);
     p->take_damage(enemy);
 }
 
@@ -435,7 +436,7 @@ void __rest(Player *p) {
     } else {
         cout << "\nYou may rest again after the next combat\n";
     }
-    SleepMs(1000);
+    SleepMs(500);
 }
 
 void items(Player *p) {
