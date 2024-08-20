@@ -26,6 +26,62 @@ void HUD(Player* p) {
     choices(p);
 }
 
+int SkillHUD(Player *p, Enemy *e, int &effective_damage) {
+    while(1) {
+        ClearScreen();
+        cout << "Skills 🃏\n";
+        int i=0,index=1;
+        vector<Skill*> skills;
+        if (p->primary_equipped->skill) {
+            cout << index << ". ";
+            p->primary_equipped->skill->print_info();
+            cout << "\n";
+            skills.push_back(p->primary_equipped->skill);
+            ++index;
+            ++i;
+        }
+        if (p->secondary_equipped->skill) {
+            cout << index << ". ";
+            p->secondary_equipped->skill->print_info();
+            cout << "\n";
+            skills.push_back(p->secondary_equipped->skill);
+            ++index;
+            ++i;
+        }
+        if (p->armor_equipped->skill) {
+            cout << index << ". ";
+            p->armor_equipped->skill->print_info();
+            cout << "\n";
+            skills.push_back(p->armor_equipped->skill);
+            ++index;
+            ++i;
+        }
+        for(;i<owned_skills.size();++i) {
+            if(owned_skills[i]->owned) {
+                skills.push_back(owned_skills[i]);
+                cout << index << ". " << owned_skills[i]->name << "\n";
+                ++index;
+            }
+        }
+        cout << "\nb. Exit skills\n";
+        string choice;cin >> choice;lower(choice);
+        try {
+            if (choice == "b" || choice == "exit" || choice=="back") {
+                return 0;
+            } else if(1<= stoi(choice) && stoi(choice)<=i) {
+                Skill* skill = skills[stoi(choice)-1];
+                if (skill->owned) {
+                    skill->execute_skill(p,e,effective_damage);
+                    return 1;
+                }
+            }
+        } catch (...) {
+            cout << "Enter a valid input...";
+            SleepMs(SLEEP);
+        }
+    }
+}
+
 void slow_print(string s) {
     int time=10;
     for(char c: s) {
@@ -45,15 +101,34 @@ int player_turn(Player *p, Enemy *enemy) {
     ClearScreen();
     combatHUD(enemy,p);
     string choice;
-    cout << "\n1. Attack 2. Run\n";
+    cout << "\n1. Attack 2. Skill 3. Run\n";
     cin >> choice;
     lower(choice);
+    int effective_damage=0;
     if(choice=="1" || choice=="attack") {
-        int effective_damage = p->damage();
+        effective_damage = p->damage();
         if (rand()%100 <= p->totalCritChance()) {
             cout << "You landed a critical strike!\n";
             effective_damage=ceil((double)effective_damage*p->totalCritDmg());
         };
+    } else if(choice=="2" || choice=="skill") {
+        int skill_choice = SkillHUD(p,enemy,effective_damage);
+        if (skill_choice == 0) {
+            return 3;
+        }
+    } else if(choice=="3" || choice=="run") {
+        ClearScreen();
+        combatHUD(enemy,p);
+        p->take_damage(enemy);
+        cout << "\nYou ran away after taking a hit\n";
+        SleepMs(SLEEP);
+        return 2;
+    } else {
+        cout << "Enter a valid action\n";
+        SleepMs(SLEEP);
+        return 3;
+    }
+    if(effective_damage>0) {
         int died = enemy->take_damage(effective_damage);
         if(died==1) {
             p->gain(enemy->exp, enemy->gold);
@@ -80,19 +155,8 @@ int player_turn(Player *p, Enemy *enemy) {
             }
             return 0;
         }
-    } else if(choice=="2" || choice=="run") {
-        ClearScreen();
-        combatHUD(enemy,p);
-        p->take_damage(enemy);
-        cout << "\nYou ran away after taking a hit\n";
-        SleepMs(SLEEP);
-        return 1;
-    } else {
-        cout << "Enter a valid action\n";
-        SleepMs(SLEEP);
-        return 2;
     }
-    return 3;
+    return 4;
 }
 
 void enemy_turn(Player *p, Enemy *enemy, int surprised) {
@@ -107,6 +171,7 @@ void enemy_turn(Player *p, Enemy *enemy, int surprised) {
 }
 
 int combat(Player *p, Enemy *arena_enemy) {
+    stats before_combat = p->playerStats;
     int decision;
     Enemy *enemy;
     if(!arena_enemy) {
@@ -121,16 +186,25 @@ int combat(Player *p, Enemy *arena_enemy) {
         previous_encounter = enemy->name;
     } else {
         enemy = arena_enemy;
-        enemy->enemyStats.health=enemy->enemyStats.maxHealth;
+        if(enemy->enemyStats.health<=0)
+            enemy->enemyStats.health=enemy->enemyStats.maxHealth;
     }
-    int rng = rand()%100;
-    if(rng <= 35) {
-        enemy_turn(p,enemy,1);
+    if(p->totalSpeed() == enemy->enemyStats.speed) {
+        int rng = rand()%100;
+        if(rng <= 35) {
+            enemy_turn(p,enemy,1);
+        }
+    } else if (p->totalSpeed() < enemy->enemyStats.speed) {
+        enemy_turn(p,enemy,0);
     }
     while(1) {
         start_combat:
         decision = player_turn(p,enemy);
-        if(decision==1) {
+        // 0 killed enemy
+        if(decision==0) {
+            break;
+        // 2 run away
+        } else if (decision==2) {
             if(current_area->index==0 && !areas[1]->unlocked){
                 rest=-1;
             } else if(current_area->index==1){
@@ -138,11 +212,20 @@ int combat(Player *p, Enemy *arena_enemy) {
             } else {
                 rest=1;
             }
+            if(arena_enemy==nullptr) { 
+                delete enemy;
+            }
+            p->playerStats.armor = before_combat.armor;
+            p->playerStats.critChance = before_combat.critChance;
+            p->playerStats.critDamage = before_combat.critDamage;
+            p->playerStats.mana = before_combat.mana;
+            p->playerStats.speed = before_combat.speed;
+            p->playerStats.pen = before_combat.pen;
+            p->playerStats.damage = before_combat.damage;
             return decision;
-        } else if (decision==2) {
+        // 3 invalid decision
+        } else if (decision==3) {
             goto start_combat;
-        } else if (decision==0) {
-            break;
         }
         enemy_turn(p,enemy,0);
     }
@@ -156,6 +239,13 @@ int combat(Player *p, Enemy *arena_enemy) {
     if(arena_enemy==nullptr) { 
         delete enemy;
     }
+    p->playerStats.armor = before_combat.armor;
+    p->playerStats.critChance = before_combat.critChance;
+    p->playerStats.critDamage = before_combat.critDamage;
+    p->playerStats.mana = before_combat.mana;
+    p->playerStats.speed = before_combat.speed;
+    p->playerStats.pen = before_combat.pen;
+    p->playerStats.damage = before_combat.damage;
     return 0;
 }
 
@@ -874,4 +964,9 @@ void add_item(int hp, int arm, int dmg, int c,
     all_items[hash] = new Item(hp, arm, dmg, c, cdmg, rr, price,
     sell_price, h, name, hash, type, owned);
     item_hashes.push_back(hash);
+}
+
+void add_skill(std::string name, std::string hash, skillType type, int value, 
+            int hpCost, int manaCost, bool owned) {
+    all_skills[hash] = new Skill(name,hash,type,value,hpCost,manaCost,false);
 }

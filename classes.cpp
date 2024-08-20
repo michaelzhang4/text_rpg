@@ -369,7 +369,7 @@ void Event::execute_event(Player *p) {
     cin>>choice;
 }
 
-Item::Item(int hp, int arm, int dmg, int chance, double cdmg, double rr, int p, int sell_p, req_stats required, string n, string h, int t, bool oo) {
+Item::Item(int hp, int arm, int dmg, int chance, double cdmg, double rr, int p, int sell_p, req_stats required, string n, string h, int t, Skill* _skill, bool oo) {
     itemStats.health=hp;
     itemStats.maxHealth=hp;
     itemStats.armor=arm;
@@ -383,6 +383,7 @@ Item::Item(int hp, int arm, int dmg, int chance, double cdmg, double rr, int p, 
     name=n;
     hash=h;
     type=t;
+    skill=_skill;
     owned=oo;
 }
 
@@ -391,9 +392,9 @@ void Item::inspect_item(Player *p, int from_shop) {
         ClearScreen();
         if(from_shop==1) {
             if(this->type==0) {
-                cout << name << " - Weapon\n" << "🪙  :" << price << "g" << endl;
+                cout << name << " - Weapon\n" << price << "🪙" << endl;
             } else if(this->type==1) {
-                cout << name << " - Armor\n" << "🪙  :" << price << "g" << endl;
+                cout << name << " - Armor\n" << price << "🪙" << endl;
             }
         } else if (from_shop==0) {
             if(this->type==0) {
@@ -449,7 +450,7 @@ void Item::inspect_item(Player *p, int from_shop) {
             cout << "level "<< req.lvl << endl;
         }
         if(from_shop==1) {
-            cout << "\n🪙  : " << p->gold << "g" << endl;
+            cout << "\n" << p->gold << "🪙" << endl;
         }
         if (this->owned==false) {
             cout << "\n1. Buy\nb. Back\n";
@@ -702,8 +703,8 @@ void Player::unequip(Item* item, int slot) {
 
 void Player::display_stats() {
     print_name();
-    cout << "\nLevel: "<<level<< " - " << exp << "/"
-    << expLevel << " 🪙  : " << gold << "g";
+    cout << "\nLevel: "<< level << " - " << exp << "/"
+    << expLevel << "✨  " << gold << "🪙";
     cout <<"\n❤️  : " << 
     playerStats.health << 
     "/" << totalHealth()
@@ -901,12 +902,15 @@ Enemy::Enemy(enemy_template e) {
     exp = e.exp;
     gold = e.gold;
     stat_roll r = e.statroll;
-    enemyStats.maxHealth = r.bh+rand()%(r.h+1);
+    enemyStats.maxHealth = r.baseHp+rand()%(r.hp+1);
     enemyStats.health= enemyStats.maxHealth;
-    enemyStats.armor = r.ba+rand()%(r.a+1);
-    enemyStats.damage = r.bd + rand()%(r.d+1);
+    enemyStats.armor = r.baseArmor+rand()%(r.armor+1);
+    enemyStats.damage = r.baseDamage + rand()%(r.damage+1);
     enemyStats.critChance = 0;
     enemyStats.critDamage = 0;
+    enemyStats.mana = r.baseMana+rand()%(r.mana+1);
+    enemyStats.speed = r.baseSpeed+rand()%(r.speed+1); 
+    enemyStats.pen = r.basePen+rand()%(r.pen+1);
     drops=e.drops;
 }
 
@@ -957,4 +961,38 @@ void Area::print_description() {
     cout << description << endl;
     cout << "Enter any key to continue..." << endl;
     cin >> input;
+}
+
+Skill::Skill(string _name, string _hash,
+skillType _type, int _value, int _hpCost, int _manaCost, bool _owned) {
+    name=_name;
+    hash=_hash;
+    type=_type;
+    value=_value;
+    hpCost=_hpCost;
+    manaCost=_manaCost;
+    owned=_owned;
+}
+
+void Skill::print_info() {
+    if(type==skillType::damage) {
+        cout << name << " - " << value <<"🗡️  ";
+        cout << "Cost - ";
+        if (hpCost>0) {
+            cout << hpCost << "❤️  ";
+        }
+        if (manaCost>0) {
+            cout << manaCost << "🌀 ";
+        }
+    } else if(type==skillType::buff) {
+    } else if(type==skillType::debuff) {
+    }
+}
+
+void Skill::execute_skill(Player *p, Enemy *e, int &effective_damage) {
+    if(type==skillType::damage) {
+        effective_damage=value;
+    } else if(type==skillType::buff) {
+    } else if(type==skillType::debuff) {
+    }
 }

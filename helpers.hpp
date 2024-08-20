@@ -43,7 +43,7 @@ struct stats {
 };
 
 struct stat_roll {
-    int bh,h,ba,a,bd,d;
+    int baseHp,hp,baseArmor,armor,baseDamage,damage,baseMana,mana,baseSpeed,speed,basePen,pen;
 };
 
 struct req_stats {
@@ -137,6 +137,13 @@ enum Branch {
     Trade,
 };
 
+enum skillType {
+    damage,
+    buff,
+    debuff,
+};
+
+
 class Event {
 public:
     Event(event_type type, std::string d,std::vector<std::any> v);
@@ -149,11 +156,12 @@ public:
 
 class Item {
 public:
-    Item(int hp, int arm, int dmg, int c, double cdmg,double rr, int price, int sell_price, req_stats req, std::string name, std::string hash, int type, bool oo);
+    Item(int hp, int arm, int dmg, int c, double cdmg,double rr, int price, int sell_price, req_stats req, std::string name, std::string hash, int type, Skill* skill, bool oo);
     stats itemStats;
     int price, sell_price, type;
     req_stats req;
     std::string name, hash;
+    Skill* skill;
     bool owned;
     void inspect_item(Player *p, int from_shop);
 private:
@@ -175,11 +183,28 @@ std::vector<Item*> shop_items, std::string description, std::vector<Event*> even
 private:
 };
 
+class Skill {
+public:
+    Skill(std::string _name, std::string _hash,
+skillType _type, int _value, int _hpCost, int _manaCost, bool _owned);
+    std::string name;
+    std::string hash;
+    skillType type;
+    int value;
+    int hpCost;
+    int manaCost;
+    bool owned;
+    void print_info();
+    void execute_skill(Player *p, Enemy *e, int &effective_damage);
+};
+
 void set_up();
 
 void death_screen();
 
 void HUD(Player *p);
+
+int SkillHUD(Player *p, Enemy *e, int &effective_damage);
 
 int player_turn(Player *p, Enemy *enemy);
 
@@ -215,6 +240,9 @@ void add_item(int hp, int arm, int dmg, int c,
             double cdmg, double rr, int price, int sell_price, req_stats h,
             std::string name,std::string hash, int type, bool owned);
 
+void add_skill(std::string name, std::string hash, skillType type, int value, 
+            int hpCost, int manaCost, bool owned);
+
 void title(Player *p);
 
 void print_item(Item* item);
@@ -249,10 +277,14 @@ Player *create_player(int option);
 
 void create_items();
 
+void create_skills();
+
 void create_areas();
 
 extern std::vector<std::string> item_hashes;
 extern std::vector<Item*> owned_items;
+extern std::vector<Skill*> owned_skills;
+extern std::unordered_map<std::string,Skill*> all_skills;
 extern std::vector<Item*> gamba;
 extern std::unordered_map<std::string,Item*> all_items;
 extern std::array<Area*,AREAS> areas;

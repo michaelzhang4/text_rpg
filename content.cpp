@@ -14,7 +14,9 @@ vector<pair<Enemy*,bool>> arena_bosses = {
     {new Enemy({stat_roll{800,0,50,0,40,0},70,0,0,"Thanatos",{{}}}),false},
 };
 vector<Item*> owned_items;
+vector<Skill*> owned_skills;
 unordered_map<string,Item*> all_items;
+unordered_map<string,Skill*> all_skills;
 vector<Item*> gamba;
 array<Area*,AREAS> areas;
 Area *current_area;
@@ -137,6 +139,10 @@ void create_items() {
     add_item(0,0,14,35,-20.0,0,0,1000,{0,12,0,14},"Bow of Darkness","bow_of_darkness",0,false);
     add_item(0,18,-3,0,0,0,0,1000,{80,0,0,14},"Shield of Darkness","shield_of_darkness",0,false);
     add_item(0,0,28,20,0,0,0,1000,{0,0,14,14},"Umbral Spell","umbral_spell",0,false);
+}
+
+void create_skills() {
+    add_skill("Fireball","fireball",skillType::damage,5,0,0,false);
 }
 
 
