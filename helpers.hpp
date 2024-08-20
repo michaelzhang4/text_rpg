@@ -27,9 +27,9 @@
     inline void enableEmoji() {
         const char* psModulePath = std::getenv("PSModulePath");
         if (psModulePath) {
-            system("[Console]::OutputEncoding = [System.Text.Encoding]::UTF8");
+            system("powershell -Command \"[Console]::OutputEncoding = [System.Text.Encoding]::UTF8\"");
         } else {
-            system("chcp 65001");
+            system("chcp 65001 > NUL");
         }
     }
     #define FLUSH()

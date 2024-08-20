@@ -163,11 +163,11 @@ void enemy_turn(Player *p, Enemy *enemy, int surprised) {
     ClearScreen();
     combatHUD(enemy,p);
     if(surprised==1) {
-        cout << "\nThe " << enemy->name << " caught you by surprise";
+        cout << "\nThe " << enemy->name << " caught you by surprise\n";
         SleepMs(1000);
     }
+    cout << "\n";
     SleepMs(700);
-    cout << "\n\n";
     p->take_damage(enemy);
 }
 
@@ -354,7 +354,7 @@ void lower(string &s) {
 }
 
 void print_explore() {
-    int sleep_time=150;
+    int sleep_time=200;
     ClearScreen();
     cout << "Exploring\n";
     SleepMs(sleep_time);
@@ -445,12 +445,12 @@ void explore(Player *p) {
                 p->playerStats.speed+=1;
             } else {
                 cout << "\nEnter a valid input";
-                Sleep(SLEEP);
+                SleepMs(SLEEP);
                 goto lvl;
             }
         } catch(...){
             cout << "\nEnter a valid input";
-            Sleep(SLEEP);
+            SleepMs(SLEEP);
             goto lvl;
         }
         p->playerStats.health=p->playerStats.maxHealth+

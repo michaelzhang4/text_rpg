@@ -642,7 +642,9 @@ void Player::equip(Item* e, int slot) {
     stats s = playerStats;
     if(s.armor >= r.arm &&
     s.damage >= r.dmg &&
-    baseHealth() >= r.hp &&
+    baseHealth() >= r.hp && 
+    s.mana >= r.mana &&
+    s.speed >= r.speed &&
     level >= r.lvl) {
         if((secondary_equipped==e ||primary_equipped==e) && e->name!="None") {
             cout << "You already have this item equipped!\n";
