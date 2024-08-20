@@ -225,13 +225,13 @@ void create_areas() {
     floor4encounters.push_back(enemies[3][1]);
 
     vector<enemy_template> floor5encounters;
-    floor4encounters.push_back(enemies[4][1]);
+    floor5encounters.push_back(enemies[4][1]);
     
     vector<enemy_template> floor6encounters;
-    floor4encounters.push_back(enemies[5][0]);
+    floor6encounters.push_back(enemies[5][0]);
 
     vector<enemy_template> floor7encounters;
-    floor4encounters.push_back(enemies[6][0]);
+    floor7encounters.push_back(enemies[6][0]);
 
 
 
