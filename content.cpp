@@ -63,14 +63,14 @@ void create_items() {
     add_item(0,0,10,5,0.10,0,0,150,{0,0,6,10},"Rock Spell","rock_spell",0,false);
     add_item(0,0,12,0,0.20,0,0,150,{0,0,7,10},"Earth Staff","earth_staff",0,false);
     add_item(0,0,11,10,0,0,0,150,{0,0,6,10},"Gem Spell","gem_spell",0,false);
-    add_item(10,3,0,0,0.0,0,0,150,{0,0,0,10},"Earthen Cover","earthern_cover",1,false);
+    add_item(20,5,0,0,0.0,0,0,150,{0,0,0,10},"Earthen Cover","earthern_cover",1,false);
 
     //Searing Desert items
     add_item(0,0,15,0,0.0,0,0,200,{50,0,0,15},"Scimitar","scimitar",0,false);
     add_item(0,10,0,0,0.0,0,0,200,{50,0,0,15},"Sand Shield","sand_shield",0,false);
     add_item(0,0,0,0,0.0,0.20,0,200,{0,0,0,15},"Water","water",0,false);
     add_item(10,0,0,15,0.60,0.0,0,200,{0,8,0,15},"Sand Sheathe","sand_sheathe",0,false);
-    add_item(-5,0,6,0,0.50,0,0,200,{0,8,0,15},"Poisoned Dagger","poisoned_dagger",0,false);
+    add_item(-5,0,12,10,0.50,0,0,200,{0,8,0,15},"Poisoned Dagger","poisoned_dagger",0,false);
     add_item(0,0,16,5,0.20,0,0,200,{0,0,9,15},"Sandstorm Spell","sandstorm_spell",0,false);
     add_item(0,0,15,10,0.10,0,0,200,{0,0,9,15},"Sand Grimoire","sand_grimoire",0,false);
     add_item(0,0,14,5,0.30,0,0,200,{0,0,9,15},"Sand Staff","sand_staff",0,false);
