@@ -1,6 +1,7 @@
 #include "helpers.hpp"
 
 int main() {
+    enableEmoji();
     set_up();
     Player* player = create_player(start());
     intro();

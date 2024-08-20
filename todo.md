@@ -31,6 +31,11 @@
 
 8. Encrypt save file [DONE]
 
+9. Enemy has weapon []
+
+10. Enemy has skills []
+
+11. Enemy as an AI []
 
 
 # FOR WINDOWS TERMINAL EMOJI SUPPORT

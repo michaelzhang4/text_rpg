@@ -625,9 +625,9 @@ Player::Player(string s,int hp,int arm, int dmg, int mna, int spd,int lvl, int g
     level=lvl;
     gold=g;
     none = new Item(0,0,0,0,0,0,0,0
-    ,req_stats{0,0,0,0},"None","none",0,true);
+    ,req_stats{0,0,0,0},"None","none",0, nullptr,true);
     none_armor = new Item(0,0,0,0,0,0,0,0
-    ,req_stats{0,0,0,0},"None","none",1,true);
+    ,req_stats{0,0,0,0},"None","none",1, nullptr,true);
     primary_equipped = none;
     secondary_equipped = none;
     armor_equipped = none_armor;
@@ -703,37 +703,22 @@ void Player::unequip(Item* item, int slot) {
 
 void Player::display_stats() {
     print_name();
-    cout << "\nLevel: "<< level << " - " << exp << "/"
-    << expLevel << "✨  " << gold << "🪙";
     cout <<"\n❤️  : " << 
     playerStats.health << 
-    "/" << totalHealth()
-    << " (" << primary_equipped->itemStats.health+secondary_equipped->itemStats.health+armor_equipped->itemStats.health << ") "
-
-    "🛡️  :" << totalArmor()
-    << " (" << primary_equipped->itemStats.armor+secondary_equipped->itemStats.armor+armor_equipped->itemStats.armor << ") "
-
-    "🗡️  :" << damage()
-    << " (" << primary_equipped->itemStats.damage+secondary_equipped->itemStats.damage+armor_equipped->itemStats.damage << ") "
-
-    "\n🎯 :" << totalPen()
-    << " (" << primary_equipped->itemStats.pen+secondary_equipped->itemStats.pen+armor_equipped->itemStats.pen << ") "
-
-    "💥 : " << totalCritChance()
-    << "% (" << primary_equipped->itemStats.critChance+secondary_equipped->itemStats.critChance+armor_equipped->itemStats.critChance << ") "
-
-    "🔥 : " << totalCritDmg()
-    << "x (" << primary_equipped->itemStats.critDamage+secondary_equipped->itemStats.critDamage+armor_equipped->itemStats.critDamage << ") "
-    
-    "\n🌀 : " << (totalMana())
-    << "% (" << (primary_equipped->itemStats.mana+secondary_equipped->itemStats.mana+armor_equipped->itemStats.mana) << ") "
-
-    "⚡ : " << (totalSpeed())
-    << "% (" << (primary_equipped->itemStats.speed+secondary_equipped->itemStats.speed+armor_equipped->itemStats.speed) << ") "
-
-    "🌿 : " << (int)(recoveryRate()*100.0)
-    << "% (" << (int)((primary_equipped->itemStats.recoveryRate+
-    secondary_equipped->itemStats.recoveryRate+armor_equipped->itemStats.recoveryRate)*100.0) << ") " << endl;
+    "/" << totalHealth() << " ";
+    if(playerStats.health<10) {
+        cout << " ";
+    }
+    cout << "🛡️  :" << totalArmor() << " "
+    "   🗡️  :" << damage() << " "
+    "\n🎯 : " << totalPen() << " "
+    "    💥 : " << totalCritChance() << "% "
+    " 🔥 : " << totalCritDmg() << "x "
+    "\n🌀 : " << (totalMana()) << " "
+    "    ⚡ : " << (totalSpeed()) << " "
+    "   🌿 : " << (int)(recoveryRate()*100.0) << "% ";
+    cout << "\nLevel "<< level << " - " << exp << "/"
+    << expLevel << "✨  " << gold << "🪙" << endl;
 }
 
 void Player::print_name() {
@@ -933,10 +918,22 @@ int Enemy::take_damage(int dmg) {
 }
 
 void Enemy::display_stats() {
-    cout << name << "\n❤️  :" << enemyStats.health << 
-    "/" << enemyStats.maxHealth << " 🛡️  :" << 
-    enemyStats.armor << " 🗡️  :" << enemyStats.damage
-    << "\nLevel: " << level << "\n";
+    cout << name;
+    cout <<"\n❤️  : " << 
+    enemyStats.health << 
+    "/" << enemyStats.maxHealth << " ";
+    if(enemyStats.health<10 && enemyStats.maxHealth<10) {
+        cout << "  ";
+    } else if(enemyStats.health<10) {
+        cout << " ";
+    }
+    cout << "🛡️  :" << enemyStats.armor << " "
+    "  🗡️  :" << enemyStats.damage<< " "
+    "\n🎯 : " << enemyStats.pen << " "
+    "    💥 : " << enemyStats.critChance << "% "
+    " 🔥 : " << enemyStats.critDamage << "x "
+    "\n🌀 : " << enemyStats.mana << " "
+    "    ⚡ : " << enemyStats.speed << " \n";
 }
 
 Area::Area(string n, vector<enemy_template> enemies,

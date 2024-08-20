@@ -14,6 +14,7 @@
 #include <any>
 #include <regex>
 #include <cstdio>
+#include <cstdlib>
 
 #define MOBS 3
 #define AREAS 7
@@ -23,10 +24,19 @@
     #include <windows.h>
     inline void SleepMs(int milliseconds) { Sleep(milliseconds); }
     inline void ClearScreen() { system("cls"); }
+    inline void enableEmoji() {
+        const char* psModulePath = std::getenv("PSModulePath");
+        if (psModulePath) {
+            system("[Console]::OutputEncoding = [System.Text.Encoding]::UTF8");
+        } else {
+            system("chcp 65001");
+        }
+    }
     #define FLUSH()
 #elif __linux__ || __APPLE__
     #include <unistd.h>
     #define FLUSH() fflush(stdout)
+    inline void enableEmoji() {}
     inline void SleepMs(int milliseconds) { usleep(milliseconds * 1000); }
     inline void ClearScreen() { system("clear"); }
 #endif
@@ -35,6 +45,7 @@
 class Item;
 class Player;
 class Enemy;
+class Skill;
 
 struct stats {
     int health,maxHealth,armor,damage,critChance;
@@ -238,7 +249,7 @@ void cleanup_memory();
 
 void add_item(int hp, int arm, int dmg, int c,
             double cdmg, double rr, int price, int sell_price, req_stats h,
-            std::string name,std::string hash, int type, bool owned);
+            std::string name,std::string hash, int type, Skill* skill, bool owned);
 
 void add_skill(std::string name, std::string hash, skillType type, int value, 
             int hpCost, int manaCost, bool owned);

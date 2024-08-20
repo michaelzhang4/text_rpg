@@ -505,7 +505,6 @@ void intro() {
     ClearScreen();
     slow_print("You find yourself transported to a strange tower.\n\n");
     slow_print("Looking up you see a vast number of floors to the top.\n\n");
-    slow_print("You see a glimpse of many eyes observing you from above.\n\n");
     if(areas[6]->unlocked) {
         slow_print("The judge contemplates your existance in the tower\n\n");
     } else if(areas[5]->unlocked) {
@@ -960,9 +959,9 @@ Player *create_player(int option) {
 
 void add_item(int hp, int arm, int dmg, int c,
             double cdmg, double rr, int price, int sell_price, req_stats h,
-            string name,string hash, int type, bool owned) {
+            string name,string hash, int type, Skill* skill, bool owned) {
     all_items[hash] = new Item(hp, arm, dmg, c, cdmg, rr, price,
-    sell_price, h, name, hash, type, owned);
+    sell_price, h, name, hash, type, skill, owned);
     item_hashes.push_back(hash);
 }
 
