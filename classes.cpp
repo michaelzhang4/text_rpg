@@ -2,7 +2,7 @@
 
 using namespace std;
 
-// 🗡️🛡️❤️🎯💥🔥🌀⚡🌿
+// 🗡️🛡️❤️🎯💥🔥💧⚡🌿
 
 Event::Event(event_type t, string d, vector<any> v) {
     type=t;
@@ -57,9 +57,9 @@ bool Event::pass(Player *p, int stat, int threshold) {
         }
     } else if(stat==6) {
         if((int)(p->totalMana()) >= threshold) {
-            cout << "You passed! - " << threshold << " 🌀  (total)";
+            cout << "You passed! - " << threshold << " 💧  (total)";
         } else {
-            cout << "You do not have " << threshold << " 🌀  (total)";
+            cout << "You do not have " << threshold << " 💧  (total)";
             success=false;
         }
     } else if(stat==7) {
@@ -422,7 +422,7 @@ void Item::inspect_item(Player *p, int from_shop) {
             cout << "🔥 : " << itemStats.critDamage << "x ";
         }
         if(itemStats.mana!=0) {
-            cout << "🌀 : " << itemStats.mana << " ";
+            cout << "💧 : " << itemStats.mana << " ";
         }
         if(itemStats.speed!=0) {
             cout << "⚡ : " << itemStats.speed << " ";
@@ -441,7 +441,7 @@ void Item::inspect_item(Player *p, int from_shop) {
             cout << req.dmg << "🗡️  (base) ";
         }
         if(req.mana>0) {
-            cout << req.mana << "🌀  (base) ";
+            cout << req.mana << "💧  (base) ";
         }
         if(req.speed>0) {
             cout << req.speed << "⚡  (base) ";
@@ -714,7 +714,7 @@ void Player::display_stats() {
     "\n🎯 : " << totalPen() << " "
     "    💥 : " << totalCritChance() << "% "
     " 🔥 : " << totalCritDmg() << "x "
-    "\n🌀 : " << totalMana() << " "
+    "\n💧 : " << totalMana() << " "
     "    ⚡ : " << totalSpeed() << " "
     "   🌿 : " << (int)(recoveryRate()*100.0) << "% ";
     cout << "\nLevel "<< level << " - " << exp << "/"
@@ -734,9 +734,9 @@ void Player::take_damage(Enemy *e) {
     }
     playerStats.health-=effective_damage;
 
-    cout << endl << e->name << " hit you for " <<
+    cout << e->name << " hit you for " <<
     effective_damage << " damage!\n";
-    SleepMs(SLEEP);
+    SleepMs(700);
     if(playerStats.health <=0) {
         if(current_area->color==Color::Red) {
             delete_save();
@@ -851,66 +851,6 @@ void Player::gain(int e, int g) {
         }
         SleepMs(SLEEP);
     }
-    while (exp >= expLevel) {
-        level+=1;
-        cout << 
-        "\nYou have leveled up!\nYou are now level "
-        << level << endl;
-        exp -=expLevel;
-        expLevel+=(4+expLevel/6);
-        SleepMs(SLEEP);
-        ClearScreen();
-        display_stats();
-
-        cout << "\nChoose a stat to increase:"
-        << "\n1. +5❤️   2. +1🛡️   3. +1🗡️   \n4. +1🌀  5. +1⚡\n";
-        int choice;
-        cin >> choice;
-        if (choice==1) {
-            playerStats.maxHealth+=5;
-        } else if (choice==2) {
-            playerStats.armor+=1;
-        } else if (choice==3) {
-            playerStats.damage+=1;
-        } else if (choice==4) {
-            playerStats.mana+=1;
-        } else if (choice==5) {
-            playerStats.speed+=1;
-        } else {
-            bool invalid = true;
-            while(invalid) {
-                ClearScreen();
-                display_stats();
-
-                cout << "\nInvalid input, try again.";
-                cout << "\nChoose a stat to increase:"
-                << "\n1. +5❤️   2. +1🛡️   3. +1🗡️   \n4. +1🌀  5. +1⚡\n";
-                int choice;
-                cin >> choice;
-                if (choice==1) {
-                    playerStats.maxHealth+=5;
-                    invalid = false;
-                } else if (choice==2) {
-                    playerStats.armor+=1;
-                    invalid = false;
-                } else if (choice==3) {
-                    playerStats.damage+=1;
-                    invalid = false;
-                } else if (choice==4) {
-                    playerStats.mana+=1;
-                    invalid = false;
-                } else if (choice==5) {
-                    playerStats.speed+=1;
-                    invalid = false;
-                }
-            }
-        }
-        playerStats.health=playerStats.maxHealth+
-        primary_equipped->itemStats.health+
-        secondary_equipped->itemStats.health+
-        armor_equipped->itemStats.health;
-    }
-
 }
 
 Enemy::Enemy(enemy_template e) {
@@ -964,7 +904,7 @@ void Enemy::display_stats() {
     "\n🎯 : " << enemyStats.pen << " "
     "    💥 : " << enemyStats.critChance << "% "
     " 🔥 : " << enemyStats.critDamage << "x "
-    "\n🌀 : " << enemyStats.mana << " "
+    "\n💧 : " << enemyStats.mana << " "
     "    ⚡ : " << enemyStats.speed << " \n";
 }
 
@@ -1011,7 +951,7 @@ void Skill::print_info() {
             cout << hpCost << "❤️  ";
         }
         if (manaCost>0) {
-            cout << manaCost << "🌀 ";
+            cout << manaCost << "💧 ";
         }
     } else if(type==skillType::buff) {
     } else if(type==skillType::debuff) {

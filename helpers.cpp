@@ -121,7 +121,7 @@ int player_turn(Player *p, Enemy *enemy) {
         combatHUD(enemy,p);
         p->take_damage(enemy);
         cout << "\nYou ran away after taking a hit\n";
-        SleepMs(1000);
+        SleepMs(SLEEP);
         return 2;
     } else {
         cout << "Enter a valid action\n";
@@ -166,8 +166,8 @@ void enemy_turn(Player *p, Enemy *enemy, int surprised) {
         cout << "\nThe " << enemy->name << " caught you by surprise";
         SleepMs(1000);
     }
-    cout << endl;
     SleepMs(700);
+    cout << "\n\n";
     p->take_damage(enemy);
 }
 
@@ -354,7 +354,7 @@ void lower(string &s) {
 }
 
 void print_explore() {
-    int sleep_time=250;
+    int sleep_time=150;
     ClearScreen();
     cout << "Exploring\n";
     SleepMs(sleep_time);
@@ -405,15 +405,58 @@ void explore(Player *p) {
     int temp = rand() % 100;
     if (temp>=current_area->chance_split[0]) {
         cout << "\nMonster encountered! Get ready for combat!\n";
-        SleepMs(SLEEP);
+        SleepMs(1000);
         ClearScreen();
         combat(p,NULL);
     } else if (temp>=current_area->chance_split[1]) {
         event(p);
     } else {
         cout << "\nNothing of interest happened\n";
-        SleepMs(SLEEP);
+        SleepMs(1000);
         ClearScreen();
+    }
+    while (p->exp >= p->expLevel) {
+        p->level+=1;
+        cout << 
+        "\nYou have leveled up!\nYou are now level "
+        << p->level << endl;
+        p->exp -=p->expLevel;
+        p->expLevel+=(4+p->expLevel/6);
+        SleepMs(SLEEP);
+        lvl:
+        ClearScreen();
+        p->display_stats();
+
+        cout << "\nChoose a stat to increase:"
+        << "\n1. +4❤️   2. +1🛡️   3. +1🗡️   \n4. +1💧  5. +1⚡\n";
+        string choice;
+        cin >> choice;
+        try {
+            int dec = stoi(choice);
+            if (dec==1) {
+                p->playerStats.maxHealth+=5;
+            } else if (dec==2) {
+                p->playerStats.armor+=1;
+            } else if (dec==3) {
+                p->playerStats.damage+=1;
+            } else if (dec==4) {
+                p->playerStats.mana+=1;
+            } else if (dec==5) {
+                p->playerStats.speed+=1;
+            } else {
+                cout << "\nEnter a valid input";
+                Sleep(SLEEP);
+                goto lvl;
+            }
+        } catch(...){
+            cout << "\nEnter a valid input";
+            Sleep(SLEEP);
+            goto lvl;
+        }
+        p->playerStats.health=p->playerStats.maxHealth+
+        p->primary_equipped->itemStats.health+
+        p->secondary_equipped->itemStats.health+
+        p->armor_equipped->itemStats.health;
     }
 }
 
@@ -498,7 +541,7 @@ void intro() {
     "🎯 - Armor penetration (how much enemy armor ignored when attacking)\n"
     "💥 - Critical strike chance (percentage chance to strike harder)\n"
     "🔥 - Critical strike multiplier (when critically striking damage becomes 🔥 *🗡️  )\n"
-    "🌀 - Mana for casting skills\n"
+    "💧 - Mana for casting skills\n"
     "⚡ - Speed (being faster means you strike first and have a chance of dodging enemy attacks)\n"
     "🌿 - Recovery amount when resting (🌿 *❤️  )\n\n";
     cout << "Enter any key to continue...\n";
