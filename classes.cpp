@@ -753,8 +753,8 @@ void Player::take_damage(Enemy *e, int dmg) {
             return;
         }
     }
-    int removed_armor = ceil(playerStats.armor*((double)e->enemyStats.pen/100));
-    int effective_armor = max(0,playerStats.armor - removed_armor);
+    int removed_armor = ceil(totalArmor()*((double)e->enemyStats.pen/100));
+    int effective_armor = max(0,totalArmor() - removed_armor);
     if(effective_armor>= dmg) {
         effective_damage=1;
     } else {
