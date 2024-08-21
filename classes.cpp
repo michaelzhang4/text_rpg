@@ -952,10 +952,10 @@ int Enemy::take_damage(Player *p, int dmg) {
     };
     int removed_armor = ceil(enemyStats.armor*(double)p->totalPen()/100);
     int effective_armor = max(0,enemyStats.armor - removed_armor);
-    if(effective_armor >= dmg) {
+    if(effective_armor >= effective_dmg) {
         effective_dmg = 1;
     } else {
-        effective_dmg = dmg-effective_armor;
+        effective_dmg = effective_dmg-effective_armor;
     }
     cout << "You hit " << name << 
     " for " << effective_dmg << " damage!\n";
