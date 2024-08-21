@@ -19,6 +19,7 @@
 #define MOBS 3
 #define AREAS 7
 #define SLEEP 1800
+#define HPPERLVL 4
 
 #ifdef _WIN32
     #include <windows.h>

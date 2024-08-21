@@ -435,7 +435,7 @@ void explore(Player *p) {
         try {
             int dec = stoi(choice);
             if (dec==1) {
-                p->playerStats.maxHealth+=4;
+                p->playerStats.maxHealth+=HPPERLVL;
             } else if (dec==2) {
                 p->playerStats.armor+=1;
             } else if (dec==3) {
