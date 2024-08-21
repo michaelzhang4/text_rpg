@@ -119,7 +119,7 @@ int player_turn(Player *p, Enemy *enemy) {
     } else if(choice=="3" || choice=="run") {
         ClearScreen();
         combatHUD(enemy,p);
-        p->take_damage(enemy);
+        p->take_damage(enemy, enemy->enemyStats.damage);
         cout << "\nYou ran away after taking a hit\n";
         SleepMs(SLEEP);
         return 2;
@@ -129,7 +129,7 @@ int player_turn(Player *p, Enemy *enemy) {
         return 3;
     }
     if(effective_damage>0) {
-        int died = enemy->take_damage(effective_damage);
+        int died = enemy->take_damage(p,effective_damage);
         if(died==1) {
             p->gain(enemy->exp, enemy->gold);
             unlock_stages(enemy);
@@ -168,7 +168,12 @@ void enemy_turn(Player *p, Enemy *enemy, int surprised) {
     }
     cout << "\n";
     SleepMs(700);
-    p->take_damage(enemy);
+    int effective_damage = enemy->enemyStats.damage;
+    if (rand()%100 <= enemy->enemyStats.critChance) {
+        cout << enemy->name << " landed a critical strike!\n";
+        effective_damage=ceil((double)effective_damage*p->totalCritDmg());
+    };
+    p->take_damage(enemy,effective_damage);
 }
 
 int combat(Player *p, Enemy *arena_enemy) {

@@ -73,7 +73,7 @@ public:
     stats enemyStats;
     Enemy(enemy_template e);
     void display_stats();
-    int take_damage(int dmg);
+    int take_damage(Player *p, int dmg);
     std::string name;
     int exp;
     int gold;
@@ -87,11 +87,11 @@ class Player {
 public:
     stats playerStats;
     int exp,expLevel,level,gold;
-    Player(std::string s,int hp,int arm, int dmg, int mna,int spd, int lvl, int g);
+    Player(std::string s,int hp,int arm, int dmg, int mna, int spd, int lvl, int g);
     ~Player();
     void display_stats();
     void print_name();
-    void take_damage(Enemy *e);
+    void take_damage(Enemy *e, int dmg);
     void event_hp_change(int i);
     void gain(int e, int g);
     Item* primary_equipped;

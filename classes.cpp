@@ -727,12 +727,29 @@ void Player::print_name() {
     cout << name << " - <" << primary_equipped->name << "> <" << secondary_equipped->name << "> <" << armor_equipped->name << ">";
 }
 
-void Player::take_damage(Enemy *e) {
+void Player::take_damage(Enemy *e, int dmg) {
     int effective_damage;
-    if(totalArmor() >= e->enemyStats.damage) {
+    int rng;
+    if(playerStats.speed==e->enemyStats.speed) {
+        rng = rand()%100;
+        if(rng<10) {
+            cout << "You dodged their strike!";
+            return;
+        }
+    } else if(playerStats.speed>e->enemyStats.speed) {
+        rng = rand()%100;
+        int spd_diff = playerStats.speed - e->enemyStats.speed;
+        int dodge_chance = min(90,10 + spd_diff*10);
+        if(rng<dodge_chance) {
+            cout << name << "You dodged their strike!";
+            return;
+        }
+    }
+    int effective_armor = max(0,totalArmor() - (totalArmor()*e->enemyStats.pen));
+    if(effective_armor>= dmg) {
         effective_damage=1;
     } else {
-        effective_damage=e->enemyStats.damage-totalArmor();
+        effective_damage=dmg-effective_armor;
     }
     playerStats.health-=effective_damage;
 
@@ -873,12 +890,29 @@ Enemy::Enemy(enemy_template e) {
     drops=e.drops;
 }
 
-int Enemy::take_damage(int dmg) {
+int Enemy::take_damage(Player *p, int dmg) {
     int effective_dmg;
-    if(enemyStats.armor >= dmg) {
+    int rng;
+    if(p->playerStats.speed==enemyStats.speed) {
+        rng = rand()%100;
+        if(rng<10) {
+            cout << name << " dodged your strike!";
+            return 0;
+        }
+    } else if(p->playerStats.speed<enemyStats.speed) {
+        rng = rand()%100;
+        int spd_diff = enemyStats.speed-p->playerStats.speed;
+        int dodge_chance = min(90,10 + spd_diff*10);
+        if(rng<dodge_chance) {
+            cout << name << " dodged your strike!";
+            return 0;
+        }
+    }
+    int effective_armor = max(0,enemyStats.armor - (enemyStats.armor*p->playerStats.pen));
+    if(effective_armor >= dmg) {
         effective_dmg = 1;
     } else {
-        effective_dmg = dmg-enemyStats.armor;
+        effective_dmg = dmg-effective_armor;
     }
     cout << "You hit " << name << 
     " for " << effective_dmg << " damage!\n";
