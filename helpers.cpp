@@ -26,7 +26,7 @@ void HUD(Player* p) {
     choices(p);
 }
 
-int SkillHUD(Player *p, Enemy *e, int &effective_damage) {
+int SkillHUD(Player *p, Enemy *e, int &effective_damage, string &msg) {
     while(1) {
         ClearScreen();
         cout << "Skills 🃏\n";
@@ -56,14 +56,7 @@ int SkillHUD(Player *p, Enemy *e, int &effective_damage) {
             ++index;
             ++i;
         }
-        for(;i<owned_skills.size();++i) {
-            if(owned_skills[i]->owned) {
-                skills.push_back(owned_skills[i]);
-                cout << index << ". " << owned_skills[i]->name << "\n";
-                ++index;
-            }
-        }
-        cout << "\nb. Exit skills\n";
+        cout << "b. Exit skills\n";
         string choice;cin >> choice;lower(choice);
         try {
             if (choice == "b" || choice == "exit" || choice=="back") {
@@ -71,7 +64,7 @@ int SkillHUD(Player *p, Enemy *e, int &effective_damage) {
             } else if(1<= stoi(choice) && stoi(choice)<=i) {
                 Skill* skill = skills[stoi(choice)-1];
                 if (skill->owned) {
-                    skill->execute_skill(p,e,effective_damage);
+                    skill->execute_skill(p,e,effective_damage,msg);
                     return 1;
                 }
             }
@@ -112,9 +105,16 @@ int player_turn(Player *p, Enemy *enemy) {
             effective_damage=ceil((double)effective_damage*p->totalCritDmg());
         };
     } else if(choice=="2" || choice=="skill") {
-        int skill_choice = SkillHUD(p,enemy,effective_damage);
+        string msg;
+        int skill_choice = SkillHUD(p,enemy,effective_damage, msg);
         if (skill_choice == 0) {
             return 3;
+        }
+        else if (skill_choice == 1) {
+            ClearScreen();
+            combatHUD(enemy,p);
+            cout << endl << msg << endl;
+            SleepMs(SLEEP);
         }
     } else if(choice=="3" || choice=="run") {
         ClearScreen();
@@ -440,7 +440,7 @@ void explore(Player *p) {
         try {
             int dec = stoi(choice);
             if (dec==1) {
-                p->playerStats.maxHealth+=5;
+                p->playerStats.maxHealth+=4;
             } else if (dec==2) {
                 p->playerStats.armor+=1;
             } else if (dec==3) {
@@ -795,6 +795,7 @@ void print_item(Item* item) {
 }
 
 void set_up() {
+    create_skills();
     create_items();
     create_areas();
 }
@@ -1017,5 +1018,5 @@ void add_item(int hp, int arm, int dmg, int c,
 
 void add_skill(std::string name, std::string hash, skillType type, int value, 
             int hpCost, int manaCost, bool owned) {
-    all_skills[hash] = new Skill(name,hash,type,value,hpCost,manaCost,false);
+    all_skills[hash] = new Skill(name,hash,type,value,hpCost,manaCost,owned);
 }

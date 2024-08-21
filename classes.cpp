@@ -991,20 +991,23 @@ skillType _type, int _value, int _hpCost, int _manaCost, bool _owned) {
 
 void Skill::print_info() {
     if(type==skillType::damage) {
-        cout << name << " - " << value <<"🗡️  ";
-        cout << "Cost - ";
-        if (hpCost>0) {
-            cout << hpCost << "❤️  ";
-        }
-        if (manaCost>0) {
-            cout << manaCost << "💧 ";
+        cout << name << " - " << value <<"🗡️    ";
+        if(hpCost > 0 || manaCost > 0) {
+            cout << "spellcost - ";
+            if (hpCost>0) {
+                cout << hpCost << "❤️  ";
+            }
+            if (manaCost>0) {
+                cout << manaCost << "💧 ";
+            }
         }
     } else if(type==skillType::buff) {
     } else if(type==skillType::debuff) {
     }
 }
 
-void Skill::execute_skill(Player *p, Enemy *e, int &effective_damage) {
+void Skill::execute_skill(Player *p, Enemy *e, int &effective_damage, string &msg) {
+    msg = "You cast "+name;
     if(type==skillType::damage) {
         effective_damage=value;
     } else if(type==skillType::buff) {

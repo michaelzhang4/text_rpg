@@ -35,7 +35,7 @@ void create_items() {
     add_item(0,0,1, 0,0.20,0, 0,0,0, 50,35,{0,0,0,0,0,1},"Dagger","dagger",0,nullptr,false);
     add_item(0,0,3, 0,0.0,0, 0,0,0, 100,70,{0,0,0,0,0,1},"Short Sword","short_sword",0,nullptr,false);
     add_item(0,0,4, 0,0.0,0, 0,0,0, 200,140,{15,0,0,0,0,1},"Sword","sword",0,nullptr,false);
-    add_item(0,0,1, 10,0.0,0, 10,0,0, 0,10,{0,0,0,0,0,1},"Knife","knife",0,nullptr,false);
+    add_item(0,0,1, 10,0.0,0, 10,0,0, 0,10,{0,0,0,0,0,1},"Knife","knife",0,all_skills["fireball"],false);
     add_item(1,1,1, 0,0.0,0, 0,0,0, 0,50,{0,0,0,0,0,1},"Goblin Spear","goblin_spear",0,nullptr,false);
     add_item(3,0,2, 0,0.0,0, 0,0,0, 0,40,{0,0,0,0,0,1},"Bow","bow",0,nullptr,false);
     add_item(0,0,5, 0,0.0,0, 0,0,0, 0,50,{0,0,3,0,0,1},"Staff","staff",0,nullptr,false);
@@ -142,7 +142,7 @@ void create_items() {
 }
 
 void create_skills() {
-    add_skill("Fireball","fireball",skillType::damage,5,0,0,false);
+    add_skill("Fireball","fireball",skillType::damage,5,0,0,true);
 }
 
 

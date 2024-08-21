@@ -206,7 +206,7 @@ skillType _type, int _value, int _hpCost, int _manaCost, bool _owned);
     int manaCost;
     bool owned;
     void print_info();
-    void execute_skill(Player *p, Enemy *e, int &effective_damage);
+    void execute_skill(Player *p, Enemy *e, int &effective_damage, std::string &msg);
 };
 
 void set_up();
@@ -215,7 +215,7 @@ void death_screen();
 
 void HUD(Player *p);
 
-int SkillHUD(Player *p, Enemy *e, int &effective_damage);
+int SkillHUD(Player *p, Enemy *e, int &effective_damage, std::string &msg);
 
 int player_turn(Player *p, Enemy *enemy);
 
@@ -294,7 +294,6 @@ void create_areas();
 
 extern std::vector<std::string> item_hashes;
 extern std::vector<Item*> owned_items;
-extern std::vector<Skill*> owned_skills;
 extern std::unordered_map<std::string,Skill*> all_skills;
 extern std::vector<Item*> gamba;
 extern std::unordered_map<std::string,Item*> all_items;
