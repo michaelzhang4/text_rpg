@@ -167,7 +167,7 @@ public:
 
 class Item {
 public:
-    Item(int hp, int arm, int dmg, int c, double cdmg,double rr, int price, int sell_price, req_stats req, std::string name, std::string hash, int type, Skill* skill, bool oo);
+    Item(int hp, int arm, int dmg, int c, double cdmg,double rr, int _pen, int _mana, int _speed, int price, int sell_price, req_stats req, std::string name, std::string hash, int type, Skill* skill, bool oo);
     stats itemStats;
     int price, sell_price, type;
     req_stats req;
@@ -248,7 +248,7 @@ void print_chance();
 void cleanup_memory();
 
 void add_item(int hp, int arm, int dmg, int c,
-            double cdmg, double rr, int price, int sell_price, req_stats h,
+            double cdmg, double rr, int _pen, int _mana, int _speed, int price, int sell_price, req_stats h,
             std::string name,std::string hash, int type, Skill* skill, bool owned);
 
 void add_skill(std::string name, std::string hash, skillType type, int value, 

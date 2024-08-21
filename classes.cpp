@@ -369,13 +369,16 @@ void Event::execute_event(Player *p) {
     cin>>choice;
 }
 
-Item::Item(int hp, int arm, int dmg, int chance, double cdmg, double rr, int p, int sell_p, req_stats required, string n, string h, int t, Skill* _skill, bool oo) {
+Item::Item(int hp, int arm, int dmg, int chance, double cdmg, double rr, int _pen, int _mana, int _speed, int p, int sell_p, req_stats required, string n, string h, int t, Skill* _skill, bool oo) {
     itemStats.health=hp;
     itemStats.maxHealth=hp;
     itemStats.armor=arm;
     itemStats.damage=dmg;
+    itemStats.pen = _pen;
     itemStats.critChance=chance;
     itemStats.critDamage=cdmg;
+    itemStats.mana = _mana;
+    itemStats.speed = _speed;
     itemStats.recoveryRate=rr;
     price=p;
     sell_price=sell_p;
@@ -614,19 +617,19 @@ Player::Player(string s,int hp,int arm, int dmg, int mna, int spd,int lvl, int g
     playerStats.health=hp;
     playerStats.armor=arm;
     playerStats.damage=dmg;
+    playerStats.pen=0;
     playerStats.critChance=10;
     playerStats.critDamage=1.50;
-    playerStats.recoveryRate=0.06;
     playerStats.mana=mna;
-    playerStats.pen=0;
     playerStats.speed=spd;
+    playerStats.recoveryRate=0.06;
     exp=0;
     expLevel=5;
     level=lvl;
     gold=g;
-    none = new Item(0,0,0,0,0,0,0,0
+    none = new Item(0,0,0,0,0,0,0,0,0,0,0
     ,req_stats{0,0,0,0},"None","none",0, nullptr,true);
-    none_armor = new Item(0,0,0,0,0,0,0,0
+    none_armor = new Item(0,0,0,0,0,0,0,0,0,0,0
     ,req_stats{0,0,0,0},"None","none",1, nullptr,true);
     primary_equipped = none;
     secondary_equipped = none;
@@ -733,7 +736,7 @@ void Player::take_damage(Enemy *e, int dmg) {
     if(playerStats.speed==e->enemyStats.speed) {
         rng = rand()%100;
         if(rng<10) {
-            cout << "You dodged their strike!";
+            cout << "\nYou dodged their strike!";
             return;
         }
     } else if(playerStats.speed>e->enemyStats.speed) {
@@ -741,7 +744,7 @@ void Player::take_damage(Enemy *e, int dmg) {
         int spd_diff = playerStats.speed - e->enemyStats.speed;
         int dodge_chance = min(90,10 + spd_diff*10);
         if(rng<dodge_chance) {
-            cout << name << "You dodged their strike!";
+            cout << name << "\nYou dodged their strike!";
             return;
         }
     }
@@ -753,9 +756,9 @@ void Player::take_damage(Enemy *e, int dmg) {
     }
     playerStats.health-=effective_damage;
 
-    cout << e->name << " hit you for " <<
+    cout << "\n" << e->name << " hit you for " <<
     effective_damage << " damage!\n";
-    SleepMs(700);
+    SleepMs(1000);
     if(playerStats.health <=0) {
         if(current_area->color==Color::Red) {
             delete_save();
@@ -917,7 +920,7 @@ int Enemy::take_damage(Player *p, int dmg) {
     cout << "You hit " << name << 
     " for " << effective_dmg << " damage!\n";
     enemyStats.health-=effective_dmg;
-    SleepMs(700);
+    SleepMs(1000);
     if(enemyStats.health <=0 ) {
         cout << "\nYou have slain " << name << endl;
         return 1;

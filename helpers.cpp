@@ -1007,9 +1007,9 @@ Player *create_player(int option) {
 }
 
 void add_item(int hp, int arm, int dmg, int c,
-            double cdmg, double rr, int price, int sell_price, req_stats h,
+            double cdmg, double rr, int _pen, int _mana, int _speed, int price, int sell_price, req_stats h,
             string name,string hash, int type, Skill* skill, bool owned) {
-    all_items[hash] = new Item(hp, arm, dmg, c, cdmg, rr, price,
+    all_items[hash] = new Item(hp, arm, dmg, c, cdmg, rr, _pen, _mana, _speed, price,
     sell_price, h, name, hash, type, skill, owned);
     item_hashes.push_back(hash);
 }

@@ -25,120 +25,120 @@ string previous_encounter = "None";
 Event *previous_event = nullptr;//areas[0]->event_list[5]
 
 void create_items() {
-    // item stats - hp, armor, damage, crit_chance, crit_dmg, recRate 
+    // item stats - hp, armor, damage, crit_chance, crit_dmg, recRate, armor pen, mana, speed 
     // price, sell price, req_stats, name, armor/weapon, owned
     // required stats - hp, armor, damage, level
     // template
-    // add_item(0,0,0,0,0.0,0,0,{0,0,0,1},"","",0,false);
+    // add_item(0,0,0,0,0.0,0,0,0,0,0{0,0,0,1},"","",0,false);
 
     // Goblin Village items
-    add_item(0,0,1,0,0.20,0,50,35,{0,0,0,1},"Dagger","dagger",0,nullptr,false);
-    add_item(0,0,3,0,0.0,0,100,70,{0,0,0,1},"Short Sword","short_sword",0,nullptr,false);
-    add_item(0,0,4,0,0.0,0,200,140,{15,0,0,1},"Sword","sword",0,nullptr,false);
-    add_item(0,0,1,10,0.0,0,0,10,{0,0,0,1},"Knife","knife",0,nullptr,false);
-    add_item(1,1,1,0,0.0,0,0,50,{0,0,0,1},"Goblin Spear","goblin_spear",0,nullptr,false);
-    add_item(3,0,2,0,0.0,0,0,40,{0,0,0,1},"Bow","bow",0,nullptr,false);
-    add_item(0,0,5,0,0.0,0,0,50,{0,0,3,1},"Staff","staff",0,nullptr,false);
-    add_item(0,2,0,0,0,0,0,35,{0,0,0,1},"Fishing Rod","fishing_rod",0,nullptr,false);
-    add_item(5,1,0,0,0.0,0,0,50,{0,0,0,1},"Cloth Armor","cloth_armor",1,nullptr,false);
+    add_item(0,0,1,0,0.20,0,0,0,0,50,35,{0,0,0,1},"Dagger","dagger",0,nullptr,false);
+    add_item(0,0,3,0,0.0,0,0,0,0,100,70,{0,0,0,1},"Short Sword","short_sword",0,nullptr,false);
+    add_item(0,0,4,0,0.0,0,0,0,0,200,140,{15,0,0,1},"Sword","sword",0,nullptr,false);
+    add_item(0,0,1,10,0.0,0,0,0,0,0,10,{0,0,0,1},"Knife","knife",0,nullptr,false);
+    add_item(1,1,1,0,0.0,0,0,0,0,0,50,{0,0,0,1},"Goblin Spear","goblin_spear",0,nullptr,false);
+    add_item(3,0,2,0,0.0,0,0,0,0,0,40,{0,0,0,1},"Bow","bow",0,nullptr,false);
+    add_item(0,0,5,0,0.0,0,0,0,0,0,50,{0,0,3,1},"Staff","staff",0,nullptr,false);
+    add_item(0,2,0,0,0,0,0,0,0,0,35,{0,0,0,1},"Fishing Rod","fishing_rod",0,nullptr,false);
+    add_item(5,1,0,0,0.0,0,0,0,0,0,50,{0,0,0,1},"Cloth Armor","cloth_armor",1,nullptr,false);
 
     // Magical Forest items
-    add_item(5,0,4,10,0.0,0,300,210,{0,3,0,5},"Elven Bow","elven_bow",0,nullptr,false);
-    add_item(0,0,7,0,0.0,0,300,210,{0,0,3,5},"Leaf Spell","leaf_spell",0,nullptr,false);
-    add_item(0,1,6,0,0.0,0,300,210,{25,0,0,5},"Elven Blade","elven_blade",0,nullptr,false);
-    add_item(10,0,4,0,0.0,0,0,100,{20,2,0,8},"Troll Club","troll_club",0,nullptr,false);
-    add_item(2,2,2,0,0,0,0,100,{15,1,1,8},"Orc Spear","orc_spear",0,nullptr,false);
-    add_item(0,0,4,10,0.30,0,0,100,{0,4,0,8},"Ogre Horn","ogre_horn",0,nullptr,false);
-    add_item(0,3,0,0,0,0.05,0,100,{0,0,0,8},"Magical Ring","magical_ring",0,nullptr,false);
-    add_item(-3,-1,9,10,0.15,0,0,100,{0,0,5,8},"Dark Grimoire","dark_grimoire",0,nullptr,false);
-    add_item(5,1,0,10,0.15,0.04,0,25,{15,1,1,8},"Elven Cloth","elven_cloth",1,nullptr,false);
+    add_item(5,0,4,10,0.0,0,0,0,0,300,210,{0,3,0,5},"Elven Bow","elven_bow",0,nullptr,false);
+    add_item(0,0,7,0,0.0,0,0,0,0,300,210,{0,0,3,5},"Leaf Spell","leaf_spell",0,nullptr,false);
+    add_item(0,1,6,0,0.0,0,0,0,0,300,210,{25,0,0,5},"Elven Blade","elven_blade",0,nullptr,false);
+    add_item(10,0,4,0,0.0,0,0,0,0,0,100,{20,2,0,8},"Troll Club","troll_club",0,nullptr,false);
+    add_item(2,2,2,0,0,0,0,0,0,0,100,{15,1,1,8},"Orc Spear","orc_spear",0,nullptr,false);
+    add_item(0,0,4,10,0.30,0,0,0,0,0,100,{0,4,0,8},"Ogre Horn","ogre_horn",0,nullptr,false);
+    add_item(0,3,0,0,0,0.05,0,0,0,0,100,{0,0,0,8},"Magical Ring","magical_ring",0,nullptr,false);
+    add_item(-3,-1,9,10,0.15,0,0,0,0,0,100,{0,0,5,8},"Dark Grimoire","dark_grimoire",0,nullptr,false);
+    add_item(5,1,0,10,0.15,0.04,0,0,0,0,25,{15,1,1,8},"Elven Cloth","elven_cloth",1,nullptr,false);
 
     //Rocky Mountains items
-    add_item(0,0,5,0,0.0,0,250,210,{25,0,0,4},"Steel Pickaxe","steel_pickaxe",0,nullptr,false);
-    add_item(0,0,7,0,0.0,0,400,280,{30,0,0,5},"Emerald Pickaxe","emerald_pickaxe",0,nullptr,false);
-    add_item(0,0,9,0,0.0,0,600,420,{35,0,0,6},"Ruby Pickaxe","ruby_pickaxe",0,nullptr,false);
-    add_item(0,0,11,0,0.0,0,1000,420,{40,0,0,7},"Diamond Pickaxe","diamond_pickaxe",0,nullptr,false);
-    add_item(0,5,0,0,0.0,0,0,150,{30,0,0,5},"Wooden Shield","wooden_shield",0,nullptr,false);
-    add_item(0,0,5,20,0.40,0,0,150,{0,5,0,10},"Emerald Dagger","emerald_dagger",0,nullptr,false);
-    add_item(0,0,6,20,0.40,0,0,150,{0,6,0,10},"Ruby Dagger","ruby_dagger",0,nullptr,false);
-    add_item(0,0,7,20,0.40,0,0,150,{0,7,0,10},"Diamond Dagger","diamond_dagger",0,nullptr,false);
-    add_item(0,0,10,5,0.10,0,0,150,{0,0,6,10},"Rock Spell","rock_spell",0,nullptr,false);
-    add_item(0,0,12,0,0.20,0,0,150,{0,0,7,10},"Earth Staff","earth_staff",0,nullptr,false);
-    add_item(0,0,11,10,0,0,0,150,{0,0,6,10},"Gem Spell","gem_spell",0,nullptr,false);
-    add_item(20,5,0,0,0.0,0,0,150,{0,0,0,10},"Earthen Cover","earthern_cover",1,nullptr,false);
+    add_item(0,0,5,0,0.0,0,0,0,0,250,210,{25,0,0,4},"Steel Pickaxe","steel_pickaxe",0,nullptr,false);
+    add_item(0,0,7,0,0.0,0,0,0,0,400,280,{30,0,0,5},"Emerald Pickaxe","emerald_pickaxe",0,nullptr,false);
+    add_item(0,0,9,0,0.0,0,0,0,0,600,420,{35,0,0,6},"Ruby Pickaxe","ruby_pickaxe",0,nullptr,false);
+    add_item(0,0,11,0,0.0,0,0,0,0,1000,420,{40,0,0,7},"Diamond Pickaxe","diamond_pickaxe",0,nullptr,false);
+    add_item(0,5,0,0,0.0,0,0,0,0,0,150,{30,0,0,5},"Wooden Shield","wooden_shield",0,nullptr,false);
+    add_item(0,0,5,20,0.40,0,0,0,0,0,150,{0,5,0,10},"Emerald Dagger","emerald_dagger",0,nullptr,false);
+    add_item(0,0,6,20,0.40,0,0,0,0,0,150,{0,6,0,10},"Ruby Dagger","ruby_dagger",0,nullptr,false);
+    add_item(0,0,7,20,0.40,0,0,0,0,0,150,{0,7,0,10},"Diamond Dagger","diamond_dagger",0,nullptr,false);
+    add_item(0,0,10,5,0.10,0,0,0,0,0,150,{0,0,6,10},"Rock Spell","rock_spell",0,nullptr,false);
+    add_item(0,0,12,0,0.20,0,0,0,0,0,150,{0,0,7,10},"Earth Staff","earth_staff",0,nullptr,false);
+    add_item(0,0,11,10,0,0,0,0,0,0,150,{0,0,6,10},"Gem Spell","gem_spell",0,nullptr,false);
+    add_item(20,5,0,0,0.0,0,0,0,0,0,150,{0,0,0,10},"Earthen Cover","earthern_cover",1,nullptr,false);
 
     //Searing Desert items
-    add_item(0,0,15,0,0.0,0,0,200,{50,0,0,15},"Scimitar","scimitar",0,nullptr,false);
-    add_item(0,10,0,0,0.0,0,0,200,{50,0,0,15},"Sand Shield","sand_shield",0,nullptr,false);
-    add_item(0,0,0,0,0.0,0.20,0,200,{0,0,0,15},"Water","water",0,nullptr,false);
-    add_item(10,0,0,15,0.60,0.0,0,200,{0,8,0,15},"Sand Sheathe","sand_sheathe",0,nullptr,false);
-    add_item(-5,0,12,10,0.50,0,0,200,{0,8,0,15},"Poisoned Dagger","poisoned_dagger",0,nullptr,false);
-    add_item(0,0,16,5,0.20,0,0,200,{0,0,9,15},"Sandstorm Spell","sandstorm_spell",0,nullptr,false);
-    add_item(0,0,15,10,0.10,0,0,200,{0,0,9,15},"Sand Grimoire","sand_grimoire",0,nullptr,false);
-    add_item(0,0,14,5,0.30,0,0,200,{0,0,9,15},"Sand Staff","sand_staff",0,nullptr,false);
-    add_item(20,0,2,15,0.60,0,0,50,{0,8,0,15},"Sun Amulet","sun_amulet",0,nullptr,false);
-    add_item(30,2,6,0,0,0.06,0,200,{0,0,9,15},"Mirage Cloak","mirage_cloak",1,nullptr,false);
-    add_item(10,6,6,0,0.0,0.06,0,200,{50,0,0,15},"Desert Armor","desert_armor",1,nullptr,false);
+    add_item(0,0,15,0,0.0,0,0,0,0,0,200,{50,0,0,15},"Scimitar","scimitar",0,nullptr,false);
+    add_item(0,10,0,0,0.0,0,0,0,0,0,200,{50,0,0,15},"Sand Shield","sand_shield",0,nullptr,false);
+    add_item(0,0,0,0,0.0,0.20,0,0,0,0,200,{0,0,0,15},"Water","water",0,nullptr,false);
+    add_item(10,0,0,15,0.60,0.0,0,0,0,0,200,{0,8,0,15},"Sand Sheathe","sand_sheathe",0,nullptr,false);
+    add_item(-5,0,12,10,0.50,0,0,0,0,0,200,{0,8,0,15},"Poisoned Dagger","poisoned_dagger",0,nullptr,false);
+    add_item(0,0,16,5,0.20,0,0,0,0,0,200,{0,0,9,15},"Sandstorm Spell","sandstorm_spell",0,nullptr,false);
+    add_item(0,0,15,10,0.10,0,0,0,0,0,200,{0,0,9,15},"Sand Grimoire","sand_grimoire",0,nullptr,false);
+    add_item(0,0,14,5,0.30,0,0,0,0,0,200,{0,0,9,15},"Sand Staff","sand_staff",0,nullptr,false);
+    add_item(20,0,2,15,0.60,0,0,0,0,0,50,{0,8,0,15},"Sun Amulet","sun_amulet",0,nullptr,false);
+    add_item(30,2,6,0,0,0.06,0,0,0,0,200,{0,0,9,15},"Mirage Cloak","mirage_cloak",1,nullptr,false);
+    add_item(10,6,6,0,0.0,0.06,0,0,0,0,200,{50,0,0,15},"Desert Armor","desert_armor",1,nullptr,false);
 
     // Frozen Tundra items
-    add_item(0,0,22,0,0.0,0,0,300,{75,0,0,18},"Frozen Club","frozen_club",0,nullptr,false);
-    add_item(0,0,25,0,0.0,0,0,500,{80,0,0,18},"Frost Sword","frost_sword",0,nullptr,false);
-    add_item(0,0,10,20,0.40,0,0,250,{0,14,0,18},"Ice Claw","ice_claw",0,nullptr,false);
-    add_item(0,0,7,18,0.30,0,2500,1750,{0,14,0,18},"Ice Dagger","ice_dagger",0,nullptr,false);
-    add_item(0,1,20,0,0.0,0,2500,1750,{75,0,0,18},"Ice Blade","ice_blade",0,nullptr,false);
-    add_item(0,0,7,20,0.70,0,0,250,{0,14,0,18},"Frost Dagger","frost_dagger",0,nullptr,false);
-    add_item(0,18,0,0,0.0,0,2700,1400,{80,0,0,18},"Ice Shield","ice_shield",0,nullptr,false);
-    add_item(0,3,23,10,0.0,0.05,0,250,{0,0,14,18},"Frozen Amulet","frozen_amulet",0,nullptr,false);
-    add_item(0,0,24,20,0,0,3000,1400,{0,0,14,18},"Ice Crystal","ice_crystal",0,nullptr,false);
-    add_item(0,0,25,0,0.40,0,0,300,{0,0,14,18},"Avalanche Spell","avalanche_spell",0,nullptr,false);
-    add_item(40,0,4,10,0.20,0.09,0,300,{0,0,14,18},"Frost Cloak","frost_cloak",1,nullptr,false);
-    add_item(9,9,9,9,0.09,0.09,0,400,{75,0,0,18},"Dragon Scale Armor","dragon_scale_armor",1,nullptr,false);
-    add_item(25,0,5,20,0.40,0,0,400,{0,14,0,18},"Ice Cloth","ice_cloth",1,nullptr,false);
+    add_item(0,0,22,0,0.0,0,0,0,0,0,300,{75,0,0,18},"Frozen Club","frozen_club",0,nullptr,false);
+    add_item(0,0,25,0,0.0,0,0,0,0,0,500,{80,0,0,18},"Frost Sword","frost_sword",0,nullptr,false);
+    add_item(0,0,10,20,0.40,0,0,0,0,0,250,{0,14,0,18},"Ice Claw","ice_claw",0,nullptr,false);
+    add_item(0,0,7,18,0.30,0,0,0,0,2500,1750,{0,14,0,18},"Ice Dagger","ice_dagger",0,nullptr,false);
+    add_item(0,1,20,0,0.0,0,0,0,0,2500,1750,{75,0,0,18},"Ice Blade","ice_blade",0,nullptr,false);
+    add_item(0,0,7,20,0.70,0,0,0,0,0,250,{0,14,0,18},"Frost Dagger","frost_dagger",0,nullptr,false);
+    add_item(0,18,0,0,0.0,0,0,0,0,2700,1400,{80,0,0,18},"Ice Shield","ice_shield",0,nullptr,false);
+    add_item(0,3,23,10,0.0,0.05,0,0,0,0,250,{0,0,14,18},"Frozen Amulet","frozen_amulet",0,nullptr,false);
+    add_item(0,0,24,20,0,0,0,0,0,3000,1400,{0,0,14,18},"Ice Crystal","ice_crystal",0,nullptr,false);
+    add_item(0,0,25,0,0.40,0,0,0,0,0,300,{0,0,14,18},"Avalanche Spell","avalanche_spell",0,nullptr,false);
+    add_item(40,0,4,10,0.20,0.09,0,0,0,0,300,{0,0,14,18},"Frost Cloak","frost_cloak",1,nullptr,false);
+    add_item(9,9,9,9,0.09,0.09,0,0,0,0,400,{75,0,0,18},"Dragon Scale Armor","dragon_scale_armor",1,nullptr,false);
+    add_item(25,0,5,20,0.40,0,0,0,0,0,400,{0,14,0,18},"Ice Cloth","ice_cloth",1,nullptr,false);
 
     // Atlantis items
-    add_item(0,0,-5,0,0.0,0.12,4000,2800,{0,0,0,20},"Magic Bubble","magic_bubble",0,nullptr,false);
-    add_item(0,0,-5,0,0.40,0.12,4000,2800,{0,0,0,20},"Fish Scales","fish_scales",0,nullptr,false);
-    add_item(0,4,20,0,0.40,0.06,150,100,{80,0,0,20},"Trident","trident",0,nullptr,false);
-    add_item(0,8,10,20,0.40,0.06,150,100,{80,0,0,20},"Net","net",0,nullptr,false);
-    add_item(0,2,22,0,0.40,0.06,200,150,{80,0,0,20},"Depths Blade","depths_blade",0,nullptr,false);
-    add_item(0,0,24,10,0.40,0.06,200,150,{80,0,0,22},"Abyssal Sword","abyssal_sword",0,nullptr,false);
-    add_item(0,0,23,20,0.40,0.06,200,150,{0,18,0,22},"Abyssal Dagger","abyssal_dagger",0,nullptr,false);
-    add_item(0,0,23,0,0.40,0.06,200,150,{0,0,18,22},"Abyssal Orb","abyssal_orb",0,nullptr,false);
-    add_item(0,0,7,25,0.70,0.06,200,150,{0,16,0,20},"Serpent Fang","serpent_fang",0,nullptr,false);
-    add_item(0,0,9,20,0.70,0.06,200,150,{0,16,0,20},"Depths Dagger","depths_dagger",0,nullptr,false);
-    add_item(20,0,11,10,0.70,0.06,200,150,{0,16,0,20},"Depths Bow","depths_bow",0,nullptr,false);
-    add_item(0,4,20,10,0.10,0.06,0,250,{0,0,16,20},"Whirlpool Spell","whirlpool_spell",0,nullptr,false);
-    add_item(0,4,21,20,0,0.06,0,250,{0,0,16,20},"Tsunami Spell","tsunami_spell",0,nullptr,false);
-    add_item(0,0,27,0,0,0.06,0,250,{0,0,16,20},"Water Staff","water_spell",0,nullptr,false);
-    add_item(0,4,22,0,0,0.06,0,300,{0,0,16,20},"Shark Tooth Necklace","shark_tooth",0,nullptr,false);
-    add_item(0,16,2,0,0,0.06,0,400,{80,0,0,20},"Leviathan Scale Shield","leviathan_scale",0,nullptr,false);
-    add_item(15,8,2,10,0.40,0.24,0,500,{20,2,2,20},"Poseidon's Chariot","poseidons_chariot",1,nullptr,false);
+    add_item(0,0,-5,0,0.0,0.12,0,0,0,4000,2800,{0,0,0,20},"Magic Bubble","magic_bubble",0,nullptr,false);
+    add_item(0,0,-5,0,0.40,0.12,0,0,0,4000,2800,{0,0,0,20},"Fish Scales","fish_scales",0,nullptr,false);
+    add_item(0,4,20,0,0.40,0.06,0,0,0,150,100,{80,0,0,20},"Trident","trident",0,nullptr,false);
+    add_item(0,8,10,20,0.40,0.06,0,0,0,150,100,{80,0,0,20},"Net","net",0,nullptr,false);
+    add_item(0,2,22,0,0.40,0.06,0,0,0,200,150,{80,0,0,20},"Depths Blade","depths_blade",0,nullptr,false);
+    add_item(0,0,24,10,0.40,0.06,0,0,0,200,150,{80,0,0,22},"Abyssal Sword","abyssal_sword",0,nullptr,false);
+    add_item(0,0,23,20,0.40,0.06,0,0,0,200,150,{0,18,0,22},"Abyssal Dagger","abyssal_dagger",0,nullptr,false);
+    add_item(0,0,23,0,0.40,0.06,0,0,0,200,150,{0,0,18,22},"Abyssal Orb","abyssal_orb",0,nullptr,false);
+    add_item(0,0,7,25,0.70,0.06,0,0,0,200,150,{0,16,0,20},"Serpent Fang","serpent_fang",0,nullptr,false);
+    add_item(0,0,9,20,0.70,0.06,0,0,0,200,150,{0,16,0,20},"Depths Dagger","depths_dagger",0,nullptr,false);
+    add_item(20,0,11,10,0.70,0.06,0,0,0,200,150,{0,16,0,20},"Depths Bow","depths_bow",0,nullptr,false);
+    add_item(0,4,20,10,0.10,0.06,0,0,0,0,250,{0,0,16,20},"Whirlpool Spell","whirlpool_spell",0,nullptr,false);
+    add_item(0,4,21,20,0,0.06,0,0,0,0,250,{0,0,16,20},"Tsunami Spell","tsunami_spell",0,nullptr,false);
+    add_item(0,0,27,0,0,0.06,0,0,0,0,250,{0,0,16,20},"Water Staff","water_spell",0,nullptr,false);
+    add_item(0,4,22,0,0,0.06,0,0,0,0,300,{0,0,16,20},"Shark Tooth Necklace","shark_tooth",0,nullptr,false);
+    add_item(0,16,2,0,0,0.06,0,0,0,0,400,{80,0,0,20},"Leviathan Scale Shield","leviathan_scale",0,nullptr,false);
+    add_item(15,8,2,10,0.40,0.24,0,0,0,0,500,{20,2,2,20},"Poseidon's Chariot","poseidons_chariot",1,nullptr,false);
 
     // Hell items
-    add_item(0,0,0,10,1.0,0.1,0,0,{30,14,4,25},"Past Memories","past_memories",0,nullptr,false);
-    add_item(6,6,30,26,0.76,0.06,0,0,{30,14,4,25},"Stygian Dagger","stygian_dagger",0,nullptr,false);
-    add_item(16,6,29,26,0.76,0.06,0,0,{30,14,4,25},"Soul Reaver","soul_reaver",0,nullptr,false);
-    add_item(26,6,28,26,0.76,0.06,0,0,{30,14,4,25},"Demon Scythe","demon_scythe",0,nullptr,false);
-    add_item(36,6,27,26,0.76,0.06,0,0,{30,14,4,25},"Cerberus Fang","cerberus_fang",0,nullptr,false);
-    add_item(66,6,29,16,0.56,0.06,0,0,{75,4,4,25},"Demon Sword","demon_sword",0,nullptr,false);
-    add_item(76,6,28,16,0.56,0.06,0,0,{75,4,4,25},"Molten Mace","molten_mace",0,nullptr,false);
-    add_item(86,6,27,16,0.56,0.06,0,0,{75,4,4,25},"Inferno Blade","inferno_blade",0,nullptr,false);
-    add_item(96,6,26,16,0.56,0.06,0,0,{75,4,4,25},"Hellfire Axe","hellfire_axe",0,nullptr,false);
-    add_item(0,26,0,0,0.0,0.06,0,0,{75,4,4,25},"Infernal Shield","infernal_shield",0,nullptr,false);
-    add_item(6,6,36,0,0.0,0.06,0,0,{30,4,14,25},"Netherworld Staff","netherworld_staff",0,nullptr,false);
-    add_item(6,6,26,26,0.16,0.06,0,0,{30,4,14,25},"Eternal Flame","eternal_flame",0,nullptr,false);
-    add_item(16,6,26,16,0.16,0.06,0,0,{30,4,14,25},"Fires of Tartarus","fires_of_tartarus",0,nullptr,false);
-    add_item(26,6,26,6,0.16,0.06,0,0,{30,4,14,25},"Hellfire Spell","hellfire_spell",0,nullptr,false);
-    add_item(66,6,6,6,0.66,0.06,0,0,{100,0,0,25},"Hades Crown","hades_crown",0,nullptr,false);
+    add_item(0,0,0,10,1.0,0.1,0,0,0,0,0,{30,14,4,25},"Past Memories","past_memories",0,nullptr,false);
+    add_item(6,6,30,26,0.76,0.06,0,0,0,0,0,{30,14,4,25},"Stygian Dagger","stygian_dagger",0,nullptr,false);
+    add_item(16,6,29,26,0.76,0.06,0,0,0,0,0,{30,14,4,25},"Soul Reaver","soul_reaver",0,nullptr,false);
+    add_item(26,6,28,26,0.76,0.06,0,0,0,0,0,{30,14,4,25},"Demon Scythe","demon_scythe",0,nullptr,false);
+    add_item(36,6,27,26,0.76,0.06,0,0,0,0,0,{30,14,4,25},"Cerberus Fang","cerberus_fang",0,nullptr,false);
+    add_item(66,6,29,16,0.56,0.06,0,0,0,0,0,{75,4,4,25},"Demon Sword","demon_sword",0,nullptr,false);
+    add_item(76,6,28,16,0.56,0.06,0,0,0,0,0,{75,4,4,25},"Molten Mace","molten_mace",0,nullptr,false);
+    add_item(86,6,27,16,0.56,0.06,0,0,0,0,0,{75,4,4,25},"Inferno Blade","inferno_blade",0,nullptr,false);
+    add_item(96,6,26,16,0.56,0.06,0,0,0,0,0,{75,4,4,25},"Hellfire Axe","hellfire_axe",0,nullptr,false);
+    add_item(0,26,0,0,0.0,0.06,0,0,0,0,0,{75,4,4,25},"Infernal Shield","infernal_shield",0,nullptr,false);
+    add_item(6,6,36,0,0.0,0.06,0,0,0,0,0,{30,4,14,25},"Netherworld Staff","netherworld_staff",0,nullptr,false);
+    add_item(6,6,26,26,0.16,0.06,0,0,0,0,0,{30,4,14,25},"Eternal Flame","eternal_flame",0,nullptr,false);
+    add_item(16,6,26,16,0.16,0.06,0,0,0,0,0,{30,4,14,25},"Fires of Tartarus","fires_of_tartarus",0,nullptr,false);
+    add_item(26,6,26,6,0.16,0.06,0,0,0,0,0,{30,4,14,25},"Hellfire Spell","hellfire_spell",0,nullptr,false);
+    add_item(66,6,6,6,0.66,0.06,0,0,0,0,0,{100,0,0,25},"Hades Crown","hades_crown",0,nullptr,false);
 
     // Chance items
-    add_item(0,0,0,0,0.0,0.35,0,1000,{1,1,1,5},"Healing Ring","healing_ring",0,nullptr,false);
-    add_item(0,0,0,30,0.0,0,0,1000,{0,0,6,7},"Stun Spell","stun_spell",0,nullptr,false);
-    add_item(0,9,-2,0,0.0,0,0,1000,{40,0,0,7},"Night Shield","night_shield",0,nullptr,false);
-    add_item(0,0,7,35,-15.0,0,0,1000,{0,6,0,7},"Night Bow","night_bow",0,nullptr,false);
-    add_item(0,0,14,35,-20.0,0,0,1000,{0,12,0,14},"Bow of Darkness","bow_of_darkness",0,nullptr,false);
-    add_item(0,18,-3,0,0,0,0,1000,{80,0,0,14},"Shield of Darkness","shield_of_darkness",0,nullptr,false);
-    add_item(0,0,28,20,0,0,0,1000,{0,0,14,14},"Umbral Spell","umbral_spell",0,nullptr,false);
+    add_item(0,0,0,0,0.0,0.35,0,0,0,0,1000,{1,1,1,5},"Healing Ring","healing_ring",0,nullptr,false);
+    add_item(0,0,0,30,0.0,0,0,0,0,0,1000,{0,0,6,7},"Stun Spell","stun_spell",0,nullptr,false);
+    add_item(0,9,-2,0,0.0,0,0,0,0,0,1000,{40,0,0,7},"Night Shield","night_shield",0,nullptr,false);
+    add_item(0,0,7,35,-15.0,0,0,0,0,0,1000,{0,6,0,7},"Night Bow","night_bow",0,nullptr,false);
+    add_item(0,0,14,35,-20.0,0,0,0,0,0,1000,{0,12,0,14},"Bow of Darkness","bow_of_darkness",0,nullptr,false);
+    add_item(0,18,-3,0,0,0,0,0,0,0,1000,{80,0,0,14},"Shield of Darkness","shield_of_darkness",0,nullptr,false);
+    add_item(0,0,28,20,0,0,0,0,0,0,1000,{0,0,14,14},"Umbral Spell","umbral_spell",0,nullptr,false);
 }
 
 void create_skills() {
