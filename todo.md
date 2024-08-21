@@ -31,11 +31,22 @@
 
 8. Encrypt save file [DONE]
 
-9. Enemy has weapon []
+9. Skills [DONE]
 
-10. Enemy has skills []
+10. Fill out content []
+    - 1st [DONE]
+    - 2nd [DONE]
+    - 3rd [DONE]
+    - 4th [DONE]
+    - 5th [] > add requirements
+    - 6th [] > add requirements
+    - 7th [] > add requirements
 
-11. Enemy as an AI []
+11. Enemy has weapons []
+
+12. Enemy has skills []
+
+13. Enemy as an AI []
 
 
 # FOR WINDOWS TERMINAL EMOJI SUPPORT

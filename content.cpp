@@ -52,7 +52,7 @@ void create_items() {
     add_item(10,0,6, 0,0.0,0, 0,0,0, 0,100,{0,0,0,0,0,8},"Troll Club","troll_club",0,nullptr,false);
     add_item(2,2,2, 0,0,0, 30,0,0, 0,100,{0,0,0,0,0,8},"Orc Spear","orc_spear",0,nullptr,false);
     add_item(0,0,4, 10,0.30,0, 0,0,1, 0,100,{0,0,0,0,0,8},"Ogre Horn","ogre_horn",0,nullptr,false);
-    add_item(0,3,0, 0,0,0.05, 3,0,0, 0,100,{0,0,0,0,0,8},"Magical Ring","magical_ring",0,nullptr,false);
+    add_item(0,3,0, 10,0.10,0.05, 0,3,0, 0,100,{0,0,0,0,0,8},"Magical Ring","magical_ring",0,nullptr,false);
     add_item(-3,-1,0, 0,0,0, 0,0,0, 0,100,{0,0,0,1,0,8},"Dark Grimoire","dark_grimoire",0,all_skills["dark_magic"],false);
     add_item(5,1,0, 10,0.10,0.04, 0,0,0, 0,50,{10+(HPPERLVL*1),1,1,0,0,8},"Elven Cloth","elven_cloth",1,nullptr,false);
 
@@ -66,7 +66,7 @@ void create_items() {
     add_item(0,0,5, 15,0.30,0, 0,0,2, 0,150,{0,0,0,0,2,10},"Ruby Dagger","ruby_dagger",0,nullptr,false);
     add_item(0,0,6, 20,0.35,0, 0,0,2, 0,150,{0,0,0,0,3,10},"Diamond Dagger","diamond_dagger",0,nullptr,false);
     add_item(0,0,0, 0,0.0,0, 0,0,0, 0,150,{0,0,0,2,0,10},"Rock Spell","rock_spell",0,all_skills["rock_spell"],false);
-    add_item(5,2,0, 0,0.0,0, 3,0,0, 0,150,{0,0,0,0,0,10},"Earth Staff","earth_staff",0,nullptr,false);
+    add_item(5,2,0, 0,0.0,0, 0,3,0, 0,150,{0,0,0,0,0,10},"Earth Staff","earth_staff",0,nullptr,false);
     add_item(0,0,0, 0,0,0, 0,0,0, 0,150,{0,0,0,2,0,10},"Gem Spell","gem_spell",0,all_skills["gem_spell"],false);
     add_item(12,3,0, 0,0.0,0, 0,0,0, 0,150,{0,0,0,0,0,10},"Earthen Cover","earthern_cover",1,nullptr,false);
 
@@ -76,27 +76,27 @@ void create_items() {
     add_item(0,0,0, 0,0.0,0.20, 0,0,1, 0,200,{0,0,0,0,0,15},"Water","water",0,nullptr,false);
     add_item(10,2,0, 15,0.60,0.0, 0,0,0, 0,200,{0,0,0,0,4,15},"Sand Sheathe","sand_sheathe",0,nullptr,false);
     add_item(-5,0,12, 10,0.40,0, 20,0,2, 0,200,{0,0,0,0,4,15},"Poisoned Dagger","poisoned_dagger",0,nullptr,false);
-    add_item(0,0,16, 5,0.20,0, 0,0,0, 0,200,{0,0,0,0,0,15},"Sandstorm Spell","sandstorm_spell",0,nullptr,false);
-    add_item(0,0,15, 10,0.10,0, 0,0,0, 0,200,{0,0,0,0,0,15},"Sand Grimoire","sand_grimoire",0,nullptr,false);
-    add_item(0,0,14, 5,0.30,0, 0,0,0, 0,200,{0,0,0,0,0,15},"Sand Staff","sand_staff",0,nullptr,false);
+    add_item(0,0,0, 0,0.0,0, 0,0,0, 0,200,{0,0,0,3,0,15},"Sandstorm Spell","sandstorm_spell",0,all_skills["sandstorm_spell"],false);
+    add_item(0,0,0, 0,0.0,0, 0,0,0, 0,200,{0,0,0,0,0,15},"Sand Grimoire","sand_grimoire",0,all_skills["sand_shield"],false);
+    add_item(0,0,0, 20,0.30,0, 0,6,0, 0,200,{0,0,0,0,0,15},"Sand Staff","sand_staff",0,nullptr,false);
     add_item(20,0,2, 15,0.60,0, 0,0,0, 0,50,{0,0,0,0,0,15},"Sun Amulet","sun_amulet",0,nullptr,false);
-    add_item(30,2,6, 0,0,0.06, 0,0,0, 0,200,{0,0,0,0,0,15},"Mirage Cloak","mirage_cloak",1,nullptr,false);
-    add_item(10,6,6, 0,0.0,0.06, 0,0,0, 0,200,{0,0,0,0,0,15},"Desert Armor","desert_armor",1,nullptr,false);
+    add_item(0,2,3, 20,0.30,0.06, 10,0,3, 0,200,{0,0,0,0,0,15},"Mirage Cloak","mirage_cloak",1,nullptr,false);
+    add_item(20,6,6, 0,0.0,0.06, 0,0,0, 0,200,{0,0,0,0,0,15},"Desert Armor","desert_armor",1,nullptr,false);
 
     // Frozen Tundra items
-    add_item(0,0,22, 0,0.0,0, 0,0,0, 0,300,{0,0,0,0,0,18},"Frozen Club","frozen_club",0,nullptr,false);
+    add_item(0,0,22, 0,0.0,0, 10,0,0, 0,300,{0,0,0,0,0,18},"Frozen Club","frozen_club",0,nullptr,false);
     add_item(0,0,25, 0,0.0,0, 0,0,0, 0,500,{0,0,0,0,0,18},"Frost Sword","frost_sword",0,nullptr,false);
-    add_item(0,0,10, 20,0.40,0, 0,0,0, 0,250,{0,0,0,0,0,18},"Ice Claw","ice_claw",0,nullptr,false);
-    add_item(0,0,7, 18,0.30,0, 0,0,0, 2500,1750,{0,0,0,0,0,18},"Ice Dagger","ice_dagger",0,nullptr,false);
-    add_item(0,1,20, 0,0.0,0, 0,0,0, 2500,1750,{0,0,0,0,0,18},"Ice Blade","ice_blade",0,nullptr,false);
-    add_item(0,0,7, 20,0.70,0, 0,0,0, 0,250,{0,0,0,0,0,18},"Frost Dagger","frost_dagger",0,nullptr,false);
+    add_item(0,0,10, 0,0.0,0, 40,0,0, 0,250,{0,0,0,0,0,18},"Ice Claw","ice_claw",0,nullptr,false);
+    add_item(0,0,7, 18,0.30,0, 0,0,4, 2500,1750,{0,0,0,0,0,18},"Ice Dagger","ice_dagger",0,nullptr,false);
+    add_item(0,6,20, 0,0.0,0, 0,0,0, 2500,1750,{0,0,0,0,0,18},"Ice Blade","ice_blade",0,nullptr,false);
+    add_item(0,0,7, 20,0.40,0, 0,0,4, 0,250,{0,0,0,0,0,18},"Frost Dagger","frost_dagger",0,nullptr,false);
     add_item(0,18,0, 0,0.0,0, 0,0,0, 2700,1400,{0,0,0,0,0,18},"Ice Shield","ice_shield",0,nullptr,false);
-    add_item(0,3,23, 10,0.0,0.05, 0,0,0, 0,250,{0,0,0,0,0,18},"Frozen Amulet","frozen_amulet",0,nullptr,false);
-    add_item(0,0,24, 20,0,0, 0,0,0, 3000,1400,{0,0,0,0,0,18},"Ice Crystal","ice_crystal",0,nullptr,false);
-    add_item(0,0,25, 0,0.40,0, 0,0,0, 0,300,{0,0,0,0,0,18},"Avalanche Spell","avalanche_spell",0,nullptr,false);
-    add_item(40,0,4, 10,0.20,0.09, 0,0,0, 0,300,{0,0,0,0,0,18},"Frost Cloak","frost_cloak",1,nullptr,false);
+    add_item(0,0,0, 30,0.60,0.05, 0,10,0, 0,250,{0,0,0,0,0,18},"Frozen Amulet","frozen_amulet",0,nullptr,false);
+    add_item(0,0,0, 0,0.0,0, 0,0,2, 3000,1400,{0,0,0,0,0,18},"Ice Crystal","ice_crystal",0,nullptr,false);
+    add_item(0,0,25, 0,0.40,0, 0,0,0, 0,300,{0,0,0,0,0,18},"Avalanche Spell","avalanche_spell",0,all_skills["ice_shards"],false);
+    add_item(40,4,0, 10,0.20,0.09, 0,10,0, 0,300,{0,0,0,0,0,18},"Frost Cloak","frost_cloak",1,all_skills["frost_storm"],false);
     add_item(9,9,9, 9,0.09,0.09, 0,0,0, 0,400,{0,0,0,0,0,18},"Dragon Scale Armor","dragon_scale_armor",1,nullptr,false);
-    add_item(25,0,5, 20,0.40,0, 0,0,0, 0,400,{0,0,0,0,0,18},"Ice Cloth","ice_cloth",1,nullptr,false);
+    add_item(25,0,5, 20,0.40,0, 0,0,2, 0,400,{0,0,0,0,0,18},"Ice Cloth","ice_cloth",1,nullptr,false);
 
     // Atlantis items
     add_item(0,0,-5, 0,0.0,0.12, 0,0,0, 4000,2800,{0,0,0,0,0,20},"Magic Bubble","magic_bubble",0,nullptr,false);
@@ -118,7 +118,7 @@ void create_items() {
     add_item(15,8,2, 10,0.40,0.24, 0,0,0, 0,500,{10+(2*HPPERLVL),2,2,0,0,20},"Poseidon's Chariot","poseidons_chariot",1,nullptr,false);
 
     // Hell items
-    add_item(0,0,0, 10,1.0,0.1, 0,0,0, 0,0,{0,0,0,0,0,25},"Past Memories","past_memories",0,nullptr,false);
+    add_item(0,0,0, 10,1.0,0.1, 0,0,4, 0,0,{0,0,0,0,0,25},"Past Memories","past_memories",0,nullptr,false);
     add_item(6,6,30, 26,0.76,0.06, 0,0,0, 0,0,{0,0,0,0,0,25},"Stygian Dagger","stygian_dagger",0,nullptr,false);
     add_item(16,6,29, 26,0.76,0.06, 0,0,0, 0,0,{0,0,0,0,0,25},"Soul Reaver","soul_reaver",0,nullptr,false);
     add_item(26,6,28, 26,0.76,0.06, 0,0,0, 0,0,{0,0,0,0,0,25},"Demon Scythe","demon_scythe",0,nullptr,false);
@@ -158,6 +158,10 @@ void create_skills() {
     add_skill("Leaf Spell","leaf_spell",skillType::damage,9, {0,0,0,0, 0,0,0, 0,0,0}, 0,1,true);
     add_skill("Rock Spell","rock_spell",skillType::buff,4, {0,0,2,0, 0,0,0, 0,0,0}, 0,1,true);
     add_skill("Gem Spell","gem_spell",skillType::buff,7, {0,0,0,2, 0,0.10,0, 0,0,0}, 0,1,true);
+    add_skill("Sandstorm Spell","sandstorm_spell",skillType::damage,25, {0,0,0,0, 0,0.0,0, 0,0,0}, 0,2,true);
+    add_skill("Sand Shield","sand_shield",skillType::debuff,6, {0,0,0,2, 0,0.0,0, 0,0,0}, 0,2,true);
+    add_skill("Ice Shards","ice_shards",skillType::damage,40, {0,0,0,0, 0,0.0,0, 0,0,0}, 0,4,true);
+    add_skill("Frost Storm","frost_storm",skillType::debuff,20, {0,0,0,0, 0,0.0,0, 0,0,2}, 0,2,true);
     add_skill("Surge","surge",skillType::buff,0, {0,0,0,0, 0,0,0, 0,0,0}, 0,0,true);
     add_skill("Morph","morph",skillType::debuff,0, {0,0,0,0, 0,0,0, 0,0,0}, 0,0,true);
     add_skill("Fish","fish",skillType::buff,0, {0,0,1,0, 0,0,0, 0,0,0}, 0,1,true);
