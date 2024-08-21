@@ -736,7 +736,7 @@ void Player::take_damage(Enemy *e, int dmg) {
     if(playerStats.speed==e->enemyStats.speed) {
         rng = rand()%100;
         if(rng<10) {
-            cout << "\nYou dodged their strike!";
+            cout << "\nYou dodged their strike!\n";
             return;
         }
     } else if(playerStats.speed>e->enemyStats.speed) {
@@ -744,7 +744,7 @@ void Player::take_damage(Enemy *e, int dmg) {
         int spd_diff = playerStats.speed - e->enemyStats.speed;
         int dodge_chance = min(90,10 + spd_diff*10);
         if(rng<dodge_chance) {
-            cout << name << "\nYou dodged their strike!";
+            cout << "\nYou dodged their strike!\n";
             return;
         }
     }
