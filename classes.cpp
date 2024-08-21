@@ -719,11 +719,24 @@ void Player::display_stats() {
     if(playerStats.health<10) {
         cout << " ";
     }
-    cout << "🛡️  : " << totalArmor() << " ";
+    cout << "🛡️  :";
     #ifdef __linux__
     cout << " ";
     #endif
-    cout<< "  🗡️  : " << damage() << " "
+    cout << totalArmor() << " ";
+    #ifdef __linux__
+    cout << " ";
+    #endif
+
+    #ifdef _WIN32
+    cout << "   🗡️  :";
+    #endif
+
+    #ifdef __linux__
+    cout << "  🗡️  :";
+    cout << " ";
+    #endif
+    cout << damage() << " "
     "\n🎯 : " << totalPen() << "% ";
     if(totalPen()<10) {
         cout << " ";
