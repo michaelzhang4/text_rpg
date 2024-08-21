@@ -260,28 +260,28 @@ void cleared(Player *p, Enemy *e) {
         arena_bosses[0].second=true;
         p->gold+=1000*p->level;
         cout << "Eris dropped " << 1000*p->level << " 🪙\n";
-    } else if(e->name == "Nemesis" && arena_bosses[0].second==false) {
-        arena_bosses[0].second=true;
+    } else if(e->name == "Nemesis" && arena_bosses[1].second==false) {
+        arena_bosses[1].second=true;
         p->gold+=1000*p->level;
         cout << "Nemesis dropped " << 1000*p->level << " 🪙\n";
-    } else if(e->name == "Hecate" && arena_bosses[0].second==false) {
-        arena_bosses[0].second=true;
+    } else if(e->name == "Hecate" && arena_bosses[2].second==false) {
+        arena_bosses[2].second=true;
         p->gold+=1000*p->level;
         cout << "Hecate dropped " << 1000*p->level << " 🪙\n";
-    } else if(e->name == "Erebus" && arena_bosses[0].second==false) {
-        arena_bosses[0].second=true;
+    } else if(e->name == "Erebus" && arena_bosses[3].second==false) {
+        arena_bosses[3].second=true;
         p->gold+=1000*p->level;
         cout << "Erebus dropped " << 1000*p->level << " 🪙\n";
-    } else if(e->name == "Hypnos" && arena_bosses[0].second==false) {
-        arena_bosses[0].second=true;
+    } else if(e->name == "Hypnos" && arena_bosses[4].second==false) {
+        arena_bosses[4].second=true;
         p->gold+=1000*p->level;
         cout << "Hypnos dropped " << 1000*p->level << " 🪙\n";
-    } else if(e->name == "Nyx" && arena_bosses[0].second==false) {
-        arena_bosses[0].second=true;
+    } else if(e->name == "Nyx" && arena_bosses[5].second==false) {
+        arena_bosses[5].second=true;
         p->gold+=1000*p->level;
         cout << "Nyx dropped " << 1000*p->level << " 🪙\n";
-    } else if(e->name == "Thanatos" && arena_bosses[0].second==false) {
-        arena_bosses[0].second=true;
+    } else if(e->name == "Thanatos" && arena_bosses[6].second==false) {
+        arena_bosses[6].second=true;
         p->gold+=1000*p->level;
         cout << "Thanatos dropped " << 1000*p->level << " 🪙\n";
     }
@@ -609,7 +609,7 @@ void cleanup_memory() {
 
 
 void chance(Player *p) {
-    int cost = 100 * p->level;
+    int cost = min(100 * p->level,1000);
     cout << "Pay " << cost << " to try your luck? (y/n)"
     " <Careful this overwrites your save>\n";
     string choice;cin >> choice;lower(choice);

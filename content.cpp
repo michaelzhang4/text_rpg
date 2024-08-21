@@ -5,13 +5,13 @@ using namespace std;
 int rest=0;
 vector<string> item_hashes;
 vector<pair<Enemy*,bool>> arena_bosses = {
-    {new Enemy({stat_roll{10,0,50,0,15,0, 0,0,0,0,0,0},10,0,0,"Eris",{{}}}),false},
-    {new Enemy({stat_roll{50,0,30,0,20,0, 0,0,0,0,0,0},20,0,0,"Nemesis",{{}}}),false},
-    {new Enemy({stat_roll{5,0,50,0,50,0, 0,0,0,0,0,0},30,0,0,"Hecate",{{}}}),false},
-    {new Enemy({stat_roll{100,0,50,0,25,0, 0,0,0,0,0,0},40,0,0,"Erebus",{{}}}),false},
-    {new Enemy({stat_roll{200,0,50,0,30,0, 0,0,0,0,0,0},50,0,0,"Hypnos",{{}}}),false},
-    {new Enemy({stat_roll{400,0,50,0,35,0, 0,0,0,0,0,0},60,0,0,"Nyx",{{}}}),false},
-    {new Enemy({stat_roll{800,0,50,0,40,0, 0,0,0,0,0,0},70,0,0,"Thanatos",{{}}}),false},
+    {new Enemy({stat_roll{10,0,50,0,15,0, 0,0,4,0,0,0},10,0,0,"Eris",{{}}}),false},
+    {new Enemy({stat_roll{25,0,30,0,20,0, 0,0,4,0,0,0},20,0,0,"Nemesis",{{}}}),false},
+    {new Enemy({stat_roll{5,0,50,0,50,0, 10,0,14,0,10,0},30,0,0,"Hecate",{{}}}),false},
+    {new Enemy({stat_roll{100,0,50,0,25,0, 20,0,14,0,20,0},40,0,0,"Erebus",{{}}}),false},
+    {new Enemy({stat_roll{200,0,50,0,30,0, 30,0,14,0,30,0},50,0,0,"Hypnos",{{}}}),false},
+    {new Enemy({stat_roll{400,0,50,0,35,0, 40,0,14,0,40,0},60,0,0,"Nyx",{{}}}),false},
+    {new Enemy({stat_roll{800,0,50,0,40,0, 50,0,14,0,50,0},70,0,0,"Thanatos",{{}}}),false},
 };
 vector<Item*> owned_items;
 vector<Skill*> owned_skills;
