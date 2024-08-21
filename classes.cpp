@@ -720,7 +720,10 @@ void Player::display_stats() {
         cout << " ";
     }
     cout << "🛡️  : " << totalArmor() << " "
-    "   🗡️  : " << damage() << " "
+    #ifdef __linux__
+    cout << " ";
+    #endif
+    "  🗡️  : " << damage() << " "
     "\n🎯 : " << totalPen() << "% ";
     if(totalPen()<10) {
         cout << " ";
