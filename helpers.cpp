@@ -100,10 +100,6 @@ int player_turn(Player *p, Enemy *enemy) {
     int effective_damage=0;
     if(choice=="1" || choice=="attack") {
         effective_damage = p->damage();
-        if (rand()%100 <= p->totalCritChance()) {
-            cout << "You landed a critical strike!\n";
-            effective_damage=ceil((double)effective_damage*p->totalCritDmg());
-        };
     } else if(choice=="2" || choice=="skill") {
         string msg;
         int skill_choice = SkillHUD(p,enemy,effective_damage, msg);
@@ -167,13 +163,9 @@ void enemy_turn(Player *p, Enemy *enemy, int surprised) {
         cout << "\nThe " << enemy->name << " caught you by surprise\n";
         SleepMs(1000);
     }
-    cout << "\n";
     SleepMs(700);
+    cout << "\n";
     int effective_damage = enemy->enemyStats.damage;
-    if (rand()%100 <= enemy->enemyStats.critChance) {
-        cout << enemy->name << " landed a critical strike!\n";
-        effective_damage=ceil((double)effective_damage*p->totalCritDmg());
-    };
     p->take_damage(enemy,effective_damage);
 }
 
@@ -202,7 +194,7 @@ int combat(Player *p, Enemy *arena_enemy) {
             enemy_turn(p,enemy,1);
         }
     } else if (p->totalSpeed() < enemy->enemyStats.speed) {
-        enemy_turn(p,enemy,0);
+        enemy_turn(p,enemy,1);
     }
     while(1) {
         start_combat:

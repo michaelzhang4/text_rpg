@@ -726,7 +726,7 @@ void Player::display_stats() {
     "    ⚡ : " << totalSpeed() << " "
     "   🌿 : " << (int)(recoveryRate()*100.0) << "% ";
     cout << "\nLevel "<< level << " - " << exp << "/"
-    << expLevel << "✨  " << gold << "🪙" << endl;
+    << exp << "✨  " << gold << "🪙" << endl;
 }
 
 void Player::print_name() {
@@ -734,13 +734,13 @@ void Player::print_name() {
 }
 
 void Player::take_damage(Enemy *e, int dmg) {
-    int effective_damage;
+    int effective_damage=dmg;
     int rng;
     if(playerStats.speed==e->enemyStats.speed) {
         rng = rand()%100;
         if(rng<10) {
             cout << "You dodged their strike!\n";
-            SleepMs(1000);
+            SleepMs(SLEEP);
             return;
         }
     } else if(playerStats.speed>e->enemyStats.speed) {
@@ -749,10 +749,14 @@ void Player::take_damage(Enemy *e, int dmg) {
         int dodge_chance = min(90,10 + spd_diff*10);
         if(rng<dodge_chance) {
             cout << "You dodged their strike!\n";
-            SleepMs(1000);
+            SleepMs(SLEEP);
             return;
         }
     }
+    if (rand()%100 <= e->enemyStats.critChance) {
+        cout << e->name << " landed a critical strike!\n";
+        effective_damage=ceil((double)effective_damage*e->enemyStats.critDamage);
+    };
     int removed_armor = ceil(totalArmor()*((double)e->enemyStats.pen/100));
     int effective_armor = max(0,totalArmor() - removed_armor);
     if(effective_armor>= dmg) {
@@ -906,6 +910,7 @@ int Enemy::take_damage(Player *p, int dmg) {
         rng = rand()%100;
         if(rng<10) {
             cout << name << " dodged your strike!\n";
+            SleepMs(SLEEP);
             return 0;
         }
     } else if(p->playerStats.speed<enemyStats.speed) {
@@ -914,9 +919,14 @@ int Enemy::take_damage(Player *p, int dmg) {
         int dodge_chance = min(90,10 + spd_diff*10);
         if(rng<dodge_chance) {
             cout << name << " dodged your strike!\n";
+            SleepMs(SLEEP);
             return 0;
         }
     }
+    if (rand()%100 <= p->totalCritChance()) {
+        cout << "You landed a critical strike!\n";
+        effective_dmg=ceil((double)effective_dmg*p->totalCritDmg());
+    };
     int removed_armor = ceil(enemyStats.armor*(double)p->totalPen()/100);
     int effective_armor = max(0,enemyStats.armor - removed_armor);
     if(effective_armor >= dmg) {
