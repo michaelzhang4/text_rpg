@@ -34,12 +34,12 @@ void create_items() {
     // Goblin Village items
     add_item(0,0,1, 0,0.20,0, 0,0,0, 50,35,{0,0,0,0,0,1},"Dagger","dagger",0,nullptr,false);
     add_item(0,0,3, 0,0.0,0, 0,0,0, 100,70,{0,0,0,0,0,1},"Short Sword","short_sword",0,nullptr,false);
-    add_item(0,0,4, 0,0.0,0, 0,0,0, 200,140,{15,0,0,0,0,1},"Sword","sword",0,nullptr,false);
-    add_item(0,0,1, 10,0.0,0, 10,0,0, 0,10,{0,0,0,0,0,1},"Knife","knife",0,all_skills["fireball"],false);
+    add_item(0,0,4, 0,0.0,0, 0,0,0, 200,140,{14,0,0,0,0,1},"Sword","sword",0,nullptr,false);
+    add_item(0,0,1, 10,0.0,0, 0,0,0, 0,10,{0,0,0,0,0,1},"Knife","knife",0,all_skills["surge"],false);
     add_item(1,1,1, 0,0.0,0, 0,0,0, 0,50,{0,0,0,0,0,1},"Goblin Spear","goblin_spear",0,nullptr,false);
     add_item(3,0,2, 0,0.0,0, 0,0,0, 0,40,{0,0,0,0,0,1},"Bow","bow",0,nullptr,false);
     add_item(0,0,5, 0,0.0,0, 0,0,0, 0,50,{0,0,3,0,0,1},"Staff","staff",0,nullptr,false);
-    add_item(0,2,0, 0,0,0, 0,0,0, 0,35,{0,0,0,0,0,1},"Fishing Rod","fishing_rod",0,nullptr,false);
+    add_item(0,2,0, 0,0,0, 0,0,0, 0,35,{0,0,0,0,0,1},"Fishing Rod","fishing_rod",0,all_skills["fireball"],false);
     add_item(5,1,0, 0,0.0,0, 0,0,0, 0,50,{0,0,0,0,0,1},"Cloth Armor","cloth_armor",1,nullptr,false);
 
     // Magical Forest items
@@ -142,7 +142,16 @@ void create_items() {
 }
 
 void create_skills() {
-    add_skill("Fireball","fireball",skillType::damage,5,0,0,true);
+    /*
+    struct stats {
+        int health,maxHealth,armor,damage,critChance;
+        double critDamage,recoveryRate;
+        int mana, pen, speed;
+    }
+    */
+    add_skill("Fireball","fireball",skillType::damage,5, {0,0,0,0, 0,0,0, 0,0,0}, 0,0,true);
+    add_skill("Surge","surge",skillType::buff,5, {0,0,10,2, 3,4,5, 0,4,5}, 2,1,true);
+    add_skill("Morph","morph",skillType::debuff,5, {3,4,10,2, 5,3,2, 4,9,7}, 30,30,true);
 }
 
 
@@ -164,12 +173,12 @@ void create_areas() {
             // base mana, var mana, base spd, var spd, base pen, var pen
             // level, exp drop, gold drop, name
             // drops(percentage share, item*)
-            {stat_roll{4,0,0,0,1,0, 0,0,10,0,0,0},1,3,5,"Goblin Thief",{{25,all_items["knife"]},{12.5,all_items["dagger"]}}},
-            {stat_roll{6,0,2,0,1,0, 0,0,10,0,0,0},2,4,10,"Goblin Peon",{{12.5,all_items["goblin_spear"]}}},
-            {stat_roll{8,0,1,0,2,0, 0,0,10,0,0,0},3,5,15,"Goblin Hunter",{{12.5,all_items["bow"]}}},
-            {stat_roll{8,0,0,0,3,0, 0,0,10,0,0,0},3,5,15,"Goblin Mage",{{12.5,all_items["staff"]}}},
-            {stat_roll{12,0,2,0,2,0, 0,0,10,0,0,0},4,7,20,"Goblin Warrior",{{12.5,all_items["sword"]}}},
-            {stat_roll{15,0,3,0,4,0, 0,0,10,0,0,0},5,20,50,"Goblin Chieftain <BOSS>",{{100,all_items["cloth_armor"]}}},
+            {stat_roll{4,0,0,0,1,0, 0,0,0,0,0,0},1,3,5,"Goblin Thief",{{25,all_items["knife"]},{12.5,all_items["dagger"]}}},
+            {stat_roll{6,0,2,0,1,0, 0,0,0,0,0,0},2,4,10,"Goblin Peon",{{12.5,all_items["goblin_spear"]}}},
+            {stat_roll{8,0,1,0,2,0, 0,0,0,0,0,0},3,5,15,"Goblin Hunter",{{12.5,all_items["bow"]}}},
+            {stat_roll{8,0,0,0,3,0, 0,0,0,0,0,0},3,5,15,"Goblin Mage",{{12.5,all_items["staff"]}}},
+            {stat_roll{12,0,2,0,2,0, 0,0,0,0,0,0},4,7,20,"Goblin Warrior",{{12.5,all_items["sword"]}}},
+            {stat_roll{15,0,3,0,4,0, 0,0,0,0,0,0},5,20,50,"Goblin Chieftain <BOSS>",{{100,all_items["cloth_armor"]}}},
         },
         {
             {stat_roll{11,11,2,0,5,0, 0,0,0,0,0,0},6,20,30,"Orc",{{10,all_items["orc_spear"]},{2,all_items["magical_ring"]}}},

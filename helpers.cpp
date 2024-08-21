@@ -63,13 +63,16 @@ int SkillHUD(Player *p, Enemy *e, int &effective_damage, string &msg) {
                 return 0;
             } else if(1<= stoi(choice) && stoi(choice)<=i) {
                 Skill* skill = skills[stoi(choice)-1];
-                if (skill->owned) {
+                if (skill->owned && p->playerStats.health > skill->hpCost && p->playerStats.mana >= skill->manaCost) {
                     skill->execute_skill(p,e,effective_damage,msg);
                     return 1;
+                } else {
+                    cout << "You can't cast this!" << endl;
+                    SleepMs(SLEEP);
                 }
             }
         } catch (...) {
-            cout << "Enter a valid input...";
+            cout << "Enter a valid input...\n";
             SleepMs(SLEEP);
         }
     }
@@ -1008,7 +1011,7 @@ void add_item(int hp, int arm, int dmg, int c,
     item_hashes.push_back(hash);
 }
 
-void add_skill(std::string name, std::string hash, skillType type, int value, 
+void add_skill(std::string name, std::string hash, skillType type, int value, stats values, 
             int hpCost, int manaCost, bool owned) {
-    all_skills[hash] = new Skill(name,hash,type,value,hpCost,manaCost,owned);
+    all_skills[hash] = new Skill(name,hash,type,value,values,hpCost,manaCost,owned);
 }

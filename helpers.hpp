@@ -197,10 +197,11 @@ private:
 class Skill {
 public:
     Skill(std::string _name, std::string _hash,
-skillType _type, int _value, int _hpCost, int _manaCost, bool _owned);
+skillType _type, int _value, stats values, int _hpCost, int _manaCost, bool _owned);
     std::string name;
     std::string hash;
     skillType type;
+    stats values;
     int value;
     int hpCost;
     int manaCost;
@@ -251,7 +252,7 @@ void add_item(int hp, int arm, int dmg, int c,
             double cdmg, double rr, int _pen, int _mana, int _speed, int price, int sell_price, req_stats h,
             std::string name,std::string hash, int type, Skill* skill, bool owned);
 
-void add_skill(std::string name, std::string hash, skillType type, int value, 
+void add_skill(std::string name, std::string hash, skillType type, int value, stats values, 
             int hpCost, int manaCost, bool owned);
 
 void title(Player *p);

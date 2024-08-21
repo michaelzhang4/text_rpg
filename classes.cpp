@@ -406,6 +406,11 @@ void Item::inspect_item(Player *p, int from_shop) {
                 cout << name << " - Armor" << endl;
             }
         }
+        if(!skill) {
+            cout << "<No skill>" << endl;
+        } else {
+            skill->print_info();   
+        }
         if(itemStats.damage!=0) {
             cout << "🗡️  :" << itemStats.damage << " ";
         }
@@ -413,25 +418,25 @@ void Item::inspect_item(Player *p, int from_shop) {
             cout << "🛡️  :" << itemStats.armor << " ";
         }
         if(itemStats.health!=0) {
-            cout << "❤️  : " << itemStats.health << " ";
+            cout << "❤️  :" << itemStats.health << " ";
         }
         if(itemStats.pen!=0) {
-            cout << "🎯 : " << itemStats.pen << " ";
+            cout << "🎯 :" << itemStats.pen << " ";
         }
         if(itemStats.critChance!=0) {
-            cout << "💥 : " << itemStats.critChance << "%  ";
+            cout << "💥 :" << itemStats.critChance << "%  ";
         }
         if(itemStats.critDamage!=0) {
-            cout << "🔥 : " << itemStats.critDamage << "x ";
+            cout << "🔥 :" << itemStats.critDamage << "x ";
         }
         if(itemStats.mana!=0) {
-            cout << "💧 : " << itemStats.mana << " ";
+            cout << "💧 :" << itemStats.mana << " ";
         }
         if(itemStats.speed!=0) {
-            cout << "⚡ : " << itemStats.speed << " ";
+            cout << "⚡ :" << itemStats.speed << " ";
         }
         if(itemStats.recoveryRate!=0) {
-            cout << "🌿 : " << itemStats.recoveryRate << "x ";
+            cout << "🌿 :" << itemStats.recoveryRate << "x ";
         }
         cout << "\nRequirements:\n";
         if(req.hp>0) {
@@ -714,8 +719,8 @@ void Player::display_stats() {
     if(playerStats.health<10) {
         cout << " ";
     }
-    cout << "🛡️  :" << totalArmor() << " "
-    "    🗡️  :" << damage() << " "
+    cout << "🛡️  : " << totalArmor() << " "
+    "   🗡️  : " << damage() << " "
     "\n🎯 : " << totalPen() << "% ";
     if(totalPen()<10) {
         cout << " ";
@@ -739,7 +744,7 @@ void Player::take_damage(Enemy *e, int dmg) {
     if(playerStats.speed==e->enemyStats.speed) {
         rng = rand()%100;
         if(rng<10) {
-            cout << "You dodged their strike!\n";
+            cout << "You dodged their attack!\n";
             SleepMs(SLEEP);
             return;
         }
@@ -748,7 +753,7 @@ void Player::take_damage(Enemy *e, int dmg) {
         int spd_diff = playerStats.speed - e->enemyStats.speed;
         int dodge_chance = min(90,10 + spd_diff*10);
         if(rng<dodge_chance) {
-            cout << "You dodged their strike!\n";
+            cout << "You dodged their attack!\n";
             SleepMs(SLEEP);
             return;
         }
@@ -909,7 +914,7 @@ int Enemy::take_damage(Player *p, int dmg) {
     if(p->playerStats.speed==enemyStats.speed) {
         rng = rand()%100;
         if(rng<10) {
-            cout << name << " dodged your strike!\n";
+            cout << name << " dodged your attack!\n";
             SleepMs(SLEEP);
             return 0;
         }
@@ -918,7 +923,7 @@ int Enemy::take_damage(Player *p, int dmg) {
         int spd_diff = enemyStats.speed-p->playerStats.speed;
         int dodge_chance = min(90,10 + spd_diff*10);
         if(rng<dodge_chance) {
-            cout << name << " dodged your strike!\n";
+            cout << name << " dodged your attack!\n";
             SleepMs(SLEEP);
             return 0;
         }
@@ -989,38 +994,164 @@ void Area::print_description() {
 }
 
 Skill::Skill(string _name, string _hash,
-skillType _type, int _value, int _hpCost, int _manaCost, bool _owned) {
+skillType _type, int _value, stats _values, int _hpCost, int _manaCost, bool _owned) {
     name=_name;
     hash=_hash;
     type=_type;
     value=_value;
+    values=_values;
     hpCost=_hpCost;
     manaCost=_manaCost;
     owned=_owned;
 }
 
 void Skill::print_info() {
+    string spell_type;
     if(type==skillType::damage) {
-        cout << name << " - " << value <<"🗡️    ";
-        if(hpCost > 0 || manaCost > 0) {
-            cout << "spellcost - ";
-            if (hpCost>0) {
-                cout << hpCost << "❤️  ";
-            }
-            if (manaCost>0) {
-                cout << manaCost << "💧 ";
-            }
-        }
+        spell_type="(Attack) - "+to_string(value)+"🗡️";
     } else if(type==skillType::buff) {
+        spell_type="(Buff) -";
+        if(values.armor!=0) {
+            spell_type+=" "+to_string(values.armor)+"🛡️  ";
+        }
+        if(values.damage!=0) {
+            spell_type+=" "+to_string(values.damage)+"🗡️  ";
+        }
+        if(values.pen!=0) {
+            spell_type+=" "+to_string(values.pen)+"%🎯 ";
+        }
+        if(values.critChance!=0) {
+            spell_type+=" "+to_string(values.critChance)+"%💥 ";
+        }
+        if(values.critDamage!=0) {
+            string str = to_string(values.critDamage);
+            size_t dotPos = str.find('.');
+            if (dotPos != std::string::npos) {
+                str = str.substr(0, dotPos + 3);  // +3 to include two decimal places and the dot
+            }
+            spell_type+=" "+str+"x🔥 ";
+        }
+        if(values.mana!=0) {
+            spell_type+=" "+to_string(values.mana)+"💧 ";
+        }
+        if(values.speed!=0) {
+            spell_type+=" "+to_string(values.speed)+"⚡ ";
+        }
     } else if(type==skillType::debuff) {
+        spell_type="(Debuff) -";
+        if(values.armor!=0) {
+            spell_type+=" "+to_string(values.armor)+"🛡️  ";
+        }
+        if(values.damage!=0) {
+            spell_type+=" "+to_string(values.damage)+"🗡️  ";
+        }
+        if(values.pen!=0) {
+            spell_type+=" "+to_string(values.pen)+"%🎯 ";
+        }
+        if(values.critChance!=0) {
+            spell_type+=" "+to_string(values.critChance)+"%💥 ";
+        }
+        if(values.critDamage!=0) {
+            string str = to_string(values.critDamage);
+            size_t dotPos = str.find('.');
+            if (dotPos != std::string::npos) {
+                str = str.substr(0, dotPos + 3);  // +3 to include two decimal places and the dot
+            }
+            spell_type+=" "+str+"x🔥 ";
+        }
+        if(values.mana!=0) {
+            spell_type+=" "+to_string(values.mana)+"💧 ";
+        }
+        if(values.speed!=0) {
+            spell_type+=" "+to_string(values.speed)+"⚡ ";
+        }
     }
+    cout << "<" << name << "> " << spell_type << "\nSkill Cost - " << hpCost << "❤️  "
+    << manaCost << "💧 " << endl;
 }
 
 void Skill::execute_skill(Player *p, Enemy *e, int &effective_damage, string &msg) {
-    msg = "You cast "+name;
+    msg = "You cast "+name+"!";
+    p->playerStats.health-=hpCost;
+    p->playerStats.mana-=manaCost;
     if(type==skillType::damage) {
         effective_damage=value;
     } else if(type==skillType::buff) {
+        if(values.health!=0) {
+            p->playerStats.health+=values.health;
+            if(p->playerStats.health>p->playerStats.maxHealth) {
+                p->playerStats.health=p->playerStats.maxHealth;
+            }
+        }
+        if(values.armor!=0) {
+            p->playerStats.armor+=values.armor;
+        }
+        if(values.damage!=0) {
+            p->playerStats.damage+=values.damage;
+        }
+        if(values.pen!=0) {
+            p->playerStats.pen+=values.pen;
+        }
+        if(values.critChance!=0) {
+            p->playerStats.critChance+=values.critChance;
+        }
+        if(values.critDamage!=0) {
+            p->playerStats.critDamage+=values.critDamage;
+        }
+        if(values.mana!=0) {
+            p->playerStats.mana+=values.mana;
+        }
+        if(values.speed!=0) {
+            p->playerStats.speed+=values.speed;
+        }
     } else if(type==skillType::debuff) {
+        if(values.health!=0) {
+            e->enemyStats.health-=values.health;
+            if(e->enemyStats.health>p->playerStats.maxHealth) {
+                e->enemyStats.health=p->playerStats.maxHealth;
+            }
+        }
+        if(values.armor!=0) {
+            e->enemyStats.armor-=values.armor;
+            if(e->enemyStats.armor<0) {
+                e->enemyStats.armor=0;
+            }
+        }
+        if(values.damage!=0) {
+            e->enemyStats.damage-=values.damage;
+            if(e->enemyStats.damage<0) {
+                e->enemyStats.damage=0;
+            }
+        }
+        if(values.pen!=0) {
+            e->enemyStats.pen-=values.pen;
+            if(e->enemyStats.pen<0) {
+                e->enemyStats.pen=0;
+            }
+        }
+        if(values.critChance!=0) {
+            e->enemyStats.critChance-=values.critChance;
+            if(e->enemyStats.critChance<0) {
+                e->enemyStats.critChance=0;
+            }
+        }
+        if(values.critDamage!=0) {
+            e->enemyStats.critDamage-=values.critDamage;
+            if(e->enemyStats.critDamage<0) {
+                e->enemyStats.critDamage=0;
+            }
+        }
+        if(values.mana!=0) {
+            e->enemyStats.mana-=values.mana;
+            if(e->enemyStats.mana<0) {
+                e->enemyStats.mana=0;
+            }
+        }
+        if(values.speed!=0) {
+            e->enemyStats.speed-=values.speed;
+            if(e->enemyStats.speed<0) {
+                e->enemyStats.speed=0;
+            }
+        }
     }
 }
