@@ -731,7 +731,7 @@ void Player::display_stats() {
     "    ⚡ : " << totalSpeed() << " "
     "   🌿 : " << (int)(recoveryRate()*100.0) << "% ";
     cout << "\nLevel "<< level << " - " << exp << "/"
-    << exp << "✨  " << gold << "🪙" << endl;
+    << expLevel << "✨  " << gold << "🪙" << endl;
 }
 
 void Player::print_name() {
