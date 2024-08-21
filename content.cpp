@@ -38,7 +38,7 @@ void create_items() {
     add_item(0,0,1, 0,0,0, 0,0,2, 50,35,{0,0,0,0,0,1},"Dagger","dagger",0,nullptr,false);
     add_item(0,0,2, 0,0,0, 0,0,1, 100,70,{0,0,0,0,0,1},"Short Sword","short_sword",0,nullptr,false);
     add_item(0,0,4, 0,0.0,0, 0,0,0, 200,50,{10+(HPPERLVL*1),0,0,0,0,1},"Sword","sword",0,nullptr,false);
-    add_item(0,0,1, 0,0.2,0, 0,0,1, 0,10,{0,0,0,0,0,1},"Knife","knife",0,all_skills["gem_spell"],false);
+    add_item(0,0,1, 0,0.2,0, 0,0,1, 0,10,{0,0,0,0,0,1},"Knife","knife",0, nullptr,false);
     add_item(1,1,1, 0,0.0,0, 20,0,0, 0,50,{0,0,0,0,0,1},"Goblin Spear","goblin_spear",0,nullptr,false);
     add_item(3,0,2, 0,0.0,0, 10,0,0, 0,40,{0,0,0,0,0,1},"Bow","bow",0,nullptr,false);
     add_item(0,0,3, 0,0.0,0, 0,2,0, 0,50,{0,0,0,0,0,1},"Staff","staff",0,nullptr,false);
@@ -137,8 +137,8 @@ void create_items() {
     // Chance items
     add_item(0,0,0, 0,0.0,0.35, 0,14,0, 0,1000,{0,0,0,0,0,0},"Healing Ring","healing_ring",0,all_skills["heal"],false);
     add_item(0,0,0, 30,0.0,0,0, 0,14, 0,1000,{0,0,0,0,0,0},"Stun Spell","stun_spell",0,all_skills["stun"],false);
-    add_item(8,9,4, 14,0.14,0.14, 14,14,3, 0,1000,{0,0,0,0,0,0},"Night Shield","night_shield",0,nullptr,false);
-    add_item(0,0,7, 35,0.14,0.14, 14,14,3, 0,1000,{0,0,0,0,0,0},"Night Bow","night_bow",0,nullptr,false);
+    add_item(8,9,4, 14,0.14,0.14, 14,14,3, 0,1000,{0,0,0,0,0,0},"Night Shield","night_shield",0,all_skills["umbral_surge"],false);
+    add_item(0,0,7, 35,0.14,0.14, 14,14,3, 0,1000,{0,0,0,0,0,0},"Night Bow","night_bow",0,all_skills["umbral_curse"],false);
     add_item(0,0,14, 14,0.14,0.14, 14,14,4, 0,1000,{0,0,0,0,0,0},"Bow of Darkness","bow_of_darkness",0,nullptr,false);
     add_item(0,18,0, 14,0.14,0.14, 14,14,4, 0,1000,{0,0,0,0,0,0},"Shield of Darkness","shield_of_darkness",0,nullptr,false);
     add_item(0,0,0, 20,0,0, 0,14,0, 0,1000,{0,0,0,0,0,0},"Umbral Spell","umbral_spell",0,all_skills["umbral_spell"],false);
@@ -168,9 +168,11 @@ void create_skills() {
     add_skill("Flame of Tartarus","flame_of_tartarus",skillType::debuff,66, {0,0,6,0, 0,0.0,0, 0,0,0}, 0,10,true);
     add_skill("Hellfire","hellfire",skillType::damage,100, {0,0,0,0, 0,0.0,0, 0,0,0}, 0,10,true);
     add_skill("Umbral Spell","umbral_spell",skillType::damage,44, {0,0,0,0, 0,0.0,0, 0,0,0}, 0,7,true);
+    add_skill("Umbral Surge","umbral_surge",skillType::buff,14, {7,0,0,0, 7,0.70,0, 0,7,0}, 0,7,true);
+    add_skill("Umbral Curse","umbral_curse",skillType::debuff,14, {0,0,7,7, 0,0.0,0, 0,0,0}, 0,7,true);
     add_skill("Surge","surge",skillType::buff,0, {0,0,0,0, 0,0,0, 0,0,0}, 0,0,true);
-    add_skill("Heal","heal",skillType::buff,0, {20,0,0,0, 0,0,0, 0,0,0}, 0,14,true);
-    add_skill("Stun","stun",skillType::debuff,0, {0,0,2,6, 0,0,0, 0,0,0}, 0,14,true);
+    add_skill("Heal","heal",skillType::buff,0, {50,0,0,0, 0,0,0, 0,0,0}, 0,4,true);
+    add_skill("Stun","stun",skillType::debuff,0, {0,0,20,20, 0,0,0, 0,0,0}, 0,4,true);
     add_skill("Morph","morph",skillType::debuff,0, {0,0,0,0, 0,0,0, 0,0,0}, 0,0,true);
     add_skill("Fish","fish",skillType::buff,0, {0,0,1,0, 0,0,0, 0,0,0}, 0,1,true);
 }
