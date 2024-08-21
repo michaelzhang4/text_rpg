@@ -25,7 +25,10 @@ string previous_encounter = "None";
 Event *previous_event = nullptr;//areas[0]->event_list[5]
 
 void create_items() {
-    // item stats - hp, armor, damage, crit_chance, crit_dmg, recRate, armor pen, mana, speed 
+    // item stats - hp, armor, damage,
+    // crit_chance, crit_dmg, recRate,
+    // armor pen, mana, speed
+
     // price, sell price, req_stats, name, armor/weapon, owned
     // required stats - hp, armor, damage, mana, speed, level
     // template
@@ -34,17 +37,17 @@ void create_items() {
     // Goblin Village items
     add_item(0,0,1, 0,0.20,0, 0,0,0, 50,35,{0,0,0,0,0,1},"Dagger","dagger",0,nullptr,false);
     add_item(0,0,3, 0,0.0,0, 0,0,0, 100,70,{0,0,0,0,0,1},"Short Sword","short_sword",0,nullptr,false);
-    add_item(0,0,4, 0,0.0,0, 0,0,0, 200,140,{14,0,0,0,0,1},"Sword","sword",0,nullptr,false);
-    add_item(0,0,1, 10,0.0,0, 0,0,0, 0,10,{0,0,0,0,0,1},"Knife","knife",0,all_skills["surge"],false);
+    add_item(0,0,4, 0,0.0,0, 0,0,0, 200,50,{14,0,0,0,0,1},"Sword","sword",0,nullptr,false);
+    add_item(0,0,1, 10,0.0,0, 0,0,0, 0,10,{0,0,0,0,0,1},"Knife","knife",0,nullptr,false);
     add_item(1,1,1, 0,0.0,0, 0,0,0, 0,50,{0,0,0,0,0,1},"Goblin Spear","goblin_spear",0,nullptr,false);
     add_item(3,0,2, 0,0.0,0, 0,0,0, 0,40,{0,0,0,0,0,1},"Bow","bow",0,nullptr,false);
-    add_item(0,0,5, 0,0.0,0, 0,0,0, 0,50,{0,0,3,0,0,1},"Staff","staff",0,nullptr,false);
-    add_item(0,2,0, 0,0,0, 0,0,0, 0,35,{0,0,0,0,0,1},"Fishing Rod","fishing_rod",0,all_skills["fireball"],false);
+    add_item(0,0,3, 0,0.0,0, 0,3,0, 0,50,{0,0,0,0,0,1},"Staff","staff",0,nullptr,false);
+    add_item(0,1,0, 0,0,0, 0,0,0, 0,35,{0,0,0,0,0,1},"Fishing Rod","fishing_rod",0,all_skills["fish"],false);
     add_item(5,1,0, 0,0.0,0, 0,0,0, 0,50,{0,0,0,0,0,1},"Cloth Armor","cloth_armor",1,nullptr,false);
 
     // Magical Forest items
     add_item(5,0,4, 10,0.0,0, 0,0,0, 300,210,{0,3,0,0,0,5},"Elven Bow","elven_bow",0,nullptr,false);
-    add_item(0,0,7, 0,0.0,0, 0,0,0, 300,210,{0,0,3,0,0,5},"Leaf Spell","leaf_spell",0,nullptr,false);
+    add_item(0,0,1, 0,0.0,0, 0,0,0, 300,210,{0,0,3,0,0,5},"Leaf Spell","leaf_spell",0,all_skills["leaf_spell"],false);
     add_item(0,1,6, 0,0.0,0, 0,0,0, 300,210,{25,0,0,0,0,5},"Elven Blade","elven_blade",0,nullptr,false);
     add_item(10,0,4, 0,0.0,0, 0,0,0, 0,100,{20,2,0,0,0,8},"Troll Club","troll_club",0,nullptr,false);
     add_item(2,2,2, 0,0,0, 0,0,0, 0,100,{15,1,1,0,0,8},"Orc Spear","orc_spear",0,nullptr,false);
@@ -144,14 +147,17 @@ void create_items() {
 void create_skills() {
     /*
     struct stats {
-        int health,maxHealth,armor,damage,critChance;
-        double critDamage,recoveryRate;
+        int health,maxHealth,armor,damage,
+        critChance,critDamage,recoveryRate;
         int mana, pen, speed;
+        COSTS HP, MANA
     }
     */
     add_skill("Fireball","fireball",skillType::damage,5, {0,0,0,0, 0,0,0, 0,0,0}, 0,0,true);
-    add_skill("Surge","surge",skillType::buff,5, {0,0,10,2, 3,4,5, 0,4,5}, 2,1,true);
-    add_skill("Morph","morph",skillType::debuff,5, {3,4,10,2, 5,3,2, 4,9,7}, 30,30,true);
+    add_skill("Leaf Spell","leaf_spell",skillType::damage,5, {0,0,0,0, 0,0,0, 0,0,0}, 0,0,true);
+    add_skill("Surge","surge",skillType::buff,0, {0,0,0,0, 0,0,0, 0,0,0}, 0,0,true);
+    add_skill("Morph","morph",skillType::debuff,0, {0,0,0,0, 0,0,0, 0,0,0}, 0,0,true);
+    add_skill("Fish","fish",skillType::buff,0, {0,0,1,0, 0,0,0, 0,0,0}, 0,1,true);
 }
 
 
