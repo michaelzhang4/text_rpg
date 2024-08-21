@@ -927,7 +927,7 @@ Enemy::Enemy(enemy_template e) {
 }
 
 int Enemy::take_damage(Player *p, int dmg) {
-    int effective_dmg;
+    int effective_dmg=dmg;
     int rng;
     if(p->playerStats.speed==enemyStats.speed) {
         rng = rand()%100;
