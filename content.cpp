@@ -38,44 +38,44 @@ void create_items() {
     add_item(0,0,1, 0,0,0, 0,0,2, 50,35,{0,0,0,0,0,1},"Dagger","dagger",0,nullptr,false);
     add_item(0,0,2, 0,0,0, 0,0,1, 100,70,{0,0,0,0,0,1},"Short Sword","short_sword",0,nullptr,false);
     add_item(0,0,4, 0,0.0,0, 0,0,0, 200,50,{10+(HPPERLVL*1),0,0,0,0,1},"Sword","sword",0,nullptr,false);
-    add_item(0,0,1, 0,0.2,0, 0,0,1, 0,10,{0,0,0,0,0,1},"Knife","knife",0,nullptr,false);
+    add_item(0,0,1, 0,0.2,0, 0,0,1, 0,10,{0,0,0,0,0,1},"Knife","knife",0,all_skills["gem_spell"],false);
     add_item(1,1,1, 0,0.0,0, 20,0,0, 0,50,{0,0,0,0,0,1},"Goblin Spear","goblin_spear",0,nullptr,false);
-    add_item(0,1,2, 0,0.0,0, 10,0,0, 0,40,{0,0,0,0,0,1},"Bow","bow",0,nullptr,false);
-    add_item(0,0,3, 0,0.0,0, 0,3,0, 0,50,{0,0,0,0,0,1},"Staff","staff",0,nullptr,false);
+    add_item(3,0,2, 0,0.0,0, 10,0,0, 0,40,{0,0,0,0,0,1},"Bow","bow",0,nullptr,false);
+    add_item(0,0,3, 0,0.0,0, 0,2,0, 0,50,{0,0,0,0,0,1},"Staff","staff",0,nullptr,false);
     add_item(0,1,0, 0,0,0, 0,0,0, 0,35,{0,0,0,0,0,1},"Fishing Rod","fishing_rod",0,all_skills["fish"],false);
     add_item(5,1,0, 0,0.0,0, 0,0,0, 0,50,{0,0,0,0,0,1},"Cloth Armor","cloth_armor",1,nullptr,false);
 
     // Magical Forest items
-    add_item(5,0,4, 10,0.0,0, 0,0,0, 300,210,{0,0,0,0,0,5},"Elven Bow","elven_bow",0,nullptr,false);
-    add_item(0,0,1, 0,0.0,0, 0,0,0, 300,210,{0,0,0,0,0,5},"Leaf Spell","leaf_spell",0,all_skills["leaf_spell"],false);
-    add_item(0,1,6, 0,0.0,0, 0,0,0, 300,210,{0,0,0,0,0,5},"Elven Blade","elven_blade",0,nullptr,false);
-    add_item(10,0,4, 0,0.0,0, 0,0,0, 0,100,{0,0,0,0,0,8},"Troll Club","troll_club",0,nullptr,false);
-    add_item(2,2,2, 0,0,0, 0,0,0, 0,100,{0,0,0,0,0,8},"Orc Spear","orc_spear",0,nullptr,false);
-    add_item(0,0,4, 10,0.30,0, 0,0,0, 0,100,{0,0,0,0,0,8},"Ogre Horn","ogre_horn",0,nullptr,false);
-    add_item(0,3,0, 0,0,0.05, 0,0,0, 0,100,{0,0,0,0,0,8},"Magical Ring","magical_ring",0,nullptr,false);
-    add_item(-3,-1,9, 10,0.15,0, 0,0,0, 0,100,{0,0,0,0,0,8},"Dark Grimoire","dark_grimoire",0,nullptr,false);
-    add_item(5,1,0, 10,0.15,0.04, 0,0,0, 0,25,{10+(HPPERLVL*1),1,1,0,0,8},"Elven Cloth","elven_cloth",1,nullptr,false);
+    add_item(6,0,4, 10,0.10,0, 20,0,0, 300,210,{0,0,0,0,0,5},"Elven Bow","elven_bow",0,nullptr,false);
+    add_item(0,0,0, 0,0.0,0, 0,0,0, 300,210,{0,0,0,1,0,5},"Leaf Spell","leaf_spell",0,all_skills["leaf_spell"],false);
+    add_item(0,1,6, 0,0.0,0, 0,0,0, 300,210,{10+(HPPERLVL*2),0,0,0,0,5},"Elven Blade","elven_blade",0,nullptr,false);
+    add_item(10,0,6, 0,0.0,0, 0,0,0, 0,100,{0,0,0,0,0,8},"Troll Club","troll_club",0,nullptr,false);
+    add_item(2,2,2, 0,0,0, 30,0,0, 0,100,{0,0,0,0,0,8},"Orc Spear","orc_spear",0,nullptr,false);
+    add_item(0,0,4, 10,0.30,0, 0,0,1, 0,100,{0,0,0,0,0,8},"Ogre Horn","ogre_horn",0,nullptr,false);
+    add_item(0,3,0, 0,0,0.05, 3,0,0, 0,100,{0,0,0,0,0,8},"Magical Ring","magical_ring",0,nullptr,false);
+    add_item(-3,-1,0, 0,0,0, 0,0,0, 0,100,{0,0,0,1,0,8},"Dark Grimoire","dark_grimoire",0,all_skills["dark_magic"],false);
+    add_item(5,1,0, 10,0.10,0.04, 0,0,0, 0,50,{10+(HPPERLVL*1),1,1,0,0,8},"Elven Cloth","elven_cloth",1,nullptr,false);
 
     //Rocky Mountains items
-    add_item(0,0,5, 0,0.0,0, 0,0,0, 250,210,{0,0,0,0,0,4},"Steel Pickaxe","steel_pickaxe",0,nullptr,false);
-    add_item(0,0,7, 0,0.0,0, 0,0,0, 400,280,{0,0,0,0,0,5},"Emerald Pickaxe","emerald_pickaxe",0,nullptr,false);
-    add_item(0,0,9, 0,0.0,0, 0,0,0, 600,420,{0,0,0,0,0,6},"Ruby Pickaxe","ruby_pickaxe",0,nullptr,false);
-    add_item(0,0,11, 0,0.0,0, 0,0,0, 1000,420,{0,0,0,0,0,7},"Diamond Pickaxe","diamond_pickaxe",0,nullptr,false);
-    add_item(0,5,0, 0,0.0,0, 0,0,0, 0,150,{0,0,0,0,0,5},"Wooden Shield","wooden_shield",0,nullptr,false);
-    add_item(0,0,5, 20,0.40,0, 0,0,0, 0,150,{0,0,0,0,0,10},"Emerald Dagger","emerald_dagger",0,nullptr,false);
-    add_item(0,0,6, 20,0.40,0, 0,0,0, 0,150,{0,0,0,0,0,10},"Ruby Dagger","ruby_dagger",0,nullptr,false);
-    add_item(0,0,7, 20,0.40,0, 0,0,0, 0,150,{0,0,0,0,0,10},"Diamond Dagger","diamond_dagger",0,nullptr,false);
-    add_item(0,0,10, 5,0.10,0, 0,0,0, 0,150,{0,0,0,0,0,10},"Rock Spell","rock_spell",0,nullptr,false);
-    add_item(0,0,12, 0,0.20,0, 0,0,0, 0,150,{0,0,0,0,0,10},"Earth Staff","earth_staff",0,nullptr,false);
-    add_item(0,0,11, 10,0,0, 0,0,0, 0,150,{0,0,0,0,0,10},"Gem Spell","gem_spell",0,nullptr,false);
-    add_item(20,5,0, 0,0.0,0, 0,0,0, 0,150,{0,0,0,0,0,10},"Earthen Cover","earthern_cover",1,nullptr,false);
+    add_item(0,0,5, 0,0.0,0, 0,0,0, 250,210,{10+(HPPERLVL*1),0,0,0,0,4},"Steel Pickaxe","steel_pickaxe",0,nullptr,false);
+    add_item(0,0,7, 0,0.0,0, 0,0,0, 400,280,{10+(HPPERLVL*2),0,0,0,0,5},"Emerald Pickaxe","emerald_pickaxe",0,nullptr,false);
+    add_item(0,0,9, 0,0.0,0, 0,0,0, 600,420,{10+(HPPERLVL*3),0,0,0,0,6},"Ruby Pickaxe","ruby_pickaxe",0,nullptr,false);
+    add_item(0,0,11, 0,0.0,0, 0,0,0, 1000,420,{10+(HPPERLVL*4),0,0,0,0,7},"Diamond Pickaxe","diamond_pickaxe",0,nullptr,false);
+    add_item(0,5,0, 0,0.0,0, 0,0,0, 0,150,{10+(HPPERLVL*2),0,0,0,0,5},"Wooden Shield","wooden_shield",0,nullptr,false);
+    add_item(0,0,4, 10,0.25,0, 0,0,2, 0,150,{0,0,0,0,1,10},"Emerald Dagger","emerald_dagger",0,nullptr,false);
+    add_item(0,0,5, 15,0.30,0, 0,0,2, 0,150,{0,0,0,0,2,10},"Ruby Dagger","ruby_dagger",0,nullptr,false);
+    add_item(0,0,6, 20,0.35,0, 0,0,2, 0,150,{0,0,0,0,3,10},"Diamond Dagger","diamond_dagger",0,nullptr,false);
+    add_item(0,0,0, 0,0.0,0, 0,0,0, 0,150,{0,0,0,2,0,10},"Rock Spell","rock_spell",0,all_skills["rock_spell"],false);
+    add_item(5,2,0, 0,0.0,0, 3,0,0, 0,150,{0,0,0,0,0,10},"Earth Staff","earth_staff",0,nullptr,false);
+    add_item(0,0,0, 0,0,0, 0,0,0, 0,150,{0,0,0,2,0,10},"Gem Spell","gem_spell",0,all_skills["gem_spell"],false);
+    add_item(12,3,0, 0,0.0,0, 0,0,0, 0,150,{0,0,0,0,0,10},"Earthen Cover","earthern_cover",1,nullptr,false);
 
     //Searing Desert items
     add_item(0,0,15, 0,0.0,0, 0,0,0, 0,200,{0,0,0,0,0,15},"Scimitar","scimitar",0,nullptr,false);
-    add_item(0,10,0, 0,0.0,0, 0,0,0, 0,200,{0,0,0,0,0,15},"Sand Shield","sand_shield",0,nullptr,false);
-    add_item(0,0,0, 0,0.0,0.20, 0,0,0, 0,200,{0,0,0,0,0,15},"Water","water",0,nullptr,false);
-    add_item(10,0,0, 15,0.60,0.0, 0,0,0, 0,200,{0,0,0,0,0,15},"Sand Sheathe","sand_sheathe",0,nullptr,false);
-    add_item(-5,0,12, 10,0.50,0, 0,0,0, 0,200,{0,0,0,0,0,15},"Poisoned Dagger","poisoned_dagger",0,nullptr,false);
+    add_item(0,10,0, 0,0.0,0, 0,0,0, 0,200,{10+(HPPERLVL*4),0,0,0,0,15},"Sand Shield","sand_shield",0,nullptr,false);
+    add_item(0,0,0, 0,0.0,0.20, 0,0,1, 0,200,{0,0,0,0,0,15},"Water","water",0,nullptr,false);
+    add_item(10,2,0, 15,0.60,0.0, 0,0,0, 0,200,{0,0,0,0,4,15},"Sand Sheathe","sand_sheathe",0,nullptr,false);
+    add_item(-5,0,12, 10,0.40,0, 20,0,2, 0,200,{0,0,0,0,4,15},"Poisoned Dagger","poisoned_dagger",0,nullptr,false);
     add_item(0,0,16, 5,0.20,0, 0,0,0, 0,200,{0,0,0,0,0,15},"Sandstorm Spell","sandstorm_spell",0,nullptr,false);
     add_item(0,0,15, 10,0.10,0, 0,0,0, 0,200,{0,0,0,0,0,15},"Sand Grimoire","sand_grimoire",0,nullptr,false);
     add_item(0,0,14, 5,0.30,0, 0,0,0, 0,200,{0,0,0,0,0,15},"Sand Staff","sand_staff",0,nullptr,false);
@@ -154,7 +154,10 @@ void create_skills() {
     }
     */
     add_skill("Fireball","fireball",skillType::damage,5, {0,0,0,0, 0,0,0, 0,0,0}, 0,0,true);
-    add_skill("Leaf Spell","leaf_spell",skillType::damage,5, {0,0,0,0, 0,0,0, 0,0,0}, 0,0,true);
+    add_skill("Dark Magic","dark_magic",skillType::damage,14, {0,0,0,0, 0,0,0, 0,0,0}, 0,1,true);
+    add_skill("Leaf Spell","leaf_spell",skillType::damage,9, {0,0,0,0, 0,0,0, 0,0,0}, 0,1,true);
+    add_skill("Rock Spell","rock_spell",skillType::buff,4, {0,0,2,0, 0,0,0, 0,0,0}, 0,1,true);
+    add_skill("Gem Spell","gem_spell",skillType::buff,7, {0,0,0,2, 0,0.10,0, 0,0,0}, 0,1,true);
     add_skill("Surge","surge",skillType::buff,0, {0,0,0,0, 0,0,0, 0,0,0}, 0,0,true);
     add_skill("Morph","morph",skillType::debuff,0, {0,0,0,0, 0,0,0, 0,0,0}, 0,0,true);
     add_skill("Fish","fish",skillType::buff,0, {0,0,1,0, 0,0,0, 0,0,0}, 0,1,true);

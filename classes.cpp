@@ -777,6 +777,8 @@ void Player::take_damage(Enemy *e, int dmg) {
     if (rand()%100 <= e->enemyStats.critChance) {
         cout << e->name << " landed a critical strike!\n";
         effective_damage=ceil((double)effective_damage*e->enemyStats.critDamage);
+        SleepMs(SLEEP);
+
     };
     int removed_armor = ceil(totalArmor()*((double)e->enemyStats.pen/100));
     int effective_armor = max(0,totalArmor() - removed_armor);
@@ -1022,11 +1024,15 @@ skillType _type, int _value, stats _values, int _hpCost, int _manaCost, bool _ow
 }
 
 void Skill::print_info() {
-    string spell_type;
-    if(type==skillType::damage) {
-        spell_type="(Attack) - "+to_string(value)+"🗡️";
-    } else if(type==skillType::buff) {
-        spell_type="(Buff) -";
+    string spell_type="";
+    if(value>0) {
+        spell_type+="(Attack) "+to_string(value)+"🗡️  ";
+    }
+    if(type==skillType::buff) {
+        spell_type+="(Buff) -";
+        if(values.health!=0) {
+            spell_type+=" "+to_string(values.health)+"❤️  ";
+        }
         if(values.armor!=0) {
             spell_type+=" "+to_string(values.armor)+"🛡️  ";
         }
@@ -1054,7 +1060,7 @@ void Skill::print_info() {
             spell_type+=" "+to_string(values.speed)+"⚡ ";
         }
     } else if(type==skillType::debuff) {
-        spell_type="(Debuff) -";
+        spell_type+="(Debuff) -";
         if(values.armor!=0) {
             spell_type+=" "+to_string(values.armor)+"🛡️  ";
         }
@@ -1090,9 +1096,10 @@ void Skill::execute_skill(Player *p, Enemy *e, int &effective_damage, string &ms
     msg = "You cast "+name+"!";
     p->playerStats.health-=hpCost;
     p->playerStats.mana-=manaCost;
-    if(type==skillType::damage) {
+    if(value>0) {
         effective_damage=value;
-    } else if(type==skillType::buff) {
+    }
+    if(type==skillType::buff) {
         if(values.health!=0) {
             p->playerStats.health+=values.health;
             if(p->playerStats.health>p->playerStats.maxHealth) {
