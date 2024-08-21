@@ -63,7 +63,7 @@ int SkillHUD(Player *p, Enemy *e, int &effective_damage, string &msg) {
                 return 0;
             } else if(1<= stoi(choice) && stoi(choice)<=i) {
                 Skill* skill = skills[stoi(choice)-1];
-                if (skill->owned && p->playerStats.health > skill->hpCost && p->playerStats.mana >= skill->manaCost) {
+                if (skill->owned && p->playerStats.health > skill->hpCost && p->totalMana() >= skill->manaCost) {
                     skill->execute_skill(p,e,effective_damage,msg);
                     return 1;
                 } else {
