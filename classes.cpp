@@ -715,9 +715,12 @@ void Player::display_stats() {
         cout << " ";
     }
     cout << "🛡️  :" << totalArmor() << " "
-    "   🗡️  :" << damage() << " "
-    "\n🎯 : " << totalPen() << " "
-    "    💥 : " << totalCritChance() << "% "
+    "    🗡️  :" << damage() << " "
+    "\n🎯 : " << totalPen() << "% ";
+    if(totalPen()<10) {
+        cout << " ";
+    }
+    cout << "  💥 : " << totalCritChance() << "% "
     " 🔥 : " << totalCritDmg() << "x "
     "\n💧 : " << totalMana() << " "
     "    ⚡ : " << totalSpeed() << " "
@@ -736,7 +739,8 @@ void Player::take_damage(Enemy *e, int dmg) {
     if(playerStats.speed==e->enemyStats.speed) {
         rng = rand()%100;
         if(rng<10) {
-            cout << "\nYou dodged their strike!\n";
+            cout << "You dodged their strike!\n";
+            SleepMs(1000);
             return;
         }
     } else if(playerStats.speed>e->enemyStats.speed) {
@@ -744,11 +748,13 @@ void Player::take_damage(Enemy *e, int dmg) {
         int spd_diff = playerStats.speed - e->enemyStats.speed;
         int dodge_chance = min(90,10 + spd_diff*10);
         if(rng<dodge_chance) {
-            cout << "\nYou dodged their strike!\n";
+            cout << "You dodged their strike!\n";
+            SleepMs(1000);
             return;
         }
     }
-    int effective_armor = max(0,totalArmor() - (totalArmor()*e->enemyStats.pen));
+    int removed_armor = ceil(playerStats.armor*((double)e->enemyStats.pen/100));
+    int effective_armor = max(0,playerStats.armor - removed_armor);
     if(effective_armor>= dmg) {
         effective_damage=1;
     } else {
@@ -756,7 +762,7 @@ void Player::take_damage(Enemy *e, int dmg) {
     }
     playerStats.health-=effective_damage;
 
-    cout << "\n" << e->name << " hit you for " <<
+    cout << e->name << " hit you for " <<
     effective_damage << " damage!\n";
     SleepMs(1000);
     if(playerStats.health <=0) {
@@ -899,7 +905,7 @@ int Enemy::take_damage(Player *p, int dmg) {
     if(p->playerStats.speed==enemyStats.speed) {
         rng = rand()%100;
         if(rng<10) {
-            cout << name << " dodged your strike!";
+            cout << name << " dodged your strike!\n";
             return 0;
         }
     } else if(p->playerStats.speed<enemyStats.speed) {
@@ -907,11 +913,12 @@ int Enemy::take_damage(Player *p, int dmg) {
         int spd_diff = enemyStats.speed-p->playerStats.speed;
         int dodge_chance = min(90,10 + spd_diff*10);
         if(rng<dodge_chance) {
-            cout << name << " dodged your strike!";
+            cout << name << " dodged your strike!\n";
             return 0;
         }
     }
-    int effective_armor = max(0,enemyStats.armor - (enemyStats.armor*p->playerStats.pen));
+    int removed_armor = ceil(enemyStats.armor*(double)p->totalPen()/100);
+    int effective_armor = max(0,enemyStats.armor - removed_armor);
     if(effective_armor >= dmg) {
         effective_dmg = 1;
     } else {

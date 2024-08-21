@@ -119,8 +119,9 @@ int player_turn(Player *p, Enemy *enemy) {
     } else if(choice=="3" || choice=="run") {
         ClearScreen();
         combatHUD(enemy,p);
+        cout << "\n";
         p->take_damage(enemy, enemy->enemyStats.damage);
-        cout << "\nYou ran away after taking a hit\n";
+        cout << "\nYou ran away\n";
         SleepMs(SLEEP);
         return 2;
     } else {
@@ -449,12 +450,12 @@ void explore(Player *p) {
             } else if (dec==5) {
                 p->playerStats.speed+=1;
             } else {
-                cout << "\nEnter a valid input";
+                cout << "\nEnter a valid input\n";
                 SleepMs(SLEEP);
                 goto lvl;
             }
         } catch(...){
-            cout << "\nEnter a valid input";
+            cout << "\nEnter a valid input\n";
             SleepMs(SLEEP);
             goto lvl;
         }
@@ -774,7 +775,7 @@ void travel(Player* p) {
                 }
             }
             catch (...) {
-            cout << "Enter a valid input...";
+            cout << "Enter a valid input...\n";
             SleepMs(SLEEP);
             }
         }
