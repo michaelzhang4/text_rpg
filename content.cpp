@@ -99,49 +99,49 @@ void create_items() {
     add_item(25,0,5, 20,0.40,0, 0,0,2, 0,400,{0,0,0,0,0,18},"Ice Cloth","ice_cloth",1,nullptr,false);
 
     // Atlantis items
-    add_item(0,0,-5, 0,0.0,0.12, 0,0,0, 4000,2800,{0,0,0,0,0,20},"Magic Bubble","magic_bubble",0,nullptr,false);
-    add_item(0,0,-5, 0,0.40,0.12, 0,0,0, 4000,2800,{0,0,0,0,0,20},"Fish Scales","fish_scales",0,nullptr,false);
-    add_item(0,4,20, 0,0.40,0.06, 0,0,0, 150,100,{0,0,0,0,0,20},"Trident","trident",0,nullptr,false);
-    add_item(0,8,10, 20,0.40,0.06, 0,0,0, 150,100,{0,0,0,0,0,20},"Net","net",0,nullptr,false);
-    add_item(0,2,22, 0,0.40,0.06, 0,0,0, 200,150,{0,0,0,0,0,20},"Depths Blade","depths_blade",0,nullptr,false);
-    add_item(0,0,24, 10,0.40,0.06, 0,0,0, 200,150,{0,0,0,0,0,22},"Abyssal Sword","abyssal_sword",0,nullptr,false);
-    add_item(0,0,23, 20,0.40,0.06, 0,0,0, 200,150,{0,0,0,0,0,22},"Abyssal Dagger","abyssal_dagger",0,nullptr,false);
-    add_item(0,0,23, 0,0.40,0.06, 0,0,0, 200,150,{0,0,0,0,0,22},"Abyssal Orb","abyssal_orb",0,nullptr,false);
-    add_item(0,0,7, 25,0.70,0.06, 0,0,0, 200,150,{0,0,0,0,0,20},"Serpent Fang","serpent_fang",0,nullptr,false);
-    add_item(0,0,9, 20,0.70,0.06, 0,0,0, 200,150,{0,0,0,0,0,20},"Depths Dagger","depths_dagger",0,nullptr,false);
-    add_item(20,0,11, 10,0.70,0.06, 0,0,0, 200,150,{0,0,0,0,0,20},"Depths Bow","depths_bow",0,nullptr,false);
-    add_item(0,4,20, 10,0.10,0.06, 0,0,0, 0,250,{0,0,0,0,0,20},"Whirlpool Spell","whirlpool_spell",0,nullptr,false);
-    add_item(0,4,21, 20,0,0.06, 0,0,0, 0,250,{0,0,0,0,0,20},"Tsunami Spell","tsunami_spell",0,nullptr,false);
-    add_item(0,0,27, 0,0,0.06, 0,0,0, 0,250,{0,0,0,0,0,20},"Water Staff","water_spell",0,nullptr,false);
-    add_item(0,4,22, 0,0,0.06, 0,0,0, 0,300,{0,0,0,0,0,20},"Shark Tooth Necklace","shark_tooth",0,nullptr,false);
-    add_item(0,16,2, 0,0,0.06, 0,0,0, 0,400,{0,0,0,0,0,20},"Leviathan Scale Shield","leviathan_scale",0,nullptr,false);
-    add_item(15,8,2, 10,0.40,0.24, 0,0,0, 0,500,{10+(2*HPPERLVL),2,2,0,0,20},"Poseidon's Chariot","poseidons_chariot",1,nullptr,false);
+    add_item(0,0,-5, 0,0.0,0.15, 0,0,0, 4000,2800,{0,0,0,0,0,20},"Magic Bubble","magic_bubble",0,nullptr,false);
+    add_item(0,0,-5, 0,0.40,0.15, 0,0,0, 4000,2800,{0,0,0,0,0,20},"Fish Scales","fish_scales",1,nullptr,false);
+    add_item(0,4,20, 0,0.40,0.06, 30,0,0, 150,100,{0,0,0,0,0,20},"Trident","trident",0,nullptr,false);
+    add_item(0,8,10, 20,0.40,0.06, 20,0,0, 150,100,{0,0,0,0,0,20},"Net","net",0,nullptr,false);
+    add_item(0,2,27, 0,0.40,0.06, 0,0,0, 200,150,{0,0,0,0,0,20},"Depths Blade","depths_blade",0,nullptr,false);
+    add_item(0,0,28, 10,0.40,0.06, 0,0,0, 200,150,{0,0,0,0,0,22},"Abyssal Sword","abyssal_sword",0,nullptr,false);
+    add_item(0,0,18, 20,0.40,0.06, 0,0,5, 200,150,{0,0,0,0,0,22},"Abyssal Dagger","abyssal_dagger",0,nullptr,false);
+    add_item(0,0,0, 20,0.40,0.06, 0,20,2, 200,150,{0,0,0,0,0,22},"Abyssal Orb","abyssal_orb",0,nullptr,false);
+    add_item(0,0,12, 25,0.70,0.06, 10,0,5, 200,150,{0,0,0,0,0,20},"Serpent Fang","serpent_fang",0,nullptr,false);
+    add_item(0,0,14, 20,0.40,0.06, 20,0,6, 200,150,{0,0,0,0,0,20},"Depths Dagger","depths_dagger",0,nullptr,false);
+    add_item(20,0,19, 10,0.70,0.06, 35,0,0, 200,150,{0,0,0,0,0,20},"Depths Bow","depths_bow",0,nullptr,false);
+    add_item(0,4,20, 10,0.10,0.06, 0,0,0, 0,250,{0,0,0,0,0,20},"Whirlpool Spell","whirlpool_spell",0,all_skills["whirlpool_spell"],false);
+    add_item(0,4,21, 20,0,0.06, 0,0,0, 0,250,{0,0,0,0,0,20},"Tsunami Spell","tsunami_spell",0,all_skills["tsunami_spell"],false);
+    add_item(0,2,0, 25,0.40,0.06, 0,20,0, 0,250,{0,0,0,0,0,20},"Water Staff","water_staff",0,nullptr,false);
+    add_item(0,0,4, 0,0.25,0.06, 20,18,0, 0,300,{0,0,0,0,0,20},"Shark Tooth Necklace","shark_tooth",0,nullptr,false);
+    add_item(0,26,2, 0,0,0.06, 0,0,0, 0,400,{0,0,0,0,0,20},"Leviathan Scale Shield","leviathan_scale",0,nullptr,false);
+    add_item(15,8,2, 10,0.40,0.24, 10,0,5, 0,500,{10+(2*HPPERLVL),2,2,0,0,20},"Poseidon's Chariot","poseidons_chariot",1,nullptr,false);
 
     // Hell items
     add_item(0,0,0, 10,1.0,0.1, 0,0,4, 0,0,{0,0,0,0,0,25},"Past Memories","past_memories",0,nullptr,false);
-    add_item(6,6,30, 26,0.76,0.06, 0,0,0, 0,0,{0,0,0,0,0,25},"Stygian Dagger","stygian_dagger",0,nullptr,false);
-    add_item(16,6,29, 26,0.76,0.06, 0,0,0, 0,0,{0,0,0,0,0,25},"Soul Reaver","soul_reaver",0,nullptr,false);
-    add_item(26,6,28, 26,0.76,0.06, 0,0,0, 0,0,{0,0,0,0,0,25},"Demon Scythe","demon_scythe",0,nullptr,false);
-    add_item(36,6,27, 26,0.76,0.06, 0,0,0, 0,0,{0,0,0,0,0,25},"Cerberus Fang","cerberus_fang",0,nullptr,false);
-    add_item(66,6,29, 16,0.56,0.06, 0,0,0, 0,0,{0,0,0,0,0,25},"Demon Sword","demon_sword",0,nullptr,false);
-    add_item(76,6,28, 16,0.56,0.06, 0,0,0, 0,0,{0,0,0,0,0,25},"Molten Mace","molten_mace",0,nullptr,false);
-    add_item(86,6,27, 16,0.56,0.06, 0,0,0, 0,0,{0,0,0,0,0,25},"Inferno Blade","inferno_blade",0,nullptr,false);
-    add_item(96,6,26, 16,0.56,0.06, 0,0,0, 0,0,{0,0,0,0,0,25},"Hellfire Axe","hellfire_axe",0,nullptr,false);
-    add_item(0,26,0, 0,0.0,0.06, 0,0,0, 0,0,{0,0,0,0,0,25},"Infernal Shield","infernal_shield",0,nullptr,false);
-    add_item(6,6,36, 0,0.0,0.06, 0,0,0, 0,0,{0,0,0,0,0,25},"Netherworld Staff","netherworld_staff",0,nullptr,false);
-    add_item(6,6,26, 26,0.16,0.06, 0,0,0, 0,0,{0,0,0,0,0,25},"Eternal Flame","eternal_flame",0,nullptr,false);
-    add_item(16,6,26, 16,0.16,0.06, 0,0,0, 0,0,{0,0,0,0,0,25},"Fires of Tartarus","fires_of_tartarus",0,nullptr,false);
-    add_item(26,6,26, 6,0.16,0.06, 0,0,0, 0,0,{0,0,0,0,0,25},"Hellfire Spell","hellfire_spell",0,nullptr,false);
-    add_item(66,6,6, 6,0.66,0.06, 0,0,0, 0,0,{0,0,0,0,0,25},"Hades Crown","hades_crown",0,nullptr,false);
+    add_item(6,6,30, 26,0.76,0.06, 20,0,6, 0,0,{0,0,0,0,0,25},"Stygian Dagger","stygian_dagger",0,nullptr,false);
+    add_item(16,6,29, 26,0.76,0.06, 40,0,6, 0,0,{0,0,0,0,0,25},"Soul Reaver","soul_reaver",0,nullptr,false);
+    add_item(26,6,28, 26,0.76,0.06, 10,0,6, 0,0,{0,0,0,0,0,25},"Demon Scythe","demon_scythe",0,nullptr,false);
+    add_item(36,6,22, 26,0.76,0.06, 30,0,6, 0,0,{0,0,0,0,0,25},"Cerberus Fang","cerberus_fang",0,nullptr,false);
+    add_item(66,6,33, 16,0.56,0.06, 0,0,0, 0,0,{0,0,0,0,0,25},"Demon Sword","demon_sword",0,nullptr,false);
+    add_item(66,6,23, 16,0.56,0.06, 20,0,0, 0,0,{0,0,0,0,0,25},"Molten Mace","molten_mace",0,nullptr,false);
+    add_item(66,16,27, 16,0.56,0.06, 0,0,0, 0,0,{0,0,0,0,0,25},"Inferno Blade","inferno_blade",0,nullptr,false);
+    add_item(66,6,19, 16,0.56,0.06, 30,0,0, 0,0,{0,0,0,0,0,25},"Hellfire Axe","hellfire_axe",0,nullptr,false);
+    add_item(0,36,0, 0,0.0,0.06, 0,0,0, 0,0,{0,0,0,0,0,25},"Infernal Shield","infernal_shield",0,nullptr,false);
+    add_item(6,6,0, 36,0.60,0.06, 20,30,0, 0,0,{0,0,0,0,0,25},"Netherworld Staff","netherworld_staff",0,nullptr,false);
+    add_item(0,0,0, 0,0.0,0.06, 0,0,0, 0,0,{0,0,0,0,0,25},"Eternal Flame","eternal_flame",0,all_skills["eternal_flame"],false);
+    add_item(16,6,26, 16,0.16,0.06, 0,0,0, 0,0,{0,0,0,0,0,25},"Fires of Tartarus","fires_of_tartarus",0,all_skills["flame_of_tartarus"],false);
+    add_item(26,6,26, 6,0.16,0.06, 0,0,0, 0,0,{0,0,0,0,0,25},"Hellfire Spell","hellfire_spell",0,all_skills["hellfire"],false);
+    add_item(66,6,6, 6,0.66,0.06, 6,6,6, 0,0,{0,0,0,0,0,25},"Hades Crown","hades_crown",0,nullptr,false);
 
     // Chance items
-    add_item(0,0,0, 0,0.0,0.35, 0,0,0, 0,1000,{0,0,0,0,0,5},"Healing Ring","healing_ring",0,nullptr,false);
-    add_item(0,0,0, 30,0.0,0,0, 0,0, 0,1000,{0,0,0,0,0,7},"Stun Spell","stun_spell",0,nullptr,false);
-    add_item(0,9,-2, 0,0.0,0,0, 0,0, 0,1000,{0,0,0,0,0,7},"Night Shield","night_shield",0,nullptr,false);
-    add_item(0,0,7, 35,-15.0,0, 0,0,0, 0,1000,{0,0,0,0,0,7},"Night Bow","night_bow",0,nullptr,false);
-    add_item(0,0,14, 35,-20.0,0, 0,0,0, 0,1000,{0,0,0,0,0,14},"Bow of Darkness","bow_of_darkness",0,nullptr,false);
-    add_item(0,18,-3, 0,0,0, 0,0,0, 0,1000,{0,0,0,0,0,14},"Shield of Darkness","shield_of_darkness",0,nullptr,false);
-    add_item(0,0,28, 20,0,0, 0,0,0, 0,1000,{0,0,0,0,0,14},"Umbral Spell","umbral_spell",0,nullptr,false);
+    add_item(0,0,0, 0,0.0,0.35, 0,14,0, 0,1000,{0,0,0,0,0,0},"Healing Ring","healing_ring",0,all_skills["heal"],false);
+    add_item(0,0,0, 30,0.0,0,0, 0,14, 0,1000,{0,0,0,0,0,0},"Stun Spell","stun_spell",0,all_skills["stun"],false);
+    add_item(8,9,4, 14,0.14,0.14, 14,14,3, 0,1000,{0,0,0,0,0,0},"Night Shield","night_shield",0,nullptr,false);
+    add_item(0,0,7, 35,0.14,0.14, 14,14,3, 0,1000,{0,0,0,0,0,0},"Night Bow","night_bow",0,nullptr,false);
+    add_item(0,0,14, 14,0.14,0.14, 14,14,4, 0,1000,{0,0,0,0,0,0},"Bow of Darkness","bow_of_darkness",0,nullptr,false);
+    add_item(0,18,0, 14,0.14,0.14, 14,14,4, 0,1000,{0,0,0,0,0,0},"Shield of Darkness","shield_of_darkness",0,nullptr,false);
+    add_item(0,0,0, 20,0,0, 0,14,0, 0,1000,{0,0,0,0,0,0},"Umbral Spell","umbral_spell",0,all_skills["umbral_spell"],false);
 }
 
 void create_skills() {
@@ -155,14 +155,22 @@ void create_skills() {
     */
     add_skill("Fireball","fireball",skillType::damage,5, {0,0,0,0, 0,0,0, 0,0,0}, 0,0,true);
     add_skill("Dark Magic","dark_magic",skillType::damage,14, {0,0,0,0, 0,0,0, 0,0,0}, 0,1,true);
-    add_skill("Leaf Spell","leaf_spell",skillType::damage,9, {0,0,0,0, 0,0,0, 0,0,0}, 0,1,true);
-    add_skill("Rock Spell","rock_spell",skillType::buff,4, {0,0,2,0, 0,0,0, 0,0,0}, 0,1,true);
-    add_skill("Gem Spell","gem_spell",skillType::buff,7, {0,0,0,2, 0,0.10,0, 0,0,0}, 0,1,true);
+    add_skill("Razor Leaf","leaf_spell",skillType::damage,9, {0,0,0,0, 0,0,0, 0,0,0}, 0,1,true);
+    add_skill("Falling Rocks","rock_spell",skillType::buff,4, {0,0,2,0, 0,0,0, 0,0,0}, 0,1,true);
+    add_skill("Blinding Gem","gem_spell",skillType::buff,7, {0,0,0,2, 0,0.10,0, 0,0,0}, 0,1,true);
     add_skill("Sandstorm Spell","sandstorm_spell",skillType::damage,25, {0,0,0,0, 0,0.0,0, 0,0,0}, 0,2,true);
     add_skill("Sand Shield","sand_shield",skillType::debuff,6, {0,0,0,2, 0,0.0,0, 0,0,0}, 0,2,true);
     add_skill("Ice Shards","ice_shards",skillType::damage,40, {0,0,0,0, 0,0.0,0, 0,0,0}, 0,4,true);
-    add_skill("Frost Storm","frost_storm",skillType::debuff,20, {0,0,0,0, 0,0.0,0, 0,0,2}, 0,2,true);
+    add_skill("Frost Storm","frost_storm",skillType::debuff,20, {0,0,0,0, 0,0.0,0, 0,0,2}, 0,7,true);
+    add_skill("Whirlpool","whirlpool_spell",skillType::buff,40, {0,0,0,0, 0,0.40,0, 0,0,0}, 0,7,true);
+    add_skill("Tsunami","whirlpool_spell",skillType::buff,60, {0,0,0,0, 10,0.0,0, 0,0,0}, 0,7,true);
+    add_skill("Eternal Flame","eternal_flame",skillType::buff,66, {0,0,0,0, 0,0.0,0, 16,0,0}, 0,10,true);
+    add_skill("Flame of Tartarus","flame_of_tartarus",skillType::debuff,66, {0,0,6,0, 0,0.0,0, 0,0,0}, 0,10,true);
+    add_skill("Hellfire","hellfire",skillType::damage,100, {0,0,0,0, 0,0.0,0, 0,0,0}, 0,10,true);
+    add_skill("Umbral Spell","umbral_spell",skillType::damage,44, {0,0,0,0, 0,0.0,0, 0,0,0}, 0,7,true);
     add_skill("Surge","surge",skillType::buff,0, {0,0,0,0, 0,0,0, 0,0,0}, 0,0,true);
+    add_skill("Heal","heal",skillType::buff,0, {20,0,0,0, 0,0,0, 0,0,0}, 0,14,true);
+    add_skill("Stun","stun",skillType::debuff,0, {0,0,2,6, 0,0,0, 0,0,0}, 0,14,true);
     add_skill("Morph","morph",skillType::debuff,0, {0,0,0,0, 0,0,0, 0,0,0}, 0,0,true);
     add_skill("Fish","fish",skillType::buff,0, {0,0,1,0, 0,0,0, 0,0,0}, 0,1,true);
 }
