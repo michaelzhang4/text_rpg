@@ -93,7 +93,7 @@ void combatHUD(Enemy *enemy, Player *player) {
         dodge_chance = min(40,4*player->totalSpeed()-enemy->enemyStats.speed);
     }
     player->display_stats();
-    cout << "Dodge chance: " << dodge_chance << "%\n";
+    cout << "Dodge chance: " << dodge_chance << "%  Magic: " << player->spell_dmg << "\n";
     cout << "\nVS\n\n";
     enemy->display_stats();
 }

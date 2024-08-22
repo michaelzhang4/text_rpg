@@ -406,39 +406,41 @@ void Item::inspect_item(Player *p, int from_shop) {
                 cout << name << " - Armor" << endl;
             }
         }
+        cout << endl;
         if(!skill) {
             cout << "<No skill>" << endl;
         } else {
             skill->print_info();   
         }
+        cout << "\nItem Stats: ";
         if(itemStats.damage!=0) {
-            cout << "🗡️  :" << itemStats.damage << " ";
+            cout << itemStats.damage << "🗡️   ";
         }
         if(itemStats.armor!=0) {
-            cout << "🛡️  :" << itemStats.armor << " ";
+            cout << itemStats.armor << "🛡️   ";
         }
         if(itemStats.health!=0) {
-            cout << "❤️  :" << itemStats.health << " ";
+            cout << itemStats.health << "❤️   ";
         }
         if(itemStats.pen!=0) {
-            cout << "🎯 :" << itemStats.pen << " ";
+            cout << itemStats.pen << "🎯  ";
         }
         if(itemStats.critChance!=0) {
-            cout << "💥 :" << itemStats.critChance << "%  ";
+            cout << itemStats.critChance << "%💥  ";
         }
         if(itemStats.critDamage!=0) {
-            cout << "🔥 :" << itemStats.critDamage << "x ";
+            cout << itemStats.critDamage << "x🔥  ";
         }
         if(itemStats.mana!=0) {
-            cout << "💧 :" << itemStats.mana << " ";
+            cout << itemStats.mana << "💧  ";
         }
         if(itemStats.speed!=0) {
-            cout << "⚡ :" << itemStats.speed << " ";
+            cout << itemStats.speed << "⚡  ";
         }
         if(itemStats.recoveryRate!=0) {
-            cout << "🌿 :" << itemStats.recoveryRate << "x ";
+            cout << itemStats.recoveryRate << "x🌿  ";
         }
-        cout << "\nRequirements:\n";
+        cout << "\n\nRequirements: ";
         if(req.hp>0) {
             cout << req.hp << "❤️  (base) ";
         }
@@ -1013,24 +1015,27 @@ skillType _type, int _value, stats _values, int _hpCost, int _manaCost, bool _ow
 void Skill::print_info() {
     string spell_type="";
     if(value>0) {
-        spell_type+="(Attack) "+to_string(value)+"🗡️  ";
+        if(type==skillType::buff)
+            spell_type+="/ (Attack): "+to_string(value)+"(+*Magic🗡️  ";
+        else
+            spell_type+="/ (Attack) "+to_string(value)+"+Magic🗡️  ";
     }
     if(type==skillType::buff) {
-        spell_type+="(Buff) -";
+        spell_type+="/ (Buff) ";
         if(values.health!=0) {
-            spell_type+=" "+to_string(values.health)+"❤️  ";
+            spell_type+=to_string(values.health)+"+Magic❤️  ";
         }
         if(values.armor!=0) {
-            spell_type+=" "+to_string(values.armor)+"🛡️  ";
+            spell_type+=to_string(values.armor)+"+Magic🛡️  ";
         }
         if(values.damage!=0) {
-            spell_type+=" "+to_string(values.damage)+"🗡️  ";
+            spell_type+=to_string(values.damage)+"+Magic🗡️  ";
         }
         if(values.pen!=0) {
-            spell_type+=" "+to_string(values.pen)+"%🎯 ";
+            spell_type+=to_string(values.pen)+"+Magic%🎯 ";
         }
         if(values.critChance!=0) {
-            spell_type+=" "+to_string(values.critChance)+"%💥 ";
+            spell_type+=to_string(values.critChance)+"+Magic%💥 ";
         }
         if(values.critDamage!=0) {
             string str = to_string(values.critDamage);
@@ -1038,27 +1043,27 @@ void Skill::print_info() {
             if (dotPos != std::string::npos) {
                 str = str.substr(0, dotPos + 3);  // +3 to include two decimal places and the dot
             }
-            spell_type+=" "+str+"x🔥 ";
+            spell_type+=str+"+Magic/100x🔥 ";
         }
         if(values.mana!=0) {
-            spell_type+=" "+to_string(values.mana)+"💧 ";
+            spell_type+=to_string(values.mana)+"+Magic💧 ";
         }
         if(values.speed!=0) {
-            spell_type+=" "+to_string(values.speed)+"⚡ ";
+            spell_type+=to_string(values.speed)+"+Magic⚡ ";
         }
     } else if(type==skillType::debuff) {
-        spell_type+="(Debuff) -";
+        spell_type+="/(Debuff) -";
         if(values.armor!=0) {
-            spell_type+=" "+to_string(values.armor)+"🛡️  ";
+            spell_type+=to_string(values.armor)+"+Magic🛡️  ";
         }
         if(values.damage!=0) {
-            spell_type+=" "+to_string(values.damage)+"🗡️  ";
+            spell_type+=to_string(values.damage)+"+Magic🗡️  ";
         }
         if(values.pen!=0) {
-            spell_type+=" "+to_string(values.pen)+"%🎯 ";
+            spell_type+=to_string(values.pen)+"+Magic%🎯 ";
         }
         if(values.critChance!=0) {
-            spell_type+=" "+to_string(values.critChance)+"%💥 ";
+            spell_type+=to_string(values.critChance)+"+Magic%💥 ";
         }
         if(values.critDamage!=0) {
             string str = to_string(values.critDamage);
@@ -1066,16 +1071,16 @@ void Skill::print_info() {
             if (dotPos != std::string::npos) {
                 str = str.substr(0, dotPos + 3);  // +3 to include two decimal places and the dot
             }
-            spell_type+=" "+str+"x🔥 ";
+            spell_type+=str+"+Magic/100x🔥 ";
         }
         if(values.mana!=0) {
-            spell_type+=" "+to_string(values.mana)+"💧 ";
+            spell_type+=to_string(values.mana)+"+Magic💧 ";
         }
         if(values.speed!=0) {
-            spell_type+=" "+to_string(values.speed)+"⚡ ";
+            spell_type+=to_string(values.speed)+"+Magic⚡ ";
         }
     }
-    cout << "<" << name << "> " << spell_type << "\nSkill Cost - " << hpCost << "❤️  "
+    cout << "Skill: <" << name << "> " << spell_type << "\nSkill Cost: " << hpCost << "❤️    "
     << manaCost << "💧 " << endl;
 }
 
@@ -1111,7 +1116,7 @@ void Skill::execute_skill(Player *p, Enemy *e, int &effective_damage, string &ms
             p->playerStats.critChance+=values.critChance+p->spell_dmg;
         }
         if(values.critDamage!=0) {
-            p->playerStats.critDamage+=values.critDamage+p->spell_dmg;
+            p->playerStats.critDamage+=values.critDamage+((double)p->spell_dmg/100);
         }
         if(values.mana!=0) {
             p->playerStats.mana+=values.mana+p->spell_dmg;
@@ -1151,7 +1156,7 @@ void Skill::execute_skill(Player *p, Enemy *e, int &effective_damage, string &ms
             }
         }
         if(values.critDamage!=0) {
-            e->enemyStats.critDamage-=values.critDamage+p->spell_dmg;
+            e->enemyStats.critDamage-=values.critDamage+((double)p->spell_dmg/100);
             if(e->enemyStats.critDamage<0) {
                 e->enemyStats.critDamage=0;
             }
