@@ -628,6 +628,7 @@ Player::Player(string s,int hp,int arm, int dmg, int mna, int spd,int lvl, int g
     playerStats.mana=mna;
     playerStats.speed=spd;
     playerStats.recoveryRate=0.06;
+    spell_dmg = baseMana();
     exp=0;
     expLevel=5;
     level=lvl;
@@ -757,24 +758,17 @@ void Player::print_name() {
 void Player::take_damage(Enemy *e, int dmg) {
     int effective_damage=dmg;
     int rng;
-    if(playerStats.speed==e->enemyStats.speed) {
+    if(playerStats.speed>e->enemyStats.speed) {
         rng = rand()%100;
-        if(rng<10) {
-            cout << "You dodged their attack!\n";
-            SleepMs(SLEEP);
-            return;
-        }
-    } else if(playerStats.speed>e->enemyStats.speed) {
-        rng = rand()%100;
-        int spd_diff = playerStats.speed - e->enemyStats.speed;
-        int dodge_chance = min(90,10 + spd_diff*10);
+        int spd_diff = totalSpeed() - e->enemyStats.speed;
+        int dodge_chance = min(40,spd_diff*4);
         if(rng<dodge_chance) {
             cout << "You dodged their attack!\n";
             SleepMs(SLEEP);
             return;
         }
     }
-    if (rand()%100 <= e->enemyStats.critChance) {
+    if (rand()%100 < e->enemyStats.critChance) {
         cout << e->name << " landed a critical strike!\n";
         effective_damage=ceil((double)effective_damage*e->enemyStats.critDamage);
         SleepMs(SLEEP);
@@ -929,17 +923,10 @@ Enemy::Enemy(enemy_template e) {
 int Enemy::take_damage(Player *p, int dmg) {
     int effective_dmg=dmg;
     int rng;
-    if(p->playerStats.speed==enemyStats.speed) {
+    if(p->playerStats.speed<enemyStats.speed) {
         rng = rand()%100;
-        if(rng<10) {
-            cout << name << " dodged your attack!\n";
-            SleepMs(SLEEP);
-            return 0;
-        }
-    } else if(p->playerStats.speed<enemyStats.speed) {
-        rng = rand()%100;
-        int spd_diff = enemyStats.speed-p->playerStats.speed;
-        int dodge_chance = min(90,10 + spd_diff*10);
+        int spd_diff = enemyStats.speed-p->totalSpeed();
+        int dodge_chance = min(40,spd_diff*4);
         if(rng<dodge_chance) {
             cout << name << " dodged your attack!\n";
             SleepMs(SLEEP);
@@ -1098,80 +1085,85 @@ void Skill::execute_skill(Player *p, Enemy *e, int &effective_damage, string &ms
     p->playerStats.mana-=manaCost;
     if(value>0) {
         effective_damage=value;
+        if(type==skillType::damage) {
+            effective_damage+=p->spell_dmg*2;
+        } else {
+            effective_damage+=p->spell_dmg;
+        }
     }
     if(type==skillType::buff) {
         if(values.health!=0) {
-            p->playerStats.health+=values.health;
+            p->playerStats.health+=values.health+p->spell_dmg;
             if(p->playerStats.health>p->playerStats.maxHealth) {
                 p->playerStats.health=p->playerStats.maxHealth;
             }
         }
         if(values.armor!=0) {
-            p->playerStats.armor+=values.armor;
+            p->playerStats.armor+=values.armor+p->spell_dmg;
         }
         if(values.damage!=0) {
-            p->playerStats.damage+=values.damage;
+            p->playerStats.damage+=values.damage+p->spell_dmg;
         }
         if(values.pen!=0) {
-            p->playerStats.pen+=values.pen;
+            p->playerStats.pen+=values.pen+p->spell_dmg;
         }
         if(values.critChance!=0) {
-            p->playerStats.critChance+=values.critChance;
+            p->playerStats.critChance+=values.critChance+p->spell_dmg;
         }
         if(values.critDamage!=0) {
-            p->playerStats.critDamage+=values.critDamage;
+            p->playerStats.critDamage+=values.critDamage+p->spell_dmg;
         }
         if(values.mana!=0) {
-            p->playerStats.mana+=values.mana;
+            p->playerStats.mana+=values.mana+p->spell_dmg;
         }
         if(values.speed!=0) {
-            p->playerStats.speed+=values.speed;
+            p->playerStats.speed+=values.speed+p->spell_dmg;
         }
     } else if(type==skillType::debuff) {
         if(values.health!=0) {
-            e->enemyStats.health-=values.health;
+            e->enemyStats.health-=values.health+p->spell_dmg;
             if(e->enemyStats.health>p->playerStats.maxHealth) {
                 e->enemyStats.health=p->playerStats.maxHealth;
             }
         }
         if(values.armor!=0) {
-            e->enemyStats.armor-=values.armor;
+            e->enemyStats.armor-=values.armor+p->spell_dmg;
             if(e->enemyStats.armor<0) {
                 e->enemyStats.armor=0;
             }
         }
         if(values.damage!=0) {
-            e->enemyStats.damage-=values.damage;
+            e->enemyStats.damage-=values.damage+p->spell_dmg;
             if(e->enemyStats.damage<0) {
                 e->enemyStats.damage=0;
             }
         }
         if(values.pen!=0) {
-            e->enemyStats.pen-=values.pen;
+            e->enemyStats.pen-=values.pen+p->spell_dmg;
             if(e->enemyStats.pen<0) {
                 e->enemyStats.pen=0;
             }
         }
         if(values.critChance!=0) {
-            e->enemyStats.critChance-=values.critChance;
+            e->enemyStats.critChance-=values.critChance+p->spell_dmg;
             if(e->enemyStats.critChance<0) {
                 e->enemyStats.critChance=0;
             }
         }
         if(values.critDamage!=0) {
-            e->enemyStats.critDamage-=values.critDamage;
+            e->enemyStats.critDamage-=values.critDamage+p->spell_dmg;
             if(e->enemyStats.critDamage<0) {
                 e->enemyStats.critDamage=0;
             }
         }
         if(values.mana!=0) {
-            e->enemyStats.mana-=values.mana;
+            e->enemyStats.mana-=values.mana+p->spell_dmg;
             if(e->enemyStats.mana<0) {
                 e->enemyStats.mana=0;
             }
         }
         if(values.speed!=0) {
-            e->enemyStats.speed-=values.speed;
+            e->enemyStats.speed-=values.speed+p->spell_dmg;
             if(e->enemyStats.speed<0) {
                 e->enemyStats.speed=0;
             }

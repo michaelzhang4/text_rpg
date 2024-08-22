@@ -110,6 +110,7 @@ public:
     int totalPen();
     int baseSpeed();
     int totalSpeed();
+    int spell_dmg = 0;
     Item* none;
     Item* none_armor;
     void equip(Item* e, int slot);

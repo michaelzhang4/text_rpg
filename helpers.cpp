@@ -88,7 +88,12 @@ void slow_print(string s) {
 }
 
 void combatHUD(Enemy *enemy, Player *player) {
+    int dodge_chance = 0;
+    if(player->totalSpeed()>enemy->enemyStats.speed) {
+        dodge_chance = min(40,4*player->totalSpeed()-enemy->enemyStats.speed);
+    }
     player->display_stats();
+    cout << "Dodge chance: " << dodge_chance << "%\n";
     cout << "\nVS\n\n";
     enemy->display_stats();
 }
@@ -173,6 +178,7 @@ void enemy_turn(Player *p, Enemy *enemy, int surprised) {
 }
 
 int combat(Player *p, Enemy *arena_enemy) {
+    p->spell_dmg=p->baseMana();
     stats before_combat = p->playerStats;
     int decision;
     Enemy *enemy;
@@ -539,11 +545,11 @@ void intro() {
     cout << "🗡️  - Base hit damage\n"
     "🛡️  - Incoming damage reduction (minimum hit is 1)\n"
     "❤️  - Health (When this drops to 0 you die)\n"
-    "🎯 - Armor penetration (how much enemy armor ignored when attacking)\n"
+    "🎯 - Armor penetration (percentage enemy armor ignored when attacking (rounded up))\n"
     "💥 - Critical strike chance (percentage chance to strike harder)\n"
-    "🔥 - Critical strike multiplier (when critically striking damage becomes 🔥 *🗡️  )\n"
-    "💧 - Mana for casting skills\n"
-    "⚡ - Speed (being faster means you strike first and have a chance of dodging enemy attacks)\n"
+    "🔥 - Critical strike multiplier (critical strike damage is 🔥 *🗡️  )\n"
+    "💧 - Mana and skill damage for casting skills (different skills have different multipliers)\n"
+    "⚡ - Speed (who strikes first in combat and being faster gives dodge chance (up to 40%))\n"
     "🌿 - Recovery amount when resting (🌿 *❤️  )\n\n";
     cout << "Enter any key to continue...\n";
     string choice;cin>>choice;
