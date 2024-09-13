@@ -33,14 +33,14 @@
 
 9. Skills [DONE]
 
-10. Fill out content []
+10. Fill out content [DONE]
     - 1st [DONE]
     - 2nd [DONE]
     - 3rd [DONE]
     - 4th [DONE]
-    - 5th [] > add requirements
-    - 6th [] > add requirements
-    - 7th [] > add requirements
+    - 5th [DONE] > add requirements
+    - 6th [DONE] > add requirements
+    - 7th [DONE] > add requirements
 
 11. Enemy has weapons []
 
