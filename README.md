@@ -10,7 +10,7 @@ Requires C++17 or later to compile
 
 ```sh
 # Clone the repository
-git clone https://github.com/michaelzhang4/textrpg.git
+git clone https://github.com/michaelzhang4/text_rpg.git
 
 # Navigate to the project directory
 cd text_rpg
