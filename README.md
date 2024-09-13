@@ -13,7 +13,7 @@ Requires C++17 or later to compile
 git clone https://github.com/michaelzhang4/textrpg.git
 
 # Navigate to the project directory
-cd textrpg
+cd text_rpg
 
 # Run make command
 make
