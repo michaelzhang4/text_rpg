@@ -23,7 +23,8 @@ make
 
 Works on Windows, MacOS and Linux.
 
-![image](https://github.com/user-attachments/assets/29a0854e-3e72-41ba-a1e8-dc8b98a7e599)
+![image](https://github.com/user-attachments/assets/af237bd1-2586-467e-a618-d09e90ac1087)
+
 
 
 
