@@ -23,11 +23,4 @@ make
 
 Works on Windows, MacOS and Linux.
 
-![image](https://github.com/user-attachments/assets/be9616a8-d8d0-408b-8068-6f88e3bcdde3)
-
-
-
-
-
-
-
+![image](https://github.com/user-attachments/assets/5b99320a-b992-4487-a2e5-79d1bbc78feb)
