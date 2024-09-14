@@ -230,7 +230,7 @@ int combat(Player *p, Enemy *arena_enemy) {
             p->playerStats.speed = before_combat.speed;
             p->playerStats.pen = before_combat.pen;
             p->playerStats.damage = before_combat.damage;
-            return decision;
+            return 1;
         // 3 invalid decision
         } else if (decision==3) {
             goto start_combat;
@@ -542,6 +542,7 @@ void delete_save() {
 
 void intro() {
     ClearScreen();
+    #ifdef __linux__
     cout << "🗡️  - Base hit damage\n"
     "🛡️  - Incoming damage reduction (minimum hit is 1)\n"
     "❤️  - Health (When this drops to 0 you die)\n"
@@ -570,6 +571,37 @@ void intro() {
     slow_print("Will you find an escape on the highest floor?\n\n");
     cout << "Enter any key to continue...\n";
     cin >> choice;
+    #endif
+    #ifdef _WIN32
+    cout << "🗡️ - Base hit damage\n"
+    "🛡️ - Incoming damage reduction (minimum hit is 1)\n"
+    "❤️ - Health (When this drops to 0 you die)\n"
+    "🎯 - Armor penetration (percentage enemy armor ignored when attacking (rounded up))\n"
+    "💥 - Critical strike chance (percentage chance to strike harder)\n"
+    "🔥 - Critical strike multiplier (critical strike damage is 🔥 *🗡️)\n"
+    "💧 - Mana and skill damage for casting skills (different skills have different multipliers)\n"
+    "⚡ - Speed (who strikes first in combat and being faster gives dodge chance (up to 40%))\n"
+    "🌿 - Recovery amount when resting (🌿 *❤️)\n\n";
+    cout << "Enter any key to continue...\n";
+    string choice;cin>>choice;
+    ClearScreen();
+    slow_print("You find yourself transported to a strange tower.\n\n");
+    slow_print("Looking up you see a vast number of floors to the top.\n\n");
+    if(areas[6]->unlocked) {
+        slow_print("The judge contemplates your existance in the tower\n\n");
+    } else if(areas[5]->unlocked) {
+        slow_print("You hear sounds from the ocean, it sounds like a party?\n\n");
+    } else if(areas[4]->unlocked) {
+        slow_print("Some believe braving the cold is better than rushing to an inevitable doom\n\n");
+    } else if(areas[3]->unlocked) {
+        slow_print("The sand in the tower is restless, hungry to end another journey\n\n");
+    } else if(areas[2]->unlocked) {
+        slow_print("A lone silhouette gazes at you from the deepest of caverns.\n\n");
+    }
+    slow_print("Will you find an escape on the highest floor?\n\n");
+    cout << "Enter any key to continue...\n";
+    cin >> choice;
+    #endif
 };
 
 void choices(Player *p) {

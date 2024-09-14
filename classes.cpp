@@ -361,7 +361,7 @@ void Event::execute_event(Player *p) {
                     }
                 }
             } else {
-                cout << "\nYou don't have the suitable equipment to mine this ore.\n";
+                cout << "You don't have the suitable equipment to mine this ore.\n";
             }
         }
     }
@@ -715,6 +715,7 @@ void Player::unequip(Item* item, int slot) {
 }
 
 void Player::display_stats() {
+    #ifdef __linux__
     print_name();
     cout <<"\n❤️  : " << 
     playerStats.health << 
@@ -723,22 +724,11 @@ void Player::display_stats() {
         cout << " ";
     }
     cout << "🛡️  :";
-    #ifdef __linux__
     cout << " ";
-    #endif
     cout << totalArmor() << " ";
-    #ifdef __linux__
     cout << " ";
-    #endif
-
-    #ifdef _WIN32
-    cout << "   🗡️  :";
-    #endif
-
-    #ifdef __linux__
     cout << "  🗡️  :";
     cout << " ";
-    #endif
     cout << damage() << " "
     "\n🎯 : " << totalPen() << "% ";
     if(totalPen()<10) {
@@ -751,6 +741,32 @@ void Player::display_stats() {
     "   🌿 : " << (int)(recoveryRate()*100.0) << "% ";
     cout << "\nLevel "<< level << " - " << exp << "/"
     << expLevel << "✨  " << gold << "🪙" << endl;
+    #endif
+
+    #ifdef _WIN32
+    print_name();
+    cout <<"\n❤️ : " << 
+    playerStats.health << 
+    "/" << totalHealth() << " ";
+    if(playerStats.health<10) {
+        cout << " ";
+    }
+    cout << "🛡️ : ";
+    cout << totalArmor() << " ";
+    cout << "   🗡️ : ";
+    cout << damage() << " "
+    "\n🎯 : " << totalPen() << "% ";
+    if(totalPen()<10) {
+        cout << " ";
+    }
+    cout << "  💥 : " << totalCritChance() << "% "
+    " 🔥 : " << totalCritDmg() << "x "
+    "\n💧 : " << totalMana() << " "
+    "    ⚡ : " << totalSpeed() << " "
+    "   🌿 : " << (int)(recoveryRate()*100.0) << "% ";
+    cout << "\nLevel "<< level << " - " << exp << "/"
+    << expLevel << "✨  " << gold << "🪙" << endl;
+    #endif
 }
 
 void Player::print_name() {
@@ -958,6 +974,7 @@ int Enemy::take_damage(Player *p, int dmg) {
 }
 
 void Enemy::display_stats() {
+    #ifdef __linux__
     cout << name;
     cout <<"\n❤️  : " << 
     enemyStats.health << 
@@ -974,6 +991,25 @@ void Enemy::display_stats() {
     " 🔥 : " << enemyStats.critDamage << "x "
     "\n💧 : " << enemyStats.mana << " "
     "    ⚡ : " << enemyStats.speed << " \n";
+    #endif
+    #ifdef _WIN32
+    cout << name;
+    cout <<"\n❤️ : " << 
+    enemyStats.health << 
+    "/" << enemyStats.maxHealth << " ";
+    if(enemyStats.health<10 && enemyStats.maxHealth<10) {
+        cout << "  ";
+    } else if(enemyStats.health<10) {
+        cout << " ";
+    }
+    cout << "🛡️ : " << enemyStats.armor << " "
+    "  🗡️ : " << enemyStats.damage<< " "
+    "\n🎯 : " << enemyStats.pen << " "
+    "    💥 : " << enemyStats.critChance << "% "
+    " 🔥 : " << enemyStats.critDamage << "x "
+    "\n💧 : " << enemyStats.mana << " "
+    "    ⚡ : " << enemyStats.speed << " \n";
+    #endif
 }
 
 Area::Area(string n, vector<enemy_template> enemies,
@@ -1015,8 +1051,8 @@ skillType _type, int _value, stats _values, int _hpCost, int _manaCost, bool _ow
 void Skill::print_info() {
     string spell_type="";
     if(value>0) {
-        if(type==skillType::buff)
-            spell_type+="/ (Attack): "+to_string(value)+"(+*Magic🗡️  ";
+        if(type==skillType::damage)
+            spell_type+="/ (Attack): "+to_string(value)+"+ (2*Magic🗡️)";
         else
             spell_type+="/ (Attack) "+to_string(value)+"+Magic🗡️  ";
     }
@@ -1080,7 +1116,7 @@ void Skill::print_info() {
             spell_type+=to_string(values.speed)+"+Magic⚡ ";
         }
     }
-    cout << "Skill: <" << name << "> " << spell_type << "\nSkill Cost: " << hpCost << "❤️    "
+    cout << "Skill: <" << name << "> " << spell_type << "\nSkill Cost: " << hpCost << "❤️  "
     << manaCost << "💧 " << endl;
 }
 

@@ -370,7 +370,7 @@ void create_areas() {
             {Branch::Test,0,50,0,20}),
             new Event(event_type::item,
             "You find a dark artifact that is enshrined in a protective curse... what is it doing here?",
-            {Branch::Test,all_items["dark_grimoire"],2,15}),
+            {Branch::Test,all_items["dark_grimoire"],6,5}),
             new Event(event_type::hp,
             "You get caught in a landslide near the village!"
             "\nIs your armor strong enough to shield you?",
