@@ -19,7 +19,7 @@ cd text_rpg
 make
 ```
 
-# Notes
+## Notes
 
 Works on Windows, MacOS and Linux.
 
